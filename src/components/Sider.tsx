@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UserOutlined, LogoutOutlined, BankOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import type { MenuProps } from "antd";
 import styled from "styled-components";
 import storage from "../storage/storage";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function Sider() {
   type MenuItem = Required<MenuProps>["items"][number];
@@ -43,6 +43,14 @@ function Sider() {
     if (e.key === "2") navigate("/users");
     if (e.key === "3") logOut();
   };
+
+  const location = useLocation();
+  const { pathname } = location;
+
+  useEffect(() => {
+    if (pathname === "/accounts") setSelectedKey("1");
+    if (pathname === "/users") setSelectedKey("2");
+  }, [pathname]);
 
   return (
     <MainSider>
