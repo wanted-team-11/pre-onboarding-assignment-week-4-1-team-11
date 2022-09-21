@@ -3,13 +3,12 @@ import {
   FileOutlined,
   PieChartOutlined,
   TeamOutlined,
-  UserOutlined,
+  UserOutlined
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Breadcrumb, Layout, Menu } from "antd";
 import React, { useState } from "react";
-import "./App.css";
-import "antd/dist/antd.css";
+import "./index.css";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -25,7 +24,7 @@ function getItem(
     key,
     icon,
     children,
-    label,
+    label
   } as MenuItem;
 }
 
@@ -35,16 +34,16 @@ const items: MenuItem[] = [
   getItem("User", "sub1", <UserOutlined />, [
     getItem("Tom", "3"),
     getItem("Bill", "4"),
-    getItem("Alex", "5"),
+    getItem("Alex", "5")
   ]),
   getItem("Team", "sub2", <TeamOutlined />, [
     getItem("Team 1", "6"),
-    getItem("Team 2", "8"),
+    getItem("Team 2", "8")
   ]),
-  getItem("Files", "9", <FileOutlined />),
+  getItem("Files", "9", <FileOutlined />)
 ];
 
-const App: React.FC = () => {
+const Admin: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
@@ -52,7 +51,7 @@ const App: React.FC = () => {
       <Sider
         collapsible
         collapsed={collapsed}
-        onCollapse={(value) => setCollapsed(value)}
+        onCollapse={value => setCollapsed(value)}
       >
         <div className="logo" />
         <Menu
@@ -84,4 +83,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default Admin;
