@@ -1,9 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { useState } from "react";
 import { BiUser, BiLock, BiLogIn, BiCopyright } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const LoginClick = () => {
+    navigate("/content");
+  };
   return (
     <LoginContainer>
       <TitleBox>
@@ -23,7 +27,7 @@ const Login = () => {
             <LockImage />
           </ImageBox>
 
-          <LoginButton>
+          <LoginButton onClick={LoginClick}>
             <LoginImage /> 로그인
           </LoginButton>
         </InputBox>
