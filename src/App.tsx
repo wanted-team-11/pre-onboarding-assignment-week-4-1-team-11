@@ -1,25 +1,32 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import { Routes, Route, Navigate } from "react-router-dom";
+import GlobalLayout from "./components/GlobalLayout";
+import ROUTE_NAMES from "./routes";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/" element={<GlobalLayout />}>
+        <Route index element={<Navigate replace to="/account-list" />} />
+        <Route
+          path={ROUTE_NAMES.ACCOUNT_LIST}
+          element={<div>account list</div>}
+        />
+        <Route
+          path={ROUTE_NAMES.ACCOUNT_DETAIL}
+          element={<div>account detail</div>}
+        />
+        <Route
+          path={`${ROUTE_NAMES.ACCOUNT_DETAIL}/:id`}
+          element={<div>account detail</div>}
+        />
+        <Route path={ROUTE_NAMES.USER_LIST} element={<div>user list</div>} />
+        <Route
+          path={ROUTE_NAMES.USER_DETAIL}
+          element={<div>user detail</div>}
+        />
+      </Route>
+      <Route path="/login" element={<div>login page</div>} />
+    </Routes>
   );
 }
 
