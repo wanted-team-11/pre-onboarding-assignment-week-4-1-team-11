@@ -3,10 +3,11 @@ import { Layout } from "antd";
 import styled from "styled-components";
 
 export default function Header() {
+  const userEmail = localStorage.getItem("useremail");
   return (
     <HeaderContainer>
       <div>투자 계좌</div>
-      <div>사용자 이름</div>
+      <div>{userEmail}님</div>
     </HeaderContainer>
   );
 }

@@ -8,9 +8,11 @@ import {
 import { Menu, Layout } from "antd";
 import type { MenuProps } from "antd";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Sider() {
   const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
   type ItemTypes = Required<MenuProps>["items"][number];
 
   function getItem(
@@ -28,11 +30,11 @@ export default function Sider() {
   }
 
   const items: ItemTypes[] = [
-    getItem("계좌 목록", "1", <AccountBookOutlined />, [
-      getItem("투자 계좌", "2", <StockOutlined />),
+    getItem("계좌 목록", "account_list", <AccountBookOutlined />, [
+      getItem("투자 계좌", "account_detail", <StockOutlined />),
     ]),
-    getItem("사용자", "3", <UserOutlined />),
-    getItem("로그아웃", "4", <LogoutOutlined />),
+    getItem("사용자", "user_list", <UserOutlined />),
+    getItem("로그아웃", "logout", <LogoutOutlined />),
   ];
 
   return (
@@ -54,5 +56,5 @@ export default function Sider() {
 const SiderContainer = styled(Layout.Sider)`
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
 `;
