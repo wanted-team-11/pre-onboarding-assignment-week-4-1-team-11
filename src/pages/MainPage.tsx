@@ -5,7 +5,7 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, MenuProps } from "antd";
-import "antd/dist/antd.css";
+import "antd/dist/antd.min.css";
 import {
   NavLink,
   Route,
@@ -72,7 +72,9 @@ const MainPage = () => {
         />
       </Sider>
       <Layout className="site-layout" style={{ marginLeft: 200 }}>
-        <Header className="site-layout-background" style={{ padding: 0 }} />
+        <Header className="site-layout-background" style={{ padding: 0 }}>
+          Header
+        </Header>
         <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
           <Routes>
             <Route path="/" element={<DashBoardPage />} />
