@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { UserOutlined, LogoutOutlined, BankOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import type { MenuProps } from "antd";
-import styled from "styled-components";
 import storage from "../storage/storage";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -53,7 +52,7 @@ function Sider() {
   }, [pathname]);
 
   return (
-    <MainSider>
+    <Layout.Sider>
       <Menu
         onClick={onClickMenu}
         theme="dark"
@@ -61,14 +60,8 @@ function Sider() {
         selectedKeys={[selectedKey]}
         items={items}
       />
-    </MainSider>
+    </Layout.Sider>
   );
 }
-
-const MainSider = styled(Layout.Sider)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
 export default Sider;
