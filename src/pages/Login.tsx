@@ -19,7 +19,7 @@ function Login() {
   const [loginValid, setLoginValid] = useState(false);
   const regEmail = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
-  const loginValidaion = () => {
+  const loginValidation = () => {
     regEmail.test(email) &&
     !/[0-9]/g.test(email.split(".")[1]) &&
     password.length > 7
@@ -27,7 +27,7 @@ function Login() {
       : setLoginValid(false);
   };
 
-  useEffect(loginValidaion, [email, password]);
+  useEffect(loginValidation, [email, password]);
 
   return (
     <LoginForm

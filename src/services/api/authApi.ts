@@ -2,9 +2,7 @@ import axios from "axios";
 import storage from "../../utils/storage";
 import { User } from "../model/auth";
 
-const instance = axios.create({
-  baseURL: "/",
-});
+const instance = axios.create();
 
 instance.interceptors.response.use(
   (res) => {
