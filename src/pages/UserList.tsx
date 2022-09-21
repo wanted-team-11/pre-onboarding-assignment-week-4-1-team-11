@@ -1,12 +1,12 @@
 import React from "react";
 import PageLayout from "../components/PageLayout";
 
-function Account() {
+function UserList() {
   return (
     <PageLayout>
-      <div>Account</div>
+      <div>UserList</div>
     </PageLayout>
   );
 }
 
-export default Account;
+export default UserList;

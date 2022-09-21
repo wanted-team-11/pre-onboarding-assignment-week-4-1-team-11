@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { UserOutlined, LogoutOutlined, BankOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import type { MenuProps } from "antd";
 import styled from "styled-components";
+import storage from "../utils/storage";
+import { useNavigate } from "react-router-dom";
 
 function Sider() {
   type MenuItem = Required<MenuProps>["items"][number];
@@ -22,20 +24,34 @@ function Sider() {
   }
 
   const items: MenuItem[] = [
-    getItem("계좌 목록", "1", <BankOutlined />, [
-      getItem("계좌 1", "2"),
-      getItem("계좌 2", "3"),
-    ]),
-    getItem("사용자", "4", <UserOutlined />),
-    getItem("로그아웃", "5", <LogoutOutlined />),
+    getItem("계좌 목록", "1", <BankOutlined />),
+    getItem("사용자 목록", "2", <UserOutlined />),
+    getItem("로그아웃", "3", <LogoutOutlined />),
   ];
+
+  const navigate = useNavigate();
+  const [selectedKey, setSelectedKey] = useState("1");
+
+  const logOut = () => {
+    navigate("/");
+    storage.remove("TOKEN");
+    storage.remove("EMAIL");
+  };
+
+  const onClickMenu: MenuProps["onClick"] = (e) => {
+    setSelectedKey(e.key);
+    if (e.key === "1") navigate("/accounts");
+    if (e.key === "2") navigate("/users");
+    if (e.key === "3") logOut();
+  };
 
   return (
     <MainSider>
       <Menu
+        onClick={onClickMenu}
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={["1"]}
+        selectedKeys={[selectedKey]}
         items={items}
       />
     </MainSider>
