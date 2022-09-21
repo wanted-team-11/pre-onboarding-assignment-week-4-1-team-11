@@ -1,16 +1,14 @@
 import { Button, Form, Input } from "antd";
 import { useNavigate } from "react-router-dom";
-
-type LoginFormProps = {
-  username: string;
-  password: string;
-};
+import { fetchLogin } from "../../../services/api/auth";
+import { LoginProps } from "../../../services/model/auth";
 
 const LoginForm = () => {
   const navigate = useNavigate();
 
-  const handleLogin = (values: LoginFormProps) => {
+  const handleLogin = (values: LoginProps) => {
     console.log("Success:", values);
+    fetchLogin(values);
     navigate("/admin");
   };
 

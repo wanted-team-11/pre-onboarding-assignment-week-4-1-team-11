@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { tokenStorage } from "../storage";
+import { storageKey, tokenStorage } from "../storage";
 import { Navigate } from "react-router-dom";
 import Login from "../pages/login";
 import Admin from "../pages/admin";
@@ -12,7 +12,7 @@ const PATH = {
 };
 
 const Router = () => {
-  const isLoggedin = tokenStorage.get({ key: "token" }) ? true : false;
+  const isLoggedin = tokenStorage.get(storageKey.ACCESS_TOKEN) ? true : false;
 
   return (
     <BrowserRouter>

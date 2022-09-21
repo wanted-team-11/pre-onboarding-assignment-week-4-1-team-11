@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Reset } from "styled-reset";
 import "antd/dist/antd.css";
 import Router from "./router";
 

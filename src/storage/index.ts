@@ -1,1 +1,1 @@
-export { tokenStorage } from "./tokenStorage";
+export { tokenStorage, storageKey } from "./tokenStorage";

@@ -3,7 +3,7 @@ import {
   FileOutlined,
   PieChartOutlined,
   TeamOutlined,
-  UserOutlined
+  UserOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Breadcrumb, Layout, Menu } from "antd";
@@ -24,7 +24,7 @@ function getItem(
     key,
     icon,
     children,
-    label
+    label,
   } as MenuItem;
 }
 
@@ -34,13 +34,13 @@ const items: MenuItem[] = [
   getItem("User", "sub1", <UserOutlined />, [
     getItem("Tom", "3"),
     getItem("Bill", "4"),
-    getItem("Alex", "5")
+    getItem("Alex", "5"),
   ]),
   getItem("Team", "sub2", <TeamOutlined />, [
     getItem("Team 1", "6"),
-    getItem("Team 2", "8")
+    getItem("Team 2", "8"),
   ]),
-  getItem("Files", "9", <FileOutlined />)
+  getItem("Files", "9", <FileOutlined />),
 ];
 
 const Admin: React.FC = () => {
@@ -51,7 +51,7 @@ const Admin: React.FC = () => {
       <Sider
         collapsible
         collapsed={collapsed}
-        onCollapse={value => setCollapsed(value)}
+        onCollapse={(value) => setCollapsed(value)}
       >
         <div className="logo" />
         <Menu
