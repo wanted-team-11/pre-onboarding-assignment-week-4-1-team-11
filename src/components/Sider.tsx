@@ -3,7 +3,7 @@ import { UserOutlined, LogoutOutlined, BankOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import type { MenuProps } from "antd";
 import styled from "styled-components";
-import storage from "../utils/storage";
+import storage from "../storage/storage";
 import { useNavigate } from "react-router-dom";
 
 function Sider() {
@@ -34,8 +34,7 @@ function Sider() {
 
   const logOut = () => {
     navigate("/");
-    storage.remove("TOKEN");
-    storage.remove("EMAIL");
+    storage.remove();
   };
 
   const onClickMenu: MenuProps["onClick"] = (e) => {

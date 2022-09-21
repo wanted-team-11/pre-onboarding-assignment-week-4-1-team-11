@@ -1,5 +1,5 @@
 import axios from "axios";
-import storage from "../../utils/storage";
+import storage from "../../storage/storage";
 import { User } from "../model/auth";
 
 const instance = axios.create();

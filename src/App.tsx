@@ -4,7 +4,7 @@ import AccountList from "./pages/AccountList";
 import Login from "./pages/Login";
 import UserList from "./pages/UserList";
 import { useNavigate, useLocation } from "react-router-dom";
-import storage from "./utils/storage";
+import storage from "./storage/storage";
 
 function App() {
   const navigate = useNavigate();

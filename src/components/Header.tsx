@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Layout } from "antd";
 import styled from "styled-components";
-import storage from "../utils/storage";
+import storage from "../storage/storage";
 import { useLocation } from "react-router-dom";
 
 function Header() {
