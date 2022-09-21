@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "antd/dist/antd.min.css";
-import Router from "./router";
+import { Router } from "./router";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

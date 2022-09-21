@@ -2,37 +2,39 @@ import { Button, Form, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import { fetchLogin } from "../../../services/api/auth";
 import { LoginProps } from "../../../services/model/auth";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
 const LoginForm = () => {
   const navigate = useNavigate();
 
-  const handleLogin = (values: LoginProps) => {
-    console.log("Success:", values);
-    fetchLogin(values);
-    navigate("/admin");
+  const handleLogin = async (values: LoginProps) => {
+    const response = await fetchLogin(values);
+    if (response) navigate("/admin");
   };
 
   return (
-    <Form name="basic" onFinish={handleLogin}>
+    <Form name="login" onFinish={handleLogin} style={{ width: 300 }}>
       <Form.Item
-        label="Username"
         name="email"
         rules={[{ required: true, message: "Please input your username!" }]}
       >
-        <Input />
+        <Input prefix={<UserOutlined />} placeholder="Email" />
       </Form.Item>
 
       <Form.Item
-        label="Password"
         name="password"
         rules={[{ required: true, message: "Please input your password!" }]}
       >
-        <Input.Password />
+        <Input
+          prefix={<LockOutlined />}
+          type="password"
+          placeholder="Password"
+        />
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
-          Submit
+        <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
+          Log in
         </Button>
       </Form.Item>
     </Form>

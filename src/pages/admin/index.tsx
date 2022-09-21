@@ -1,50 +1,16 @@
-import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-import type { MenuProps } from "antd";
-import { Breadcrumb, Layout, Menu } from "antd";
-import React, { useState } from "react";
+import { LineChartOutlined, UserOutlined } from "@ant-design/icons";
+import { Button, Divider, Popconfirm } from "antd";
+import { Layout, Menu } from "antd";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { storageKey, tokenStorage } from "../../storage";
 import "./index.css";
 
 const { Header, Content, Footer, Sider } = Layout;
 
-type MenuItem = Required<MenuProps>["items"][number];
-
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[]
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  } as MenuItem;
-}
-
-const items: MenuItem[] = [
-  getItem("Option 1", "1", <PieChartOutlined />),
-  getItem("Option 2", "2", <DesktopOutlined />),
-  getItem("User", "sub1", <UserOutlined />, [
-    getItem("Tom", "3"),
-    getItem("Bill", "4"),
-    getItem("Alex", "5"),
-  ]),
-  getItem("Team", "sub2", <TeamOutlined />, [
-    getItem("Team 1", "6"),
-    getItem("Team 2", "8"),
-  ]),
-  getItem("Files", "9", <FileOutlined />),
-];
-
-const Admin: React.FC = () => {
+const AdminPage = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -54,26 +20,34 @@ const Admin: React.FC = () => {
         onCollapse={(value) => setCollapsed(value)}
       >
         <div className="logo" />
-        <Menu
-          theme="dark"
-          defaultSelectedKeys={["1"]}
-          mode="inline"
-          items={items}
-        />
+        <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
+          <Menu.Item key="1" icon={<UserOutlined />}>
+            <Link to="user-list">사용자 목록</Link>
+          </Menu.Item>
+          <Menu.Item key="2" icon={<LineChartOutlined />}>
+            <Link to="account-list">계좌 목록</Link>
+          </Menu.Item>
+          <Divider style={{ backgroundColor: "#424242", height: "1px" }} />
+          <Popconfirm
+            placement="right"
+            title={"로그아웃 하시겠습니까?"}
+            onConfirm={() => {
+              tokenStorage.remove(storageKey.ACCESS_TOKEN);
+              navigate("/");
+            }}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button style={{ width: "100%" }} type="link">
+              로그아웃
+            </Button>
+          </Popconfirm>
+        </Menu>
       </Sider>
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }} />
         <Content style={{ margin: "0 16px" }}>
-          <Breadcrumb style={{ margin: "16px 0" }}>
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb>
-          <div
-            className="site-layout-background"
-            style={{ padding: 24, minHeight: 360 }}
-          >
-            Bill is a cat.
-          </div>
+          <div style={{ padding: 24, minHeight: 360 }}>Bill is a cat.</div>
         </Content>
         <Footer style={{ textAlign: "center" }}>
           Copyright © December and Company Inc.
@@ -83,4 +57,4 @@ const Admin: React.FC = () => {
   );
 };
 
-export default Admin;
+export default AdminPage;
