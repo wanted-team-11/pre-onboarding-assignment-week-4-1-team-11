@@ -22,7 +22,7 @@ function Login() {
   const loginValidation = () => {
     regEmail.test(email) &&
     !/[0-9]/g.test(email.split(".")[1]) &&
-    password.length > 7
+    password.length > 3
       ? setLoginValid(true)
       : setLoginValid(false);
   };
@@ -39,10 +39,10 @@ function Login() {
       <Title>로그인</Title>
       <FormAlert
         name="email"
-        rules={[{ required: true, message: "아이디를 입력하세요!" }]}
+        rules={[{ required: true, message: "이메일을 입력하세요!" }]}
       >
         <EmailInput
-          placeholder="아이디를 입력하세요"
+          placeholder="이메일을 입력하세요"
           value={email}
           onChange={handleEmailInput}
           autoComplete="off"
@@ -64,7 +64,7 @@ function Login() {
           autoComplete="off"
         />
       </FormAlert>
-      <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
+      <Form.Item>
         <LoginButton
           onClick={handleLogin}
           type="primary"
@@ -106,7 +106,7 @@ const PasswordInput = styled(Input.Password)`
 
 const LoginButton = styled(Button)`
   width: 380px;
-  margin: 0 10px;
+  margin: 10px 10px 0;
 `;
 
 export default Login;
