@@ -1,39 +1,41 @@
+import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { tokenStorage } from "../utils/storages";
 import styled from "styled-components";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import Footer from "./Footer";
-import { Layout, Menu } from "antd";
+import { Layout as AntLayout } from "antd";
 
-const { Content: _Content } = Layout;
+const { Content: _Content } = AntLayout;
 
 const GlobalLayout = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = tokenStorage.get();
+    if (!token) {
+      navigate("/login");
+    }
+  }, []);
   return (
-    <Layout>
+    <AntLayout>
       <Sidebar />
-      <Layout>
+      <AntLayout>
         <Header />
-        <Content>
+        <AntContent>
           <Outlet />
-        </Content>
+        </AntContent>
         <Footer />
-      </Layout>
-    </Layout>
+      </AntLayout>
+    </AntLayout>
   );
 };
 
 export default GlobalLayout;
 
-// const Footer = styled(_Footer)`
-//   background-color: white;
-// `;
-const Content = styled(_Content)`
+const AntContent = styled(_Content)`
   background-color: #f0f2f5;
   min-height: 100vh;
   padding: 30px;
-`;
-
-const StyledMenu = styled(Menu)`
-  margin-top: 20px;
-  width: 100%;
 `;

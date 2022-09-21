@@ -9,7 +9,6 @@ const Header = () => {
     <AntHeader>
       <Logo />
       <Label>this is header text</Label>
-      <Button type="text">로그아웃</Button>
     </AntHeader>
   );
 };

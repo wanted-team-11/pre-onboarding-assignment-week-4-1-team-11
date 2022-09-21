@@ -1,21 +1,26 @@
 import { useNavigate } from "react-router-dom";
 import { Layout, Menu as _Menu } from "antd";
 import styled from "styled-components";
+import { tokenStorage } from "../utils/storages";
 
 const { Sider: _Sider } = Layout;
 
 const items = [
   { label: "account list", key: "account-list" },
-  { label: "account detail", key: "account-detail" },
   { label: "user list", key: "user-list" },
-  { label: "user detail", key: "user-detail" },
+  { label: "logout", key: "logout" },
 ];
 
 const Sidebar = () => {
   const navigate = useNavigate();
 
   const changePage = ({ key }: { key: string }) => {
-    navigate(key);
+    if (key === "logout") {
+      tokenStorage.remove();
+      navigate("/login");
+    } else {
+      navigate(key);
+    }
   };
 
   return (
