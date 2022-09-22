@@ -5,11 +5,11 @@ import type { ColumnsType, ColumnType } from "antd/es/table";
 import type { FilterConfirmProps } from "antd/es/table/interface";
 import { useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
-import { UserWithMoreInfo } from "../types";
+import { RefinedUserInfo } from "../types";
 
-type DataIndex = keyof UserWithMoreInfo;
+type DataIndex = keyof RefinedUserInfo;
 
-const UsersTable = ({ data }: { data: UserWithMoreInfo[] }) => {
+const UsersTable = ({ data }: { data: RefinedUserInfo[] }) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
@@ -31,7 +31,7 @@ const UsersTable = ({ data }: { data: UserWithMoreInfo[] }) => {
 
   const getColumnSearchProps = (
     dataIndex: DataIndex
-  ): ColumnType<UserWithMoreInfo> => ({
+  ): ColumnType<RefinedUserInfo> => ({
     filterDropdown: ({
       setSelectedKeys,
       selectedKeys,
@@ -110,7 +110,7 @@ const UsersTable = ({ data }: { data: UserWithMoreInfo[] }) => {
       ),
   });
 
-  const columns: ColumnsType<UserWithMoreInfo> = [
+  const columns: ColumnsType<RefinedUserInfo> = [
     {
       title: "Name",
       dataIndex: "name",
@@ -153,7 +153,7 @@ const UsersTable = ({ data }: { data: UserWithMoreInfo[] }) => {
     {
       title: "Phone Number",
       dataIndex: "phone_number",
-      width: "10%",
+      width: "12%",
       key: "phone_number",
       ...getColumnSearchProps("phone_number"),
     },
@@ -174,7 +174,7 @@ const UsersTable = ({ data }: { data: UserWithMoreInfo[] }) => {
       key: "allow_marketing_push",
       width: "5%",
       ...getColumnSearchProps("allow_marketing_push"),
-      render: (value: boolean) => value.toString(),
+      render: (value?: boolean) => value?.toString(),
     },
     {
       title: "Active",
@@ -182,7 +182,7 @@ const UsersTable = ({ data }: { data: UserWithMoreInfo[] }) => {
       key: "is_active",
       width: "5%",
       ...getColumnSearchProps("is_active"),
-      render: (value: boolean) => value.toString(),
+      render: (value?: boolean) => value?.toString(),
     },
     {
       title: "Created",

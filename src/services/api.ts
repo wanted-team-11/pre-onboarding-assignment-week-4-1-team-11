@@ -1,34 +1,19 @@
 import { tokenStorage } from "../utils/storages";
-import {
-  LoginResponse,
-  UserWithMoreInfo,
-  Account,
-  UserSetting,
-} from "../types";
-
-export const getIsUserStaff = async (uuid: string) => {
-  try {
-    const response = await fetch(`/userSetting?uuid=${uuid}`);
-    if (!response.ok) {
-      throw response;
-    }
-
-    const data = (await response.json()) as UserSetting;
-    return { is_staff: data.is_staff };
-  } catch (error) {}
-};
+import { LoginResponse, RefinedUserInfo, Account, UserSetting } from "../types";
 
 export const getUsersWithMoreInfo = async (pageNumber: number = 1) => {
   const { users, error } = await getUsers(pageNumber);
 
-  if (users === null) {
+  if (error || users === null) {
     return { usersWithMoreInfo: null, error };
   }
 
-  const accounts = await getAccountsOfUsers(users);
-  const settings = await getSettingsOfUsers(users);
+  const [accounts, settings] = await Promise.all([
+    getAccountsOfUsers(users),
+    getSettingsOfUsers(users),
+  ]);
 
-  const usersWithMoreInfo: UserWithMoreInfo[] = users.map((user) => ({
+  const usersWithMoreInfo: RefinedUserInfo[] = users.map((user) => ({
     ...user,
     accounts: accounts[user.id],
     account_count: accounts[user.id]?.length,
@@ -39,9 +24,15 @@ export const getUsersWithMoreInfo = async (pageNumber: number = 1) => {
   return { usersWithMoreInfo, error: null };
 };
 
-export const getSettingsOfUsers = async (users: UserWithMoreInfo[]) => {
+export const getSettingsOfUsers = async (users: RefinedUserInfo[]) => {
   const settingList = await Promise.allSettled(
-    users.map((user) => getSettingOfUser(user.uuid))
+    users.map(async (user) => {
+      const userSetting = await getSettingOfUser(user.uuid);
+      return {
+        userSetting,
+        uuid: user.uuid,
+      };
+    })
   );
 
   const settings: { [uuid: string]: UserSetting | null } = {};
@@ -50,7 +41,7 @@ export const getSettingsOfUsers = async (users: UserWithMoreInfo[]) => {
     switch (setting.status) {
       case "fulfilled": {
         const uuid = setting.value.uuid;
-        settings[uuid] = setting.value;
+        settings[uuid] = setting.value.userSetting;
         break;
       }
       case "rejected": {
@@ -71,6 +62,7 @@ export const getSettingOfUser = async (uuid: string) => {
     });
 
     if (!response.ok) {
+      console.error("response body: ", await response.json());
       throw response;
     }
 
@@ -82,9 +74,15 @@ export const getSettingOfUser = async (uuid: string) => {
   }
 };
 
-export const getAccountsOfUsers = async (users: UserWithMoreInfo[]) => {
+export const getAccountsOfUsers = async (users: RefinedUserInfo[]) => {
   const accoutsLists = await Promise.allSettled(
-    users.map((user) => getAccountsOfUser(user.id))
+    users.map(async (user) => {
+      const userAccounts = await getAccountsOfUser(user.id);
+      return {
+        userAccounts,
+        user_id: user.id,
+      };
+    })
   );
 
   const accounts: { [userId: number]: Account[] | null } = {};
@@ -92,14 +90,8 @@ export const getAccountsOfUsers = async (users: UserWithMoreInfo[]) => {
   accoutsLists.forEach((accountList) => {
     switch (accountList.status) {
       case "fulfilled": {
-        const userId = accountList.value[0].user_id;
-
-        accountList.value.forEach((account) => {
-          if (!accounts[userId]) {
-            accounts[userId] = [];
-          }
-          accounts[userId]?.push(account);
-        });
+        const userId = accountList.value.user_id;
+        accounts[userId] = accountList.value.userAccounts;
         break;
       }
       case "rejected": {
@@ -121,6 +113,7 @@ export const getAccountsOfUser = async (userId: number) => {
       },
     });
     if (!response.ok) {
+      console.error("response body: ", await response.json());
       throw response;
     }
     const accounts = (await response.json()) as Account[];
@@ -129,6 +122,11 @@ export const getAccountsOfUser = async (userId: number) => {
     console.error("error from getAccountsOfUser", error);
     throw { error, userId };
   }
+};
+
+export const getUserTotalCount = async () => {
+  const { totalCount } = await getUsers();
+  return totalCount;
 };
 
 /**
@@ -140,25 +138,35 @@ export const getAccountsOfUser = async (userId: number) => {
  * - error: 요청 성공시 null. 실패시 발생한 에러
  */
 export const getUsers: (
-  page: number,
-  limit?: number
+  page?: number,
+  limit?: number,
+  userName?: string
 ) => Promise<
-  { users: UserWithMoreInfo[]; error: null } | { users: null; error: unknown }
-> = async (page = 1, limit = 10) => {
+  | { users: RefinedUserInfo[]; error: null; totalCount: number }
+  | { users: null; error: unknown; totalCount: null }
+> = async (page = 1, limit = 10, userName) => {
   try {
-    const response = await fetch(`/users?_page=${page}&_limit=${limit}`, {
-      headers: {
-        Authorization: "Bearer " + tokenStorage.get(),
-      },
-    });
+    const response = await fetch(
+      `/users?_page=${page}&_limit=${limit}${
+        userName ? `&name=${userName}` : ""
+      }`,
+      {
+        headers: {
+          Authorization: "Bearer " + tokenStorage.get(),
+        },
+      }
+    );
     if (!response.ok) {
+      console.error("response body: ", await response.json());
       throw response;
     }
-    const users = (await response.json()) as UserWithMoreInfo[];
-    return { users, error: null };
+    const rawTotalCount = response.headers.get("x-total-count");
+    const totalCount = rawTotalCount ? parseInt(rawTotalCount) : 0;
+    const users = (await response.json()) as RefinedUserInfo[];
+    return { users, error: null, totalCount };
   } catch (error) {
     console.error("error from getUsers", error);
-    return { users: null, error };
+    return { users: null, error, totalCount: null };
   }
 };
 
@@ -190,6 +198,7 @@ export const login = async ({
       headers: { "content-type": "application/json" },
     });
     if (!response.ok) {
+      console.error("response body: ", await response.json());
       throw response;
     }
     const data = (await response.json()) as LoginResponse;

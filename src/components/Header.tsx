@@ -36,8 +36,3 @@ const Label = styled.h1`
   transform: translate(-50%, -50%);
   text-transform: capitalize;
 `;
-
-const Button = styled(_Button)`
-  position: absolute;
-  right: 0;
-`;

@@ -24,7 +24,7 @@ export interface User {
   password?: string;
 }
 
-export interface UserWithMoreInfo extends User {
+export interface RefinedUserInfo extends User {
   key?: string;
   accounts?: Account[] | null; // Account
   account_count?: number;
