@@ -39,7 +39,7 @@ function Sider() {
   const onClickMenu: MenuProps["onClick"] = (e) => {
     setSelectedKey(e.key);
     if (e.key === "1") navigate("/accounts");
-    if (e.key === "2") navigate("/users");
+    if (e.key === "2") navigate("/user?page=1");
     if (e.key === "3") logOut();
   };
 
@@ -48,7 +48,8 @@ function Sider() {
 
   useEffect(() => {
     if (pathname === "/accounts") setSelectedKey("1");
-    if (pathname === "/users") setSelectedKey("2");
+    if (pathname === "/user") setSelectedKey("2");
+    if (pathname.includes("/user/")) setSelectedKey("0");
   }, [pathname]);
 
   return (

@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import UserList from "./pages/UserList";
 import { useNavigate, useLocation } from "react-router-dom";
 import storage from "./storage/storage";
+import UserDetail from "./pages/UserDetail";
 
 function App() {
   const navigate = useNavigate();
@@ -20,7 +21,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route path="/users" element={<UserList />} />
+      <Route path="/user" element={<UserList />} />
+      <Route path="/user/:id" element={<UserDetail />} />
       <Route path="/accounts" element={<AccountList />} />
     </Routes>
   );

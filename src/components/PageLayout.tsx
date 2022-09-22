@@ -11,7 +11,7 @@ type PageLayoutProps = {
 function PageLayout({ children }: PageLayoutProps) {
   const { Content } = Layout;
   return (
-    <Layout>
+    <Layout style={{ minHeight: "100vh" }}>
       <Sider />
       <Layout>
         <Header />

@@ -1,11 +1,7 @@
+import { InputProps } from "./../types";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import { fetchLogin } from "../services/api/authApi";
-
-type InputProps = {
-  email: string;
-  password: string;
-};
 
 const useAuth = (inputProps: InputProps) => {
   const navigate = useNavigate();
