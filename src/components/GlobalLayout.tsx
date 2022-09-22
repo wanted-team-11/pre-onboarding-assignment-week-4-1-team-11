@@ -37,5 +37,5 @@ export default GlobalLayout;
 const AntContent = styled(_Content)`
   background-color: #f0f2f5;
   min-height: 100vh;
-  padding: 30px;
+  padding: 20px;
 `;
