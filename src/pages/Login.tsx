@@ -2,7 +2,9 @@ import axios from "axios";
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
+import { UserOutlined, LoginOutlined } from "@ant-design/icons";
+import { ReactComponent as MainLogo } from "../assets/icons/december.svg";
+import SiderLogo from "../assets/icons/december.svg";
 const Login = () => {
   // 이메일, 비밀번호, 비밀번호 확인
   const [email, setEmail] = useState<string>("");
@@ -51,7 +53,7 @@ const Login = () => {
   );
 
   //   const onSubmit = () => {
-  //     querySubmit.mutate(email, password);
+  //     querySubmit.mutate(email);
   //   };
 
   //   const querySubmit = useMutation(() => SignApi.LoginApi(email, password), {
@@ -107,25 +109,29 @@ const Login = () => {
 
   return (
     <>
+      <LogoBox>
+        <MainLogoBox />
+      </LogoBox>
       <BackGround>
-        <div
-          style={{ marginBottom: "20px", fontWeight: "600", fontSize: "30px" }}
-        >
+        <LoginText>
+          <UserOutlined />
           로그인
-        </div>
+        </LoginText>
         <Title title="로그인" className="loginMt" />
         <form onSubmit={onSubmit}>
           <FormBox className="formbox">
-            <div>이메일</div>
-            <TextField onChange={onChangeEmail} />
+            <TextField
+              onChange={onChangeEmail}
+              placeholder="이메일을 입력해주세요"
+            />
             {email.length > 0 && <TextP>{emailMessage}</TextP>}
           </FormBox>
           <FormBox className="formbox">
-            <div>비밀번호</div>
             <TextField
               onChange={onChangePassword}
               title="비밀번호"
               type="password"
+              placeholder="비밀번호를 입력해주세요"
             />
             {password.length > 0 && (
               <TextP className={`message ${isPassword ? "success" : "error"}`}>
@@ -134,50 +140,104 @@ const Login = () => {
             )}
           </FormBox>
 
-          {/* 이름, 이메일, 패스워드, 패스워드 확인이 다 맞다면 주황버튼으로 */}
           <div>
             <section>
               <FootButton type="submit" disabled={!(isEmail && isPassword)}>
-                로그인
+                <ButtonText>
+                  <LoginOutlined />
+                  로그인
+                </ButtonText>
               </FootButton>
             </section>
           </div>
         </form>
       </BackGround>
+      <Footer>Copyright © December and Company Inc.</Footer>
     </>
   );
 };
 
 export default Login;
 
+const LogoBox = styled.div`
+  text-align: center;
+  margin-bottom: 30px;
+`;
+const MainLogoBox = styled(MainLogo)`
+  width: 500px;
+`;
+
 const BackGround = styled.div`
   align-items: center;
   text-align: center;
   justify-content: center;
-  margin-top: 200px;
+  margin-top: auto;
+  border-radius: 20px;
+  box-shadow: 3px 3px 3px 3px #999;
+  width: 500px;
+  height: 400px;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
-const Title = styled.div``;
+const Title = styled.div`
+  padding-top: 20px;
+`;
+
+const LoginText = styled.div`
+  display: flex;
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 20px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 20px;
+  border: none;
+  border-bottom: black 2px solid;
+  outline: none;
+  gap: 4px;
+`;
 const TextField = styled.input`
-  width: 200px;
-  height: 30px;
+  width: 400px;
+  height: 40px;
   padding: 5px;
   box-sizing: border-box;
   font-size: 15px;
+  border: none;
+  border-bottom: black 2px solid;
+  outline: none;
 `;
 
 const FootButton = styled.button`
-  width: 100px;
+  width: 300px;
   height: 50px;
-  margin-left: 5px;
+
+  margin-top: 40px;
+  border-radius: 10px;
+  gap: 4px;
 `;
 
 const TextP = styled.p`
+  display: flex;
+  margin-left: 50px;
   font-size: 15px;
-  margin-top: 0px;
+  margin-top: 10px;
+  color: #ef3061;
 `;
 const FormBox = styled.div`
   position: relative;
   margin-bottom: 20px;
   font-size: 15px;
+`;
+
+const Footer = styled.div`
+  margin-top: 50px;
+  text-align: center;
+`;
+
+const ButtonText = styled.div`
+  font-weight: bold;
+  gap: 5px;
+  display: flex;
+  justify-content: center;
 `;

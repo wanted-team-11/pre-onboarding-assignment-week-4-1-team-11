@@ -10,15 +10,18 @@ import type { MenuProps } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import SiderLogo from "../assets/icons/december.svg";
+
 export default function Sider() {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
+
   type ItemTypes = Required<MenuProps>["items"][number];
 
   function getItem(
     label: string,
     key: string,
-    icon?: JSX.Element | undefined,
+    icon?: JSX.Element,
     children?: ItemTypes[]
   ) {
     return {
