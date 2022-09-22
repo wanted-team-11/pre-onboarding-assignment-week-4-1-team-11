@@ -1,10 +1,29 @@
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { tokenStorage } from "../utils/storages";
+import { login } from "../services/api";
 import styled from "styled-components";
 import { Card as _Card, Form, Button, Checkbox, Input } from "antd";
 
+interface FormInputs {
+  email: string;
+  password: string;
+}
+
 const LoginPage = () => {
+  const [formInputs, setFormInputs] = useState<FormInputs>({
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.currentTarget;
+    setFormInputs((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,7 +32,21 @@ const LoginPage = () => {
     }
   }, []);
 
-  const onFinish = () => {};
+  const onFinish = async ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
+    const successful = await login({ email, password });
+
+    if (successful) {
+      navigate("/account-list");
+    } else {
+      alert("로그인에 실패했습니다. 다시 시도해주세요.");
+    }
+  };
 
   const onFinishFailed = () => {};
   return (
@@ -21,17 +54,23 @@ const LoginPage = () => {
       <Card title="Login">
         <Form
           name="basic"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
           <Form.Item
-            label="Username"
-            name="username"
-            rules={[{ required: true, message: "Please input your username!" }]}
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: "Please input your email!" }]}
           >
-            <Input />
+            <Input
+              name="email"
+              value={formInputs.email}
+              onChange={handleInputChange}
+            />
           </Form.Item>
 
           <Form.Item
@@ -39,7 +78,11 @@ const LoginPage = () => {
             name="password"
             rules={[{ required: true, message: "Please input your password!" }]}
           >
-            <Input.Password />
+            <Input.Password
+              name="password"
+              value={formInputs.password}
+              onChange={handleInputChange}
+            />
           </Form.Item>
 
           <Form.Item
