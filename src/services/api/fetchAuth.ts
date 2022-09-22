@@ -1,7 +1,7 @@
 import { Modal } from "antd";
 import axios, { AxiosError } from "axios";
-import { tokenStorage, storageKey } from "../../storage";
-import { LoginProps } from "../model/auth";
+import { tokenStorage, StorageKey } from "../../storage";
+import { LoginProps } from "../models/auth";
 
 const fetchLogin = async (props: LoginProps) => {
   try {
@@ -11,13 +11,13 @@ const fetchLogin = async (props: LoginProps) => {
 
     if (!accessToken) throw Error("no Token");
 
-    tokenStorage.set(storageKey.ACCESS_TOKEN, accessToken);
+    tokenStorage.set(StorageKey.ACCESS_TOKEN, accessToken);
 
     return true;
-  } catch (error) {
+  } catch (err) {
     Modal.error({
       title: "error",
-      content: error instanceof AxiosError ? error.response?.data : error,
+      content: err instanceof AxiosError ? err.response?.data : err,
     });
   }
 };

@@ -1,7 +1,7 @@
 import { Button, Form, Input } from "antd";
 import { useNavigate } from "react-router-dom";
-import { fetchLogin } from "../../../services/api/auth";
-import { LoginProps } from "../../../services/model/auth";
+import { fetchLogin } from "../../../services/api/fetchAuth";
+import { LoginProps } from "../../../services/models/auth";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
 const LoginForm = () => {

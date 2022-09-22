@@ -1,9 +1,9 @@
-export enum storageKey {
+export enum StorageKey {
   ACCESS_TOKEN = "ACCESS_TOKEN",
 }
 
 export const tokenStorage = {
-  get: (key: storageKey) => localStorage.getItem(key),
-  set: (key: storageKey, value: string) => localStorage.setItem(key, value),
-  remove: (key: storageKey) => localStorage.removeItem(key),
+  get: (key: StorageKey) => localStorage.getItem(key),
+  set: (key: StorageKey, value: string) => localStorage.setItem(key, value),
+  remove: (key: StorageKey) => localStorage.removeItem(key),
 };

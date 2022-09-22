@@ -1,12 +1,12 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { storageKey, tokenStorage } from "../storage";
+import { StorageKey, tokenStorage } from "../storage";
 
 type Props = {
   nonAuthRedirectPath: string;
 };
 
 const AuthRoute = ({ nonAuthRedirectPath }: Props) => {
-  const isAutheticated = tokenStorage.get(storageKey.ACCESS_TOKEN)
+  const isAutheticated = tokenStorage.get(StorageKey.ACCESS_TOKEN)
     ? true
     : false;
 
