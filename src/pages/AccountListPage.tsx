@@ -22,9 +22,9 @@ const AccountListPage = () => {
     dispatch(getRefinedAccountsInfoThunk({ pageNumber: 1 }));
   }, []);
 
-  const onSearch = (searchWord: string) => {
-    console.log(searchWord);
-  };
+  // const onSearch = (searchWord: string) => {
+  //   console.log(searchWord);
+  // };
 
   const onPageClick = async (pageNumber: number) => {
     dispatch(getRefinedAccountsInfoThunk({ pageNumber }));
@@ -32,14 +32,8 @@ const AccountListPage = () => {
 
   return (
     <>
-      {isLoading ? (
-        <div>loading...</div>
-      ) : (
-        <>
-          <SearchInput onSearch={onSearch} />
-          <AccountsTable data={accounts} />
-        </>
-      )}
+      {/* <SearchInput onSearch={onSearch} /> */}
+      <AccountsTable data={accounts} isLoading={isLoading} />
       <PaginationComponent total={accountCount} onPageClick={onPageClick} />
     </>
   );

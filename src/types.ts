@@ -37,7 +37,7 @@ export interface Account {
   user_id: number;
   uuid: string;
   broker_id: keyof Brokers;
-  status: number;
+  status: keyof AccountStatus;
   number: string;
   name: string;
   assets: string;
@@ -89,4 +89,12 @@ export interface Brokers {
   "291": "신영증권";
   "292": "LIG투자증권";
   "271": "토스증권";
+}
+
+export interface AccountStatus {
+  9999: "관리자확인필요";
+  1: "입금대기";
+  2: "운용중";
+  3: "투자중지";
+  4: "해지";
 }

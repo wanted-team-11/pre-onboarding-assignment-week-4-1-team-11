@@ -1,15 +1,23 @@
 import { SearchOutlined } from "@ant-design/icons";
 import type { InputRef } from "antd";
-import { Button, Input, Space, Table } from "antd";
+import { Button, Input, Space, Table, Tag } from "antd";
 import type { ColumnsType, ColumnType } from "antd/es/table";
 import type { FilterConfirmProps } from "antd/es/table/interface";
 import { useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
-import { RefinedAccountInfo } from "../types";
+import { RefinedAccountInfo, AccountStatus } from "../types";
+import brokerFormat from "../utils/brokerFormat";
+import accountStatus from "../utils/accountStatus";
+import { accountFormatter } from "../utils/formatter";
 
 type DataIndex = keyof RefinedAccountInfo;
 
-const AccountsTable = ({ data }: { data: RefinedAccountInfo[] }) => {
+interface AccountsTableProps {
+  data: RefinedAccountInfo[];
+  isLoading: boolean;
+}
+
+const AccountsTable = ({ data, isLoading }: AccountsTableProps) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
@@ -112,35 +120,38 @@ const AccountsTable = ({ data }: { data: RefinedAccountInfo[] }) => {
 
   const columns: ColumnsType<RefinedAccountInfo> = [
     {
-      title: "User Name",
+      title: "고객명",
       dataIndex: "user_name",
       key: "user_name",
       width: "10%",
       ...getColumnSearchProps("user_name"),
     },
     {
-      title: "Broker Name",
+      title: "브로커",
       dataIndex: "broker_name",
       key: "broker_name",
       width: "10%",
       ...getColumnSearchProps("broker_name"),
     },
     {
-      title: "Number",
+      title: "계좌번호",
       dataIndex: "number",
       key: "number",
-      width: "10%",
+      width: "15%",
       ...getColumnSearchProps("number"),
+      render: (value: string, record) =>
+        accountFormatter(brokerFormat[record.broker_id], value),
     },
     {
-      title: "Status",
+      title: "계좌상태",
       dataIndex: "status",
       key: "status",
-      width: "5%",
+      width: "12%",
       ...getColumnSearchProps("status"),
+      render: (value: keyof AccountStatus) => accountStatus[value],
     },
     {
-      title: "Name",
+      title: "계좌명",
       dataIndex: "name",
       key: "name",
       width: "10%",
@@ -165,18 +176,30 @@ const AccountsTable = ({ data }: { data: RefinedAccountInfo[] }) => {
         new Intl.NumberFormat().format(parseInt(value)),
     },
     {
-      title: "Is Active",
+      title: "활성여부",
       dataIndex: "is_active",
       key: "is_active",
-      width: "5%",
+      width: "10%",
       ...getColumnSearchProps("is_active"),
-      render: (value?: boolean) => value?.toString(),
+      render: (value?: boolean) => {
+        const [text, color] =
+          value === true
+            ? ["활성", "success"]
+            : value === false
+            ? ["비활성", "error"]
+            : ["", "default"];
+        return (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Tag color={color}>{text}</Tag>
+          </div>
+        );
+      },
     },
     {
-      title: "Created At",
+      title: "생성일자",
       dataIndex: "created_at",
       key: "created_at",
-      width: "10%",
+      width: "12%",
       ...getColumnSearchProps("created_at"),
       render: (value: string) => {
         const date = new Date(value);
@@ -185,7 +208,14 @@ const AccountsTable = ({ data }: { data: RefinedAccountInfo[] }) => {
     },
   ];
 
-  return <Table columns={columns} dataSource={data} pagination={false} />;
+  return (
+    <Table
+      columns={columns}
+      dataSource={data}
+      pagination={false}
+      loading={isLoading}
+    />
+  );
 };
 
 export default AccountsTable;

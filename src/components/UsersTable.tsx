@@ -1,15 +1,22 @@
 import { SearchOutlined } from "@ant-design/icons";
 import type { InputRef } from "antd";
-import { Button, Input, Space, Table } from "antd";
+import { Button, Input, Space, Table, Tag } from "antd";
 import type { ColumnsType, ColumnType } from "antd/es/table";
 import type { FilterConfirmProps } from "antd/es/table/interface";
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import Highlighter from "react-highlight-words";
 import { RefinedUserInfo } from "../types";
+import { userNameFormatter } from "../utils/formatter";
 
 type DataIndex = keyof RefinedUserInfo;
 
-const UsersTable = ({ data }: { data: RefinedUserInfo[] }) => {
+interface UsersTableProps {
+  data: RefinedUserInfo[];
+  isLoading: boolean;
+}
+
+const UsersTable = ({ data, isLoading }: UsersTableProps) => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
@@ -112,17 +119,20 @@ const UsersTable = ({ data }: { data: RefinedUserInfo[] }) => {
 
   const columns: ColumnsType<RefinedUserInfo> = [
     {
-      title: "Name",
+      title: "고객명",
       dataIndex: "name",
       key: "name",
       width: "10%",
       ...getColumnSearchProps("name"),
+      render: (value: string, record) => (
+        <Link to={`/user-detail/${record.id}`}>{userNameFormatter(value)}</Link>
+      ),
     },
     {
-      title: "Account Count",
+      title: "계좌 수",
       dataIndex: "account_count",
       key: "account_count",
-      width: "5%",
+      width: "10%",
       ...getColumnSearchProps("account_count"),
     },
     {
@@ -133,14 +143,22 @@ const UsersTable = ({ data }: { data: RefinedUserInfo[] }) => {
       ...getColumnSearchProps("email"),
     },
     {
-      title: "Gender Origin",
+      title: "성별",
       dataIndex: "gender_origin",
       key: "gender_origin",
-      width: "5%",
+      width: "7%",
       ...getColumnSearchProps("gender_origin"),
+      render: (value: number) => {
+        const gender = value % 2 === 0 ? "남성" : "여성";
+        return (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            {gender}
+          </div>
+        );
+      },
     },
     {
-      title: "Birth Date",
+      title: "생년월일",
       dataIndex: "birth_date",
       key: "birth_date",
       width: "10%",
@@ -151,17 +169,17 @@ const UsersTable = ({ data }: { data: RefinedUserInfo[] }) => {
       },
     },
     {
-      title: "Phone Number",
+      title: "전화번호",
       dataIndex: "phone_number",
       width: "12%",
       key: "phone_number",
       ...getColumnSearchProps("phone_number"),
     },
     {
-      title: "Last Login",
+      title: "마지막 로그인",
       dataIndex: "last_login",
       key: "last_login",
-      width: "10%",
+      width: "12%",
       ...getColumnSearchProps("last_login"),
       render: (value: string) => {
         const date = new Date(value);
@@ -169,23 +187,42 @@ const UsersTable = ({ data }: { data: RefinedUserInfo[] }) => {
       },
     },
     {
-      title: "Marketing Push",
+      title: "마케팅 푸시",
       dataIndex: "allow_marketing_push",
       key: "allow_marketing_push",
-      width: "5%",
+      width: "10%",
       ...getColumnSearchProps("allow_marketing_push"),
-      render: (value?: boolean) => value?.toString(),
+      render: (value?: boolean) => {
+        const text = value === true ? "O" : value === false ? "X" : "";
+        return (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            {text}
+          </div>
+        );
+      },
     },
     {
-      title: "Active",
+      title: "활성여부",
       dataIndex: "is_active",
       key: "is_active",
-      width: "5%",
+      width: "10%",
       ...getColumnSearchProps("is_active"),
-      render: (value?: boolean) => value?.toString(),
+      render: (value?: boolean) => {
+        const [text, color] =
+          value === true
+            ? ["활성", "success"]
+            : value === false
+            ? ["비활성", "error"]
+            : ["", "default"];
+        return (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Tag color={color}>{text}</Tag>
+          </div>
+        );
+      },
     },
     {
-      title: "Created",
+      title: "생성일자",
       dataIndex: "created_at",
       key: "created_at",
       width: "10%",
@@ -197,7 +234,14 @@ const UsersTable = ({ data }: { data: RefinedUserInfo[] }) => {
     },
   ];
 
-  return <Table columns={columns} dataSource={data} pagination={false} />;
+  return (
+    <Table
+      columns={columns}
+      dataSource={data}
+      pagination={false}
+      loading={isLoading}
+    />
+  );
 };
 
 export default UsersTable;

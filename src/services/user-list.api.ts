@@ -1,7 +1,29 @@
 import { tokenStorage } from "../utils/storages";
-import { RefinedUserInfo, Account, UserSetting } from "../types";
+import { RefinedUserInfo, Account, UserSetting, User } from "../types";
 
-export const getRefinedUserInfo = async ({
+export const getRefinedUserInfo = async (id: number) => {
+  const { user, error } = await getUser(id);
+
+  if (error || user === null) {
+    return { refinedUserInfo: null, error };
+  }
+
+  const [accounts, setting] = await Promise.all([
+    getAccountsOfUser(id),
+    getSettingOfUser(user.uuid),
+  ]);
+
+  const refinedUserInfo: RefinedUserInfo = {
+    ...user,
+    accounts,
+    allow_marketing_push: setting.allow_marketing_push,
+    is_active: setting.is_active,
+  };
+
+  return { refinedUserInfo, error: null };
+};
+
+export const getRefinedUserInfoList = async ({
   pageNumber,
   limit,
   userName,
@@ -17,7 +39,7 @@ export const getRefinedUserInfo = async ({
   );
 
   if (error || users === null) {
-    return { refinedUserInfo: null, error, totalCount: null };
+    return { refinedUserInfoList: null, error, totalCount: null };
   }
 
   const [accounts, settings] = await Promise.all([
@@ -25,7 +47,7 @@ export const getRefinedUserInfo = async ({
     getSettingsOfUsers(users),
   ]);
 
-  const refinedUserInfo: RefinedUserInfo[] = users.map((user) => ({
+  const refinedUserInfoList: RefinedUserInfo[] = users.map((user) => ({
     ...user,
     accounts: accounts[user.id],
     account_count: accounts[user.id]?.length,
@@ -33,7 +55,7 @@ export const getRefinedUserInfo = async ({
     is_active: settings[user.uuid]?.is_active,
   }));
 
-  return { refinedUserInfo, error: null, totalCount };
+  return { refinedUserInfoList, error: null, totalCount };
 };
 
 export const getSettingsOfUsers = async (users: RefinedUserInfo[]) => {
@@ -179,5 +201,23 @@ export const getUsers: (
   } catch (error) {
     console.error("error from getUsers", error);
     return { users: null, error, totalCount: null };
+  }
+};
+
+export const getUser = async (id: number) => {
+  try {
+    const response = await fetch(`/users/${id}`, {
+      headers: { Authorization: "Bearer " + tokenStorage.get() },
+    });
+
+    if (!response.ok) {
+      throw response;
+    }
+
+    const user = (await response.json()) as User;
+    return { user, error: null };
+  } catch (error) {
+    console.error("error from getUser", error);
+    return { user: null, error };
   }
 };

@@ -1,6 +1,7 @@
 import { Account, User, RefinedAccountInfo } from "../types";
 import { tokenStorage } from "../utils/storages";
 import brokers from "../utils/brokers";
+import accountStatus from "../utils/accountStatus";
 
 export const getRefinedAccountsInfo = async (page = 1) => {
   const { accounts, error, totalCount } = await getAccounts({ page });
@@ -60,7 +61,7 @@ export const getAccounts = async ({
     const accounts = (await response.json()) as Account[];
     return { accounts, error: null, totalCount };
   } catch (error) {
-    console.log("error from getAccounts", error);
+    console.error("error from getAccounts", error);
     return { accounts: null, error, totalCount: null };
   }
 };

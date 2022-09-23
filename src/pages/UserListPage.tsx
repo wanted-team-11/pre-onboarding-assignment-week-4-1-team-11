@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { getRefinedUserInfoThunk } from "../store/user-list.reducer";
+import { getRefinedUserInfoListThunk } from "../store/user-list.reducer";
 import { useAppDispatch, useAppSelector } from "../store";
 
 import UsersTable from "../components/UsersTable";
@@ -19,16 +19,16 @@ const UserListPage = () => {
 
   useEffect(() => {
     (async () => {
-      dispatch(getRefinedUserInfoThunk({ pageNumber: 1 }));
+      dispatch(getRefinedUserInfoListThunk({ pageNumber: 1 }));
     })();
   }, []);
 
   const onSearch = (searchWord: string) => {
-    dispatch(getRefinedUserInfoThunk({ userName: searchWord }));
+    dispatch(getRefinedUserInfoListThunk({ userName: searchWord }));
   };
 
   const onPageClick = async (pageNumber: number) => {
-    dispatch(getRefinedUserInfoThunk({ pageNumber }));
+    dispatch(getRefinedUserInfoListThunk({ pageNumber }));
   };
 
   if (isError) {
@@ -37,14 +37,8 @@ const UserListPage = () => {
 
   return (
     <>
-      {isLoading ? (
-        <div>loading...</div>
-      ) : (
-        <>
-          <SearchInput onSearch={onSearch} />
-          <UsersTable data={users} />
-        </>
-      )}
+      <SearchInput onSearch={onSearch} />
+      <UsersTable data={users} isLoading={isLoading} />
       <PaginationComponent total={userCount} onPageClick={onPageClick} />
     </>
   );

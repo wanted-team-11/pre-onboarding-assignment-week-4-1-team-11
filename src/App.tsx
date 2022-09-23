@@ -11,15 +11,10 @@ function App() {
     <Routes>
       <Route path="/" element={<GlobalLayout />}>
         <Route index element={<Navigate replace to="account-list" />} />
-        <Route path="account-list" element={<AccountListPage />}>
-          <Route
-            path="detail/:userId/:accountId"
-            element={<AccountDetailPage />}
-          />
-        </Route>
-        <Route path="user-list" element={<UserListPage />}>
-          <Route path="detail/:userId" element={<UserDetailPage />} />
-        </Route>
+        <Route path="account-list" element={<AccountListPage />} />
+        <Route path="account-detail/:id" element={<AccountDetailPage />} />
+        <Route path="user-list" element={<UserListPage />} />
+        <Route path="user-detail/:id" element={<UserDetailPage />} />
       </Route>
       <Route path="/login" element={<LoginPage />} />
     </Routes>
