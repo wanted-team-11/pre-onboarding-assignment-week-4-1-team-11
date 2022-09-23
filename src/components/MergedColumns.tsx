@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { User, Columns } from "../types";
 
@@ -26,7 +26,7 @@ function MergedColumns(page: string) {
 
   const columns: Columns[] = [
     {
-      title: "보유중인 계좌수", // 정제
+      title: "보유중인 계좌수",
       dataIndex: "account_count",
       width: "10%",
       editable: true,
@@ -76,7 +76,7 @@ function MergedColumns(page: string) {
       },
     },
     {
-      title: "혜택 수신 동의 여부", // 정제
+      title: "혜택 수신 동의 여부",
       dataIndex: "allow_marketing_push",
       width: "10%",
       editable: true,
@@ -85,7 +85,7 @@ function MergedColumns(page: string) {
       },
     },
     {
-      title: "활성화 여부", // 정제
+      title: "활성화 여부",
       dataIndex: "is_active",
       width: "10%",
       editable: true,
@@ -124,7 +124,7 @@ function MergedColumns(page: string) {
       dataIndex: "operation",
       render: (_: any, record: User) => {
         return (
-          <Link to={`/user/${record!.id}`}>{maskingName(record?.name)}</Link>
+          <Link to={`/user/${record!.id}`}>{maskingName(record.name)}</Link>
         );
       },
     });
@@ -133,7 +133,7 @@ function MergedColumns(page: string) {
   }
 
   const checkDataType = (col: Columns) => {
-    if (col.dataIndex === "age" || "gender_origin" || "account_count") {
+    if (col.dataIndex === ("age" || "gender_origin" || "account_count")) {
       return "number";
     } else if (col.dataIndex === "is_active") {
       return "boolean";

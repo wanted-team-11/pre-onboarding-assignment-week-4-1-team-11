@@ -14,9 +14,9 @@ export interface User {
   detail_address: string;
   created_at: string;
   updated_at: string;
-  // account_count: number;
-  // allow_marketing_push: string;
-  // is_active: boolean;
+  account_count: number;
+  allow_marketing_push: boolean;
+  is_active: boolean;
 }
 
 export interface Columns {

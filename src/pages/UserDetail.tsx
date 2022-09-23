@@ -24,7 +24,6 @@ function UserDetail() {
       .then((res) => {
         setAccountNum(res.data.length);
       })
-      .then()
       .catch((err) => {
         console.error(err);
       });
@@ -57,7 +56,6 @@ function UserDetail() {
       .then((res) => {
         setUserByUuid(res.data);
       })
-      .then()
       .catch((err) => {
         console.error(err);
       });

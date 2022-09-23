@@ -1,43 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Form, Pagination, Table } from "antd";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PageLayout from "../components/PageLayout";
-import { fetchUser, fetchUserByPageNumber } from "../services/api/userApi";
 import MergedColumns from "../components/MergedColumns";
+import useUser from "../hooks/useUser";
 
 const UserList = () => {
   const [form] = Form.useForm();
-  const [user, setUser] = useState([]);
-  const [totalCount, setTotalCount] = useState(0);
-  const [page, setPage] = useState(1);
-
-  useEffect(() => {
-    setPage(page);
-    fetchUser()
-      .then((res) => {
-        setTotalCount(res.data.length);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [page]);
-
-  useEffect(() => {
-    fetchUserByPageNumber(page)
-      .then((res) => {
-        setUser(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [page]);
-
-  const location = useLocation();
-  const { search } = location;
-
-  useEffect(() => {
-    setPage(Number(search.split("=")[1]));
-  }, [search]);
+  const { totalCount, user } = useUser();
 
   const mergedColumns = MergedColumns("list");
   const navigate = useNavigate();
