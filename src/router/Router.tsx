@@ -3,11 +3,11 @@ import { Navigate } from "react-router-dom";
 import { LoginPage } from "../pages/auth";
 import PageNotFound from "../pages/error/PageNotFound";
 import AuthRoute from "./AuthRoute";
-import AccountList from "../pages/admin/components/AccountList";
 import AdminPageLayout from "../pages/admin/components/AdminPageLayout";
 import UserDetail from "../pages/admin/components/UserDetail";
 import UserListPage from "../pages/admin/UserListPage";
 import SearchUserListPage from "../pages/admin/SearchUserListPage";
+import AccountListPage from "../pages/admin/AccountListPage";
 
 export const PATH = {
   ROOT: "/",
@@ -44,7 +44,7 @@ const Router = () => {
             <Route path={PATH.USER_DETAIL(":id")} element={<UserDetail />} />
             <Route
               path={PATH.ACCOUNT_LIST(":page")}
-              element={<AccountList />}
+              element={<AccountListPage />}
             />
             <Route
               path={PATH.USER_LIST_SEARCH(":page")}

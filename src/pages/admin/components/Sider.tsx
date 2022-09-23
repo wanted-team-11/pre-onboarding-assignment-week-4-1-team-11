@@ -8,24 +8,26 @@ import { StorageKey, tokenStorage } from "../../../storage";
 
 const { Sider: SiderAndt } = Layout;
 
-const menuItems = [
-  {
-    key: "user-list",
-    icon: <UserOutlined />,
-    label: <Link to={PATH.USER_LIST()}>사용자 목록</Link>,
-  },
-  {
-    key: "account-list",
-    icon: <LineChartOutlined />,
-    label: <Link to={PATH.ACCOUNT_LIST()}>계좌목록</Link>,
-  },
-];
-
 const Sider = () => {
   const { pathname } = useLocation();
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
+
+  const menuItems = [
+    {
+      key: "user-list",
+      icon: <UserOutlined />,
+      label: <Link to={PATH.USER_LIST()}>사용자 목록</Link>,
+    },
+    {
+      key: "account-list",
+      icon: <LineChartOutlined />,
+      label: <Link to={PATH.ACCOUNT_LIST()}>계좌목록</Link>,
+    },
+  ];
+
   const selectedMenu = menuItems.find(({ key }) => pathname.includes(key))?.key;
+
   return (
     <SiderAndt
       collapsible
