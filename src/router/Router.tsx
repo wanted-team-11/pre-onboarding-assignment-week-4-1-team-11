@@ -1,11 +1,12 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { LoginPage } from "../pages/auth";
-import { AdminPage } from "../pages/admin";
 import PageNotFound from "../pages/error/PageNotFound";
 import AuthRoute from "./AuthRoute";
 import UserList from "../pages/admin/components/UserList";
 import AccountList from "../pages/admin/components/AccountList";
+import AdminPageLayout from "../pages/admin/components/AdminPageLayout";
+import UserDetail from "../pages/admin/components/UserDetail";
 
 const PATH = {
   ROOT: "/",
@@ -31,23 +32,15 @@ const Router = () => {
         <Route
           element={<AuthRoute nonAuthRedirectPath={nonAuthRedirectPath} />}
         >
-          <Route path={PATH.ADMIN} element={<Navigate to={PATH.USER_LIST} />} />
           <Route
-            path={PATH.USER_LIST}
-            element={
-              <AdminPage>
-                <UserList />
-              </AdminPage>
-            }
+            path={PATH.ADMIN}
+            element={<Navigate to={PATH.USER_LIST} replace />}
           />
-          <Route
-            path={PATH.ACCOUNT_LIST}
-            element={
-              <AdminPage>
-                <AccountList />
-              </AdminPage>
-            }
-          />
+          <Route element={<AdminPageLayout />}>
+            <Route path={PATH.USER_LIST} element={<UserList />} />
+            <Route path={PATH.USER_LIST + "/:id"} element={<UserDetail />} />
+            <Route path={PATH.ACCOUNT_LIST} element={<AccountList />} />
+          </Route>
         </Route>
 
         <Route path="*" element={<PageNotFound />} />

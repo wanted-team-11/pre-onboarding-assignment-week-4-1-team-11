@@ -34,7 +34,6 @@ const fetchUserList = async () => {
 
   const userList = users.map<UserListProps>((user) => {
     return {
-      ...user,
       ...(userSettings.find((setting) => setting.uuid === user.uuid) || {
         allow_marketing_push: false,
         is_active: false,
@@ -42,6 +41,7 @@ const fetchUserList = async () => {
       }),
       account_count: accounts.filter((account) => account.user_id === user.id)
         .length,
+      ...user,
     };
   });
 

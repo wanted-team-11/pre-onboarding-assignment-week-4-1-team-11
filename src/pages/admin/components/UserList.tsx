@@ -1,5 +1,6 @@
 import { Spin, Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
+import { Link } from "react-router-dom";
 import { useUserListQuery } from "../../../services/hooks/useUserListQuery";
 import { UserListProps } from "../../../types/user";
 
@@ -8,6 +9,7 @@ const columns: ColumnsType<UserListProps> = [
     title: "고객명",
     dataIndex: "name",
     key: "name",
+    render: (name, record) => <Link to={`${record.id}`}>{name}</Link>,
   },
   {
     title: "보유 계좌",
@@ -60,7 +62,6 @@ const columns: ColumnsType<UserListProps> = [
 
 const UserList = () => {
   const { userList, isLoading } = useUserListQuery();
-
   return (
     <>
       {isLoading ? (
