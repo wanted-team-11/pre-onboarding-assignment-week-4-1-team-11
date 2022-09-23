@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { tokenStorage } from "../utils/storages";
-import { login } from "../services/api";
+import { login } from "../services";
 import styled from "styled-components";
 import { Card as _Card, Form, Button, Checkbox, Input } from "antd";
 

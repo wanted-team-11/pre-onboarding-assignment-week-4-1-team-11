@@ -5,7 +5,7 @@ const { Search } = Input;
 
 const SearchInput = ({ onSearch }: { onSearch: (value: string) => void }) => (
   <Space direction="vertical">
-    <Search placeholder="input search text" onSearch={onSearch} enterButton />
+    <Search placeholder="고객명 검색" onSearch={onSearch} enterButton />
   </Space>
 );
 

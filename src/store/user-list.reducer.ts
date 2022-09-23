@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getRefinedUserInfo } from "../services/api";
+import { getRefinedUserInfo } from "../services";
 import { RefinedUserInfo } from "../types";
 
 interface UserListState {

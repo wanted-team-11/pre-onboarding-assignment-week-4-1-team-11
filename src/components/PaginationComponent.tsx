@@ -1,18 +1,17 @@
 import { Pagination } from "antd";
-import { useAppSelector } from "../store";
 import styled from "styled-components";
 
 const PaginationComponent = ({
   onPageClick,
+  total,
 }: {
   onPageClick: (pageNum: number) => Promise<void>;
+  total: number;
 }) => {
-  const userCount = useAppSelector((state) => state.userList.userCount);
-
   return (
     <Container>
       <Padding />
-      <Pagination total={userCount} onChange={onPageClick} />
+      <Pagination total={total} onChange={onPageClick} />
     </Container>
   );
 };

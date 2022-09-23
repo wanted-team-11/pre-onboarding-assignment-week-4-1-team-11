@@ -9,7 +9,7 @@ import SearchInput from "../components/SearchInput";
 const UserListPage = () => {
   const dispatch = useAppDispatch();
 
-  const { userList, isLoading, isError } = useAppSelector(
+  const { userList, isLoading, isError, userCount } = useAppSelector(
     (state) => state.userList
   );
   const users = userList.map((user) => ({
@@ -45,7 +45,7 @@ const UserListPage = () => {
           <UsersTable data={users} />
         </>
       )}
-      <PaginationComponent onPageClick={onPageClick} />
+      <PaginationComponent total={userCount} onPageClick={onPageClick} />
     </>
   );
 };
