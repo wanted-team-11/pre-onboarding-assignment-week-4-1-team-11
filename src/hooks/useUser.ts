@@ -66,9 +66,7 @@ const useUser = () => {
 
   return {
     totalCount,
-    page,
     user,
-    getUser,
   };
 };
 
