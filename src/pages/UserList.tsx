@@ -2,14 +2,14 @@ import React from "react";
 import { Form, Pagination, Table } from "antd";
 import { useNavigate } from "react-router-dom";
 import PageLayout from "../components/PageLayout";
-import UserColumns from "../components/UserColumns";
+import useUserColumns from "../hooks/useUserColumns";
 import useUser from "../hooks/useUser";
 
 const UserList = () => {
   const [form] = Form.useForm();
   const { totalCount, user } = useUser();
 
-  const userColumns = UserColumns("list");
+  const userColumns = useUserColumns("list");
   const navigate = useNavigate();
 
   return (

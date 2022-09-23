@@ -6,7 +6,7 @@ import {
   fetchAccountsByPageNumber,
 } from "../services/api/accountApi";
 import { FilteredAccounts } from "../types";
-import AccountColumns from "../components/AccountColumns";
+import useAccountColumns from "../hooks/useAccountColumns";
 import { useNavigate, useLocation } from "react-router-dom";
 
 function AccountList() {
@@ -31,7 +31,7 @@ function AccountList() {
     setPage(pageNum);
   }, [search]);
 
-  const accountColumns = AccountColumns();
+  const accountColumns = useAccountColumns();
   const navigate = useNavigate();
 
   const [accounts, setAccounts] = useState<FilteredAccounts[]>([]);

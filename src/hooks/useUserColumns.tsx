@@ -4,7 +4,7 @@ import { FilteredUser, Columns } from "../types";
 import { maskingPhoneNumber, maskingName } from "../utils/masking";
 import { convertUserInfo } from "../utils/convert";
 
-function UserColumns(page: string) {
+const useUserColumns = (page: string) => {
   const columns: Columns[] = [
     {
       title: "보유중인 계좌수",
@@ -148,6 +148,6 @@ function UserColumns(page: string) {
   });
 
   return userColumns;
-}
+};
 
-export default UserColumns;
+export default useUserColumns;

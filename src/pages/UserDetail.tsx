@@ -3,7 +3,7 @@ import { Form, Table } from "antd";
 import { useLocation } from "react-router-dom";
 import PageLayout from "../components/PageLayout";
 import { fetchUser, fetchUserByUuid } from "../services/api/userApi";
-import UserColumns from "../components/UserColumns";
+import useUserColumns from "../hooks/useUserColumns";
 import { User, UserByUuid, FilteredUser } from "../types";
 import { fetchAccountsByUserId } from "../services/api/accountApi";
 
@@ -17,7 +17,7 @@ function UserDetail() {
   const [userByUuid, setUserByUuid] = useState<UserByUuid[]>([]);
   const uuid = user[0]?.uuid || "undefined";
 
-  const userColumns = UserColumns("detail");
+  const userColumns = useUserColumns("detail");
 
   useEffect(() => {
     fetchAccountsByUserId(userId)

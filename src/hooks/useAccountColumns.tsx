@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FilteredAccounts, AccountsColumns } from "../types";
 import { convertStatus, convertBroker } from "../utils/convert";
 
-function AccountColumns() {
+const useAccountColumns = () => {
   const columns: AccountsColumns[] = [
     {
       title: "고객명",
@@ -116,6 +116,6 @@ function AccountColumns() {
   });
 
   return accountColumns;
-}
+};
 
-export default AccountColumns;
+export default useAccountColumns;
