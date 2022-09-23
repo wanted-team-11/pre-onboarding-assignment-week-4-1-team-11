@@ -63,15 +63,7 @@ const AccountList = () => {
   const { accountList, isLoading } = useAccountsQuery();
 
   return (
-    <>
-      {isLoading ? (
-        <Spin />
-      ) : accountList ? (
-        <Table columns={columns} dataSource={accountList} />
-      ) : (
-        "no users"
-      )}
-    </>
+    <Table loading={isLoading} columns={columns} dataSource={accountList} />
   );
 };
 

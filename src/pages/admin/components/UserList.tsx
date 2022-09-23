@@ -92,17 +92,7 @@ const columns: ColumnsType<UserListProps> = [
 const UserList = () => {
   const { userList, isLoading } = useUserListQuery();
 
-  return (
-    <>
-      {isLoading ? (
-        <Spin />
-      ) : userList ? (
-        <Table columns={columns} dataSource={userList} />
-      ) : (
-        "no users"
-      )}
-    </>
-  );
+  return <Table columns={columns} dataSource={userList} loading={isLoading} />;
 };
 
 export default UserList;

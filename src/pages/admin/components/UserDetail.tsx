@@ -37,12 +37,11 @@ const UserDetail = () => {
 
   return (
     <>
-      {isLoading ? (
-        <Spin />
-      ) : (
+      {
         <div style={{ padding: "50px" }}>
           <Avatar size={150} src={userDetail?.user?.photo || ""} />
           <List
+            loading={isLoading}
             grid={{
               gutter: 16,
               xs: 1,
@@ -62,6 +61,7 @@ const UserDetail = () => {
           />
           <Divider />
           <List
+            loading={isLoading}
             grid={{
               gutter: 16,
               xs: 1,
@@ -80,7 +80,7 @@ const UserDetail = () => {
             )}
           />
         </div>
-      )}
+      }
     </>
   );
 };
