@@ -3,25 +3,26 @@ import { Button, Divider, Popconfirm } from "antd";
 import { Layout, Menu } from "antd";
 import { useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { PATH } from "../../../router/Router";
 import { StorageKey, tokenStorage } from "../../../storage";
 import "./index.css";
 
 const { Header, Content, Footer, Sider } = Layout;
 
-const menuItems = [
-  {
-    key: "user-list",
-    icon: <UserOutlined />,
-    label: <Link to="/admin/user-list">사용자 목록</Link>,
-  },
-  {
-    key: "account-list",
-    icon: <LineChartOutlined />,
-    label: <Link to="/admin/account-list">계좌목록</Link>,
-  },
-];
-
 const AdminPageLayout = () => {
+  const menuItems = [
+    {
+      key: "user-list",
+      icon: <UserOutlined />,
+      label: <Link to={PATH.USER_LIST()}>사용자 목록</Link>,
+    },
+    {
+      key: "account-list",
+      icon: <LineChartOutlined />,
+      label: <Link to={PATH.ACCOUNT_LIST()}>계좌목록</Link>,
+    },
+  ];
+
   const [collapsed, setCollapsed] = useState(false);
   const { pathname } = useLocation();
   const navigate = useNavigate();

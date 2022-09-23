@@ -4,19 +4,23 @@ import { fetchAccountList } from "../api/fetchAccountList";
 import { brokerKeyType } from "../models/statics";
 import useRefine from "./useRefine";
 
-const useAccountsQuery = () => {
-  const { refineName, refineDate, refineTel, refineBrokerId } = useRefine();
+const useAccountsQuery = (pageNumber: number) => {
+  const { refineName, refineDate, refineBrokerId } = useRefine();
 
-  const { data: accountList, ...queryResult } = useQuery(
-    ["getAccounts"],
-    fetchAccountList,
+  const { data, ...queryResult } = useQuery(
+    ["getAccounts", pageNumber],
+    () => fetchAccountList(pageNumber),
     {
-      select: (accountList) => {
-        return accountList.map((account) => ({
-          ...account,
-          user_name: refineName(account.user_name),
-          broker_name: refineBrokerId(account.broker_name as brokerKeyType),
-        }));
+      select: ({ accountList, totalAccountCount }) => {
+        return {
+          accountList: accountList.map((account) => ({
+            ...account,
+            created_at: refineDate(account.created_at),
+            user_name: refineName(account.user_name),
+            broker_name: refineBrokerId(account.broker_name as brokerKeyType),
+          })),
+          totalAccountCount,
+        };
       },
       onError: (err) => {
         Modal.error({
@@ -28,7 +32,8 @@ const useAccountsQuery = () => {
   );
   return {
     ...queryResult,
-    accountList,
+    accountList: data?.accountList,
+    totalAccountCount: data?.totalAccountCount,
   };
 };
 

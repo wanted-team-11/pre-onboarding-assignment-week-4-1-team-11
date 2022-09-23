@@ -1,6 +1,8 @@
-import { Table } from "antd";
+import { Button, Pagination, Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import styled from "styled-components";
+import { PATH } from "../../../router/Router";
 import { useUserListQuery } from "../../../services/hooks/useUserListQuery";
 import { UserListProps } from "../../../types/user";
 
@@ -9,7 +11,9 @@ const columns: ColumnsType<UserListProps> = [
     title: "고객명",
     dataIndex: "name",
     key: "name",
-    render: (name, record) => <Link to={`${record.id}`}>{name}</Link>,
+    render: (name, record) => (
+      <Link to={`${PATH.USER_DETAIL(record.id + "")}`}>{name}</Link>
+    ),
   },
   {
     title: "보유 계좌",
@@ -89,15 +93,29 @@ const columns: ColumnsType<UserListProps> = [
 ];
 
 const UserList = () => {
-  const { userList, isLoading } = useUserListQuery();
-
+  const { page = "1" } = useParams();
+  const { userList, totalUserCount = "0", isLoading } = useUserListQuery(page);
+  const navigate = useNavigate();
   return (
-    <Table
-      columns={columns}
-      dataSource={userList}
-      loading={isLoading}
-      rowKey={(row) => row.id}
-    />
+    <>
+      <Table
+        columns={columns}
+        dataSource={userList}
+        loading={isLoading}
+        rowKey={(row) => row.id}
+        pagination={false}
+      />
+      {!isLoading && (
+        <Pagination
+          total={parseInt(totalUserCount)}
+          pageSize={20}
+          current={parseInt(page)}
+          onChange={(page) => {
+            navigate(PATH.USER_LIST(page + ""));
+          }}
+        />
+      )}
+    </>
   );
 };
 

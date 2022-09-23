@@ -1,9 +1,10 @@
-import { Spin, Table } from "antd";
+import { Pagination, Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAccountsQuery } from "../../../services/hooks/useAccountsQuery";
 import { AccountListProps } from "../../../types/user";
 import brokers from "../../../services/static/brokers.json";
+import { PATH } from "../../../router/Router";
 
 const columns: ColumnsType<AccountListProps> = [
   {
@@ -11,7 +12,7 @@ const columns: ColumnsType<AccountListProps> = [
     dataIndex: "user_name",
     key: "user_name",
     render: (user_name, record) => (
-      <Link to={`/admin/user-list/${record.user_id}`}>{user_name}</Link>
+      <Link to={`${PATH.USER_DETAIL(record.user_id + "")}`}>{user_name}</Link>
     ),
   },
   {
@@ -60,15 +61,35 @@ const columns: ColumnsType<AccountListProps> = [
 ];
 
 const AccountList = () => {
-  const { accountList, isLoading } = useAccountsQuery();
+  const { page = "1" } = useParams();
+  const {
+    accountList,
+    totalAccountCount = "0",
+    isLoading,
+  } = useAccountsQuery(parseInt(page || "1"));
+
+  const navigate = useNavigate();
 
   return (
-    <Table
-      loading={isLoading}
-      columns={columns}
-      dataSource={accountList}
-      rowKey={(row) => row.uuid}
-    />
+    <>
+      <Table
+        loading={isLoading}
+        columns={columns}
+        dataSource={accountList}
+        rowKey={(row) => row.uuid}
+        pagination={false}
+      />
+      {!isLoading && (
+        <Pagination
+          total={parseInt(totalAccountCount)}
+          pageSize={20}
+          current={parseInt(page)}
+          onChange={(page) => {
+            navigate(PATH.ACCOUNT_LIST(page + ""));
+          }}
+        />
+      )}
+    </>
   );
 };
 

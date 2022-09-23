@@ -8,12 +8,12 @@ import {
 } from "../models/user";
 
 const FETCH_URL = {
-  USERS: "/users",
+  USERS: (pageNumber: string) => `/users?_page=${pageNumber}&_limit=20`,
   USER_SETTING: "/userSetting",
   ACCOUNTS: "/accounts",
 };
 
-const fetchUserList = async () => {
+const fetchUserList = async (pageNumber: string) => {
   const accessToken = tokenStorage.get(StorageKey.ACCESS_TOKEN);
 
   if (!accessToken) throw Error("no token");
@@ -22,9 +22,10 @@ const fetchUserList = async () => {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 
-  const { data: users } = await instance.get<FetchUsersProps[]>(
-    FETCH_URL.USERS
+  const { data: users, headers } = await instance.get<FetchUsersProps[]>(
+    FETCH_URL.USERS(pageNumber)
   );
+  const totalUserCount = headers["x-total-count"];
   const { data: userSettings } = await instance.get<FetchUserSettingProps[]>(
     FETCH_URL.USER_SETTING
   );
@@ -45,7 +46,7 @@ const fetchUserList = async () => {
     };
   });
 
-  return userList;
+  return { userList, totalUserCount };
 };
 
 export { fetchUserList };

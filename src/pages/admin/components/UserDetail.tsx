@@ -1,4 +1,4 @@
-import { Avatar, Card, Divider, List, Spin } from "antd";
+import { Avatar, Divider, List } from "antd";
 import { useParams } from "react-router-dom";
 import { useUserDetailQuery } from "../../../services/hooks/useUserDetailQuery";
 import { UserDetailProps } from "../../../types/user";
