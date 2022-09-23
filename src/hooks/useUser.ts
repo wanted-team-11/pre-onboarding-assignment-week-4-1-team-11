@@ -8,7 +8,7 @@ import { fetchAccountsByUserId } from "../services/api/accountApi";
 import { User } from "../types";
 import { useLocation } from "react-router-dom";
 
-const useAuth = () => {
+const useUser = () => {
   const [user, setUser] = useState<User[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(1);
@@ -72,4 +72,4 @@ const useAuth = () => {
   };
 };
 
-export default useAuth;
+export default useUser;
