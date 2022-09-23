@@ -4,7 +4,7 @@ import {
   BankOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, MenuProps } from "antd";
+import { Layout, Menu, MenuProps, PageHeader, Typography } from "antd";
 import "antd/dist/antd.min.css";
 import {
   NavLink,
@@ -15,10 +15,14 @@ import {
 } from "react-router-dom";
 import DashBoardPage from "./DashBoardPage";
 import UserInfoPage from "./UserInfoPage";
-import AccountPage from "./AccountPage";
+import AccounstTablePage from "./AccounstTablePage";
 import storage from "../utils/storage";
+import UsersTablePage from "./UsersTablePage";
+import CommonLayOut from "../components/Layout/UserLayOut";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer, Sider } = Layout;
+const { Text } = Typography;
+
 const items: MenuProps["items"] = [
   {
     label: <NavLink to="/">대시보드</NavLink>,
@@ -26,13 +30,13 @@ const items: MenuProps["items"] = [
     icon: <DashboardOutlined />,
   },
   {
-    label: <NavLink to="/user">사용자</NavLink>,
-    key: "/user",
+    label: <NavLink to="/user/users">사용자</NavLink>,
+    key: "/user/users",
     icon: <UserOutlined />,
   },
   {
-    label: <NavLink to="/account">계좌</NavLink>,
-    key: "/account",
+    label: <NavLink to="/account/accounts">계좌</NavLink>,
+    key: "/account/accounts",
     icon: <BankOutlined />,
   },
   {
@@ -42,11 +46,13 @@ const items: MenuProps["items"] = [
   },
 ];
 const MainPage = () => {
+  const userName = storage.get("USER");
   const location = useLocation();
   const navigate = useNavigate();
   const onClickMenuButton: MenuProps["onClick"] = (e) => {
     if (e.key === "/logout") {
-      storage.set({ key: "TOKEN", value: "dd" });
+      storage.reset("TOKEN");
+      storage.reset("USER");
       navigate("/login", { replace: true });
     }
   };
@@ -72,18 +78,30 @@ const MainPage = () => {
         />
       </Sider>
       <Layout className="site-layout" style={{ marginLeft: 200 }}>
-        <Header className="site-layout-background" style={{ padding: 0 }}>
-          Header
-        </Header>
+        <PageHeader
+          className="site-layout-background"
+          style={{ padding: 14 }}
+          extra={[
+            <Text type="secondary" key={`user-name-key`}>
+              <Text strong>{userName?.split("@")[0]}</Text>님 반갑습니다.
+            </Text>,
+          ]}
+        />
+
         <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
           <Routes>
             <Route path="/" element={<DashBoardPage />} />
-            <Route path="user" element={<UserInfoPage />} />
-            <Route path="account" element={<AccountPage />} />
+            <Route path="user" element={<CommonLayOut />}>
+              <Route path="users" element={<UsersTablePage />} />
+              <Route path="users/:id" element={<UserInfoPage />} />
+            </Route>
+            <Route path="account" element={<CommonLayOut />}>
+              <Route path="accounts" element={<AccounstTablePage />} />
+            </Route>
           </Routes>
         </Content>
         <Footer style={{ textAlign: "center" }}>
-          Ant Design ©2018 Created by Ant UED
+          Copyright © December and Company Inc.
         </Footer>
       </Layout>
     </Layout>

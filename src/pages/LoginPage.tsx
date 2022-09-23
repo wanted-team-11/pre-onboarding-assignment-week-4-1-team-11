@@ -1,5 +1,7 @@
 import { UserOutlined, LockOutlined, LoginOutlined } from "@ant-design/icons";
 import { Button, Input, Form, Card } from "antd";
+import { useNavigate } from "react-router-dom";
+import { loginAxios } from "../services/axios.service";
 
 type formParamsType = {
   email: string;
@@ -7,8 +9,10 @@ type formParamsType = {
 };
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const onClickSubmit = (values: formParamsType) => {
     console.log(values);
+    loginAxios(values).then(() => navigate("/", { replace: true }));
   };
   return (
     <div
