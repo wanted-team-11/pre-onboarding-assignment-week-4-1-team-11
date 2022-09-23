@@ -15,7 +15,7 @@ function UserDetail() {
   const [form] = Form.useForm();
   const [accountNum, setAccountNum] = useState(0);
   const [userByUuid, setUserByUuid] = useState<UserByUuid[]>([]);
-  const uuid = user[0]?.uuid;
+  const uuid = user[0]?.uuid || "undefined";
 
   const mergedColumns = MergedColumns("detail");
 

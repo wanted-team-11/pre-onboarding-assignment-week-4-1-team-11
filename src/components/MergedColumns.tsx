@@ -13,14 +13,24 @@ function MergedColumns(page: string) {
   };
 
   const maskingName = (name: string) => {
-    if (name) {
+    if (name === "관리자") {
+      return "관리자";
+    } else {
       return (
         name.substring(0, 1) +
         "*".repeat(name.length - 2) +
         name.substring(name.length - 1, name.length)
       );
+    }
+  };
+
+  const checkUserInfo = (info: boolean) => {
+    if (info === undefined) {
+      return "-";
+    } else if (info) {
+      return "O";
     } else {
-      return "관리자";
+      return "X";
     }
   };
 
@@ -42,6 +52,9 @@ function MergedColumns(page: string) {
       dataIndex: "gender_origin",
       width: "10%",
       editable: true,
+      render: (genderCode: number) => {
+        return <>{genderCode ? genderCode : "-"}</>;
+      },
     },
     {
       title: "생년월일",
@@ -49,7 +62,7 @@ function MergedColumns(page: string) {
       width: "10%",
       editable: true,
       render: (birthDate: string) => {
-        return <>{birthDate?.split("T")[0]}</>;
+        return <>{birthDate ? birthDate?.split("T")[0] : "-"}</>;
       },
     },
     {
@@ -58,7 +71,7 @@ function MergedColumns(page: string) {
       width: "10%",
       editable: true,
       render: (phoneNumber: string) => {
-        return <>{maskingPhoneNumber(phoneNumber)}</>;
+        return <>{phoneNumber ? maskingPhoneNumber(phoneNumber) : "-"}</>;
       },
     },
     {
@@ -69,8 +82,14 @@ function MergedColumns(page: string) {
       render: (lastLogin: string) => {
         return (
           <>
-            <div>{lastLogin?.split("T")[0]}</div>
-            <div>{lastLogin?.split("T")[1]?.split(".")[0]}</div>
+            {lastLogin ? (
+              <>
+                <div>{lastLogin?.split("T")[0]}</div>
+                <div>{lastLogin?.split("T")[1]?.split(".")[0]}</div>
+              </>
+            ) : (
+              "-"
+            )}
           </>
         );
       },
@@ -81,7 +100,7 @@ function MergedColumns(page: string) {
       width: "10%",
       editable: true,
       render: (allowMarketingPush: boolean) => {
-        return <div>{allowMarketingPush ? "O" : "X"}</div>;
+        return <div>{checkUserInfo(allowMarketingPush)}</div>;
       },
     },
     {
@@ -90,7 +109,7 @@ function MergedColumns(page: string) {
       width: "10%",
       editable: true,
       render: (isActive: boolean) => {
-        return <div>{isActive ? "O" : "X"}</div>;
+        return <div>{checkUserInfo(isActive)}</div>;
       },
     },
     {
@@ -101,8 +120,14 @@ function MergedColumns(page: string) {
       render: (createdAt: string) => {
         return (
           <>
-            <div>{createdAt?.split("T")[0]}</div>
-            <div>{createdAt?.split("T")[1]?.split(".")[0]}</div>
+            {createdAt ? (
+              <>
+                <div>{createdAt?.split("T")[0]}</div>
+                <div>{createdAt?.split("T")[1]?.split(".")[0]}</div>
+              </>
+            ) : (
+              "-"
+            )}
           </>
         );
       },
@@ -123,9 +148,8 @@ function MergedColumns(page: string) {
       ...userName,
       dataIndex: "operation",
       render: (_: any, record: FilteredUser) => {
-        return (
-          <Link to={`/user/${record!.id}`}>{maskingName(record.name)}</Link>
-        );
+        const name = record.name || "관리자";
+        return <Link to={`/user/${record!.id}`}>{maskingName(name)}</Link>;
       },
     });
   } else {
