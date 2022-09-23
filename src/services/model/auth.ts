@@ -1,4 +1,4 @@
-export interface User {
+export interface InputProps {
   email: string;
   password: string;
 }

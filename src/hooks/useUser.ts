@@ -5,11 +5,11 @@ import {
   fetchUser,
 } from "../services/api/userApi";
 import { fetchAccountsByUserId } from "../services/api/accountApi";
-import { User } from "../types";
+import { FilteredUser } from "../types";
 import { useLocation } from "react-router-dom";
 
 const useUser = () => {
-  const [user, setUser] = useState<User[]>([]);
+  const [user, setUser] = useState<FilteredUser[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(1);
 

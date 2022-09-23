@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { User, Columns } from "../types";
+import { FilteredUser, Columns } from "../types";
 
 function MergedColumns(page: string) {
   const maskingPhoneNumber = (phoneNumber: string) => {
@@ -122,7 +122,7 @@ function MergedColumns(page: string) {
     columns.unshift({
       ...userName,
       dataIndex: "operation",
-      render: (_: any, record: User) => {
+      render: (_: any, record: FilteredUser) => {
         return (
           <Link to={`/user/${record!.id}`}>{maskingName(record.name)}</Link>
         );
@@ -143,7 +143,7 @@ function MergedColumns(page: string) {
   const mergedColumns = columns.map((col) => {
     return {
       ...col,
-      onCell: (record: User) => ({
+      onCell: (record: FilteredUser) => ({
         record,
         inputType: checkDataType(col),
         dataIndex: col.dataIndex,

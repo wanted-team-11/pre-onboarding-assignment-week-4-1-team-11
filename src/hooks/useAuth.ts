@@ -1,4 +1,4 @@
-import { InputProps } from "./../types";
+import { InputProps } from "../services/model/auth";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import { fetchLogin } from "../services/api/authApi";

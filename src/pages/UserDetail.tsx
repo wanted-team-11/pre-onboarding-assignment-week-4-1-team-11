@@ -4,14 +4,14 @@ import { useLocation } from "react-router-dom";
 import PageLayout from "../components/PageLayout";
 import { fetchUser, fetchUserByUuid } from "../services/api/userApi";
 import MergedColumns from "../components/MergedColumns";
-import { User, UserByUuid } from "../types";
+import { User, UserByUuid, FilteredUser } from "../types";
 import { fetchAccountsByUserId } from "../services/api/accountApi";
 
 function UserDetail() {
   const location = useLocation();
   const { pathname } = location;
   const userId = Number(pathname.split("/")[2]);
-  const [user, setUser] = useState<User[]>([]);
+  const [user, setUser] = useState<FilteredUser[]>([]);
   const [form] = Form.useForm();
   const [accountNum, setAccountNum] = useState(0);
   const [userByUuid, setUserByUuid] = useState<UserByUuid[]>([]);
