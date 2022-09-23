@@ -1,40 +1,51 @@
-import { useState, useEffect } from "react";
-import { RefinedUserInfo } from "../types";
-import { getUsersWithMoreInfo } from "../services/api";
+import { useEffect } from "react";
+import { getRefinedUserInfoThunk } from "../store/user-list.reducer";
+import { useAppDispatch, useAppSelector } from "../store";
+
 import UsersTable from "../components/UsersTable";
 import PaginationComponent from "../components/PaginationComponent";
+import SearchInput from "../components/SearchInput";
 
 const UserListPage = () => {
-  const [users, setUsers] = useState<RefinedUserInfo[]>([]);
+  const dispatch = useAppDispatch();
 
-  const populateUsersData = async (pageNum: number) => {
-    const { usersWithMoreInfo, error } = await getUsersWithMoreInfo(pageNum);
-
-    if (error || usersWithMoreInfo === null) {
-      alert("사용자 목록을 받는데 실패했습니다. 다시 시도해주세요.");
-      return;
-    }
-
-    const keyedData = usersWithMoreInfo.map((info) => ({
-      ...info,
-      key: info.uuid,
-    }));
-
-    setUsers(keyedData);
-  };
+  const { userList, isLoading, isError } = useAppSelector(
+    (state) => state.userList
+  );
+  const users = userList.map((user) => ({
+    ...user,
+    key: user.uuid,
+  }));
 
   useEffect(() => {
-    populateUsersData(1);
+    (async () => {
+      dispatch(getRefinedUserInfoThunk({ pageNumber: 1 }));
+    })();
   }, []);
+
+  const onSearch = (searchWord: string) => {
+    dispatch(getRefinedUserInfoThunk({ userName: searchWord }));
+  };
+
+  const onPageClick = async (pageNumber: number) => {
+    dispatch(getRefinedUserInfoThunk({ pageNumber }));
+  };
+
+  if (isError) {
+    return <div>Oops, something went wrong...</div>;
+  }
 
   return (
     <>
-      {users.length !== 0 && (
+      {isLoading ? (
+        <div>loading...</div>
+      ) : (
         <>
+          <SearchInput onSearch={onSearch} />
           <UsersTable data={users} />
-          <PaginationComponent onPageClick={populateUsersData} />
         </>
       )}
+      <PaginationComponent onPageClick={onPageClick} />
     </>
   );
 };

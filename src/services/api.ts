@@ -1,11 +1,23 @@
 import { tokenStorage } from "../utils/storages";
 import { LoginResponse, RefinedUserInfo, Account, UserSetting } from "../types";
 
-export const getUsersWithMoreInfo = async (pageNumber: number = 1) => {
-  const { users, error } = await getUsers(pageNumber);
+export const getRefinedUserInfo = async ({
+  pageNumber,
+  limit,
+  userName,
+}: {
+  pageNumber?: number;
+  limit?: number;
+  userName?: string;
+}) => {
+  const { users, error, totalCount } = await getUsers(
+    pageNumber,
+    limit,
+    userName
+  );
 
   if (error || users === null) {
-    return { usersWithMoreInfo: null, error };
+    return { refinedUserInfo: null, error, totalCount: null };
   }
 
   const [accounts, settings] = await Promise.all([
@@ -13,7 +25,7 @@ export const getUsersWithMoreInfo = async (pageNumber: number = 1) => {
     getSettingsOfUsers(users),
   ]);
 
-  const usersWithMoreInfo: RefinedUserInfo[] = users.map((user) => ({
+  const refinedUserInfo: RefinedUserInfo[] = users.map((user) => ({
     ...user,
     accounts: accounts[user.id],
     account_count: accounts[user.id]?.length,
@@ -21,7 +33,7 @@ export const getUsersWithMoreInfo = async (pageNumber: number = 1) => {
     is_active: settings[user.uuid]?.is_active,
   }));
 
-  return { usersWithMoreInfo, error: null };
+  return { refinedUserInfo, error: null, totalCount };
 };
 
 export const getSettingsOfUsers = async (users: RefinedUserInfo[]) => {
@@ -124,8 +136,8 @@ export const getAccountsOfUser = async (userId: number) => {
   }
 };
 
-export const getUserTotalCount = async () => {
-  const { totalCount } = await getUsers();
+export const getUserTotalCount = async (userName?: string) => {
+  const { totalCount } = await getUsers(1, 10, userName);
   return totalCount;
 };
 

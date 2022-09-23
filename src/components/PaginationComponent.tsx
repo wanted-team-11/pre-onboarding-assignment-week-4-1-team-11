@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
 import { Pagination } from "antd";
-import { getUserTotalCount } from "../services/api";
+import { useAppSelector } from "../store";
 import styled from "styled-components";
 
 const PaginationComponent = ({
@@ -8,19 +7,12 @@ const PaginationComponent = ({
 }: {
   onPageClick: (pageNum: number) => Promise<void>;
 }) => {
-  const [pageCount, setPageCount] = useState(0);
-
-  useEffect(() => {
-    (async () => {
-      const totalCount = await getUserTotalCount();
-      totalCount && setPageCount(totalCount);
-    })();
-  });
+  const userCount = useAppSelector((state) => state.userList.userCount);
 
   return (
     <Container>
       <Padding />
-      <Pagination defaultCurrent={1} total={pageCount} onChange={onPageClick} />
+      <Pagination total={userCount} onChange={onPageClick} />
     </Container>
   );
 };
