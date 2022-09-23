@@ -3,10 +3,11 @@ import { Navigate } from "react-router-dom";
 import { LoginPage } from "../pages/auth";
 import PageNotFound from "../pages/error/PageNotFound";
 import AuthRoute from "./AuthRoute";
-import UserList from "../pages/admin/components/UserList";
 import AccountList from "../pages/admin/components/AccountList";
 import AdminPageLayout from "../pages/admin/components/AdminPageLayout";
 import UserDetail from "../pages/admin/components/UserDetail";
+import UserListPage from "../pages/admin/UserListPage";
+import SearchUserListPage from "../pages/admin/SearchUserListPage";
 
 export const PATH = {
   ROOT: "/",
@@ -15,6 +16,7 @@ export const PATH = {
   USER_LIST: (page?: string) => `/admin/user-list/${page || "1"}`,
   USER_DETAIL: (id: string) => `/admin/user-list/detail/${id}`,
   ACCOUNT_LIST: (page?: string) => `/admin/account-list/${page || "1"}`,
+  USER_LIST_SEARCH: (page?: string) => `/admin/user-list/search/${page || "1"}`,
 };
 
 const Router = () => {
@@ -38,11 +40,15 @@ const Router = () => {
             element={<Navigate to={PATH.USER_LIST()} replace />}
           />
           <Route element={<AdminPageLayout />}>
-            <Route path={PATH.USER_LIST(":page")} element={<UserList />} />
+            <Route path={PATH.USER_LIST(":page")} element={<UserListPage />} />
             <Route path={PATH.USER_DETAIL(":id")} element={<UserDetail />} />
             <Route
               path={PATH.ACCOUNT_LIST(":page")}
               element={<AccountList />}
+            />
+            <Route
+              path={PATH.USER_LIST_SEARCH(":page")}
+              element={<SearchUserListPage />}
             />
           </Route>
         </Route>

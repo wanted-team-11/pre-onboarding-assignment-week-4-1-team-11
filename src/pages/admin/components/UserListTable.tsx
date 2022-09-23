@@ -1,9 +1,7 @@
-import { Button, Pagination, Table } from "antd";
+import { Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { PATH } from "../../../router/Router";
-import { useUserListQuery } from "../../../services/hooks/useUserListQuery";
 import { UserListProps } from "../../../types/user";
 
 const columns: ColumnsType<UserListProps> = [
@@ -92,31 +90,22 @@ const columns: ColumnsType<UserListProps> = [
   },
 ];
 
-const UserList = () => {
-  const { page = "1" } = useParams();
-  const { userList, totalUserCount = "0", isLoading } = useUserListQuery(page);
-  const navigate = useNavigate();
+const UserListTable = ({
+  userList,
+  isLoading,
+}: {
+  userList: UserListProps[] | undefined;
+  isLoading: boolean;
+}) => {
   return (
-    <>
-      <Table
-        columns={columns}
-        dataSource={userList}
-        loading={isLoading}
-        rowKey={(row) => row.id}
-        pagination={false}
-      />
-      {!isLoading && (
-        <Pagination
-          total={parseInt(totalUserCount)}
-          pageSize={20}
-          current={parseInt(page)}
-          onChange={(page) => {
-            navigate(PATH.USER_LIST(page + ""));
-          }}
-        />
-      )}
-    </>
+    <Table
+      columns={columns}
+      dataSource={userList}
+      loading={isLoading}
+      rowKey={(row) => row.id}
+      pagination={false}
+    />
   );
 };
 
-export default UserList;
+export default UserListTable;
