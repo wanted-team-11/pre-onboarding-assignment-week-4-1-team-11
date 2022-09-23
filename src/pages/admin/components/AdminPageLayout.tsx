@@ -2,15 +2,30 @@ import { LineChartOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Divider, Popconfirm } from "antd";
 import { Layout, Menu } from "antd";
 import { useState } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { StorageKey, tokenStorage } from "../../../storage";
 import "./index.css";
 
 const { Header, Content, Footer, Sider } = Layout;
 
+const menuItems = [
+  {
+    key: "user-list",
+    icon: <UserOutlined />,
+    label: <Link to="/admin/user-list">사용자 목록</Link>,
+  },
+  {
+    key: "account-list",
+    icon: <LineChartOutlined />,
+    label: <Link to="/admin/account-list">계좌목록</Link>,
+  },
+];
+
 const AdminPageLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const { pathname } = useLocation();
   const navigate = useNavigate();
+  const selectedMenu = menuItems.find(({ key }) => pathname.includes(key))?.key;
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -20,29 +35,27 @@ const AdminPageLayout = () => {
         onCollapse={(value) => setCollapsed(value)}
       >
         <div className="logo" />
-        <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
-          <Menu.Item key="1" icon={<UserOutlined />}>
-            <Link to="/admin/user-list">사용자 목록</Link>
-          </Menu.Item>
-          <Menu.Item key="2" icon={<LineChartOutlined />}>
-            <Link to="/admin/account-list">계좌 목록</Link>
-          </Menu.Item>
-          <Divider style={{ backgroundColor: "#424242", height: "1px" }} />
-          <Popconfirm
-            placement="top"
-            title={"로그아웃 하시겠습니까?"}
-            onConfirm={() => {
-              tokenStorage.remove(StorageKey.ACCESS_TOKEN);
-              navigate("/");
-            }}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button style={{ width: "100%" }} type="link" danger>
-              로그아웃
-            </Button>
-          </Popconfirm>
-        </Menu>
+        <Menu
+          theme="dark"
+          defaultSelectedKeys={[selectedMenu || "user-list"]}
+          mode="inline"
+          items={menuItems}
+        />
+        <Divider style={{ backgroundColor: "#424242", height: "1px" }} />
+        <Popconfirm
+          placement="top"
+          title={"로그아웃 하시겠습니까?"}
+          onConfirm={() => {
+            tokenStorage.remove(StorageKey.ACCESS_TOKEN);
+            navigate("/");
+          }}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button style={{ width: "100%" }} type="link" danger>
+            로그아웃
+          </Button>
+        </Popconfirm>
       </Sider>
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }} />

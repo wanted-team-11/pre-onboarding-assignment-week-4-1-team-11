@@ -1,6 +1,5 @@
-import { Spin, Switch, Table, Form } from "antd";
+import { Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useUserListQuery } from "../../../services/hooks/useUserListQuery";
 import { UserListProps } from "../../../types/user";
@@ -92,7 +91,14 @@ const columns: ColumnsType<UserListProps> = [
 const UserList = () => {
   const { userList, isLoading } = useUserListQuery();
 
-  return <Table columns={columns} dataSource={userList} loading={isLoading} />;
+  return (
+    <Table
+      columns={columns}
+      dataSource={userList}
+      loading={isLoading}
+      rowKey={(row) => row.id}
+    />
+  );
 };
 
 export default UserList;

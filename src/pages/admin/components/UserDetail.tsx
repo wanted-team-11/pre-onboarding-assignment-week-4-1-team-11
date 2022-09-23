@@ -52,7 +52,7 @@ const UserDetail = () => {
               xxl: 3,
             }}
             dataSource={generateUserData(userDetail?.user)}
-            renderItem={(item) => (
+            renderItem={(item, i) => (
               <List.Item>
                 <h3>{item.title}</h3>
                 <span>{item.content}</span>
@@ -72,7 +72,7 @@ const UserDetail = () => {
               xxl: 3,
             }}
             dataSource={generateAccountData(userDetail?.accounts)}
-            renderItem={(item) => (
+            renderItem={(item, i) => (
               <List.Item>
                 <h3>{item.title}</h3>
                 <span>{item.content}</span>

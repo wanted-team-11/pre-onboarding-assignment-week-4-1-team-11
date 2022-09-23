@@ -63,7 +63,12 @@ const AccountList = () => {
   const { accountList, isLoading } = useAccountsQuery();
 
   return (
-    <Table loading={isLoading} columns={columns} dataSource={accountList} />
+    <Table
+      loading={isLoading}
+      columns={columns}
+      dataSource={accountList}
+      rowKey={(row) => row.uuid}
+    />
   );
 };
 

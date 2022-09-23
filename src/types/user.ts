@@ -34,6 +34,7 @@ export type UserDetailProps = { user: FetchUsersProps } & {
 
 export type AccountListProps = {
   id: number;
+  uuid: string;
   user_id: number;
   user_name: string;
   broker_name: string;
