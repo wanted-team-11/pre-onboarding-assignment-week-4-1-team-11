@@ -31,3 +31,16 @@ export type UserDetailProps = { user: FetchUsersProps } & {
     updated_at: string;
   }[];
 };
+
+export type AccountListProps = {
+  id: number;
+  user_id: number;
+  user_name: string;
+  broker_name: string;
+  number: string;
+  name: string;
+  assets: string;
+  payments: string;
+  is_active: boolean;
+  created_at: string;
+};
