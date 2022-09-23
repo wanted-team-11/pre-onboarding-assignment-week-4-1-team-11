@@ -8,14 +8,6 @@ const baseApi = axios.create({
 
 const callApi = setupInterceptorsTo(baseApi);
 
-const LoginApi = async (email: string, password: string) => {
-  const res = await baseApi.post("/login", {
-    email: email,
-    password: password,
-  });
-  return res;
-};
-
 export const UsersApi = async () => {
   const res = await callApi.get("/users");
   return res;
@@ -26,6 +18,32 @@ export const AccountApi = async () => {
   return res;
 };
 
-export const SignApi = {
-  LoginApi: (email: string, password: string) => LoginApi(email, password),
+export const enactUserList = async () => {
+  const { data: users } = await callApi.get("/users");
+  const { data: accounts } = await callApi.get("/accounts");
+  const { data: userSettings } = await callApi.get("/userSetting");
+
+  const userList = users.map((user: { uuid: string; id: number }) => {
+    return {
+      ...(userSettings.find(
+        (setting: { uuid: string }) => setting.uuid === user.uuid
+      ) || {
+        allow_marketing_push: true,
+        is_active: true,
+        is_staff: true,
+      }),
+      account_count: accounts.filter(
+        (account: { user_id: number; account: string }) =>
+          account.user_id === user.id
+      ).length,
+      ...user,
+    };
+  });
+
+  return userList;
+};
+
+export const UserSettingApi = async () => {
+  const res = await callApi.get("/usersetting");
+  return res;
 };

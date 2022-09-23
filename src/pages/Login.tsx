@@ -4,17 +4,14 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { UserOutlined, LoginOutlined } from "@ant-design/icons";
 import { ReactComponent as MainLogo } from "../assets/icons/december.svg";
-import SiderLogo from "../assets/icons/december.svg";
+
 const Login = () => {
-  // 이메일, 비밀번호, 비밀번호 확인
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  //오류메시지 상태저장
   const [emailMessage, setEmailMessage] = useState<string>("");
   const [passwordMessage, setPasswordMessage] = useState<string>("");
 
-  // 유효성 검사
   const [isEmail, setIsEmail] = useState<boolean>(false);
   const [isPassword, setIsPassword] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -46,31 +43,12 @@ const Login = () => {
           );
       } catch (err: any) {
         console.error(err);
-        alert(`${err.response.data.message}`);
+        alert(`${err.response.data}`);
       }
     },
     [email, navigate, password]
   );
 
-  //   const onSubmit = () => {
-  //     querySubmit.mutate(email);
-  //   };
-
-  //   const querySubmit = useMutation(() => SignApi.LoginApi(email, password), {
-  //     onSuccess: (res: {
-  //       status: number;
-  //       data: { accessToken: string; user: { email: string } };
-  //     }) => {
-  //       localStorage.setItem("token", res.data.accessToken);
-  //       localStorage.setItem("useremail", res.data.user.email);
-  //       navigate("/account_list");
-  //     },
-  //     onError: (err: any) => {
-  //       alert(`${err.response.data.message}`);
-  //     },
-  //   });
-
-  // 이메일
   const onChangeEmail = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const emailRegex =
@@ -89,7 +67,6 @@ const Login = () => {
     []
   );
 
-  // 비밀번호
   const onChangePassword = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const passwordRegex = /^(?=.*[a-zA-Z]).{6,50}$/;

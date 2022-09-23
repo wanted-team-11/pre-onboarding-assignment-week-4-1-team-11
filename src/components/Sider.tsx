@@ -7,14 +7,11 @@ import {
 } from "@ant-design/icons";
 import { Menu, Layout } from "antd";
 import type { MenuProps } from "antd";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
-import SiderLogo from "../assets/icons/december.svg";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Sider() {
   const [collapsed, setCollapsed] = useState(false);
-  const navigate = useNavigate();
 
   type ItemTypes = Required<MenuProps>["items"][number];
 
@@ -33,12 +30,35 @@ export default function Sider() {
   }
 
   const items: ItemTypes[] = [
-    getItem("계좌 목록", "account_list", <AccountBookOutlined />, [
-      getItem("투자 계좌", "account_detail", <StockOutlined />),
+    
+    getItem("계좌 목록", "0", <AccountBookOutlined />, [
+      getItem("투자 계좌", "1", <StockOutlined />),
     ]),
-    getItem("사용자", "user_list", <UserOutlined />),
-    getItem("로그아웃", "logout", <LogoutOutlined />),
+    getItem("사용자", "2", <UserOutlined />),
+    getItem("로그아웃", "3", <LogoutOutlined />),
   ];
+  const navigate = useNavigate();
+  const [selectedKey, setSelectedKey] = useState("1");
+
+  const logOut = () => {
+    localStorage.clear();
+    window.location.replace("/");
+  };
+
+  const onClickMenu: MenuProps["onClick"] = (e) => {
+    setSelectedKey(e.key);
+    if (e.key === "1") navigate("/account_list");
+    if (e.key === "2") navigate("/user_list");
+    if (e.key === "3") logOut();
+  };
+
+  const location = useLocation();
+  const { pathname } = location;
+
+  useEffect(() => {
+    if (pathname === "/account_list") setSelectedKey("1");
+    if (pathname === "/user_list") setSelectedKey("2");
+  }, [pathname]);
 
   return (
     <SiderContainer
@@ -51,6 +71,8 @@ export default function Sider() {
         mode="inline"
         defaultSelectedKeys={["1"]}
         items={items}
+        onClick={onClickMenu}
+        selectedKeys={[selectedKey]}
       />
     </SiderContainer>
   );

@@ -2,6 +2,7 @@ import React from "react";
 import AntdLayout from "../components/AntdLayout";
 import { useQuery } from "react-query";
 import { AccountApi } from "../api/callApi";
+import AccountListTable from "../components/AccountListTable";
 
 export default function AccountList() {
   const account_query = useQuery(["account_list"], () => AccountApi(), {
@@ -14,7 +15,7 @@ export default function AccountList() {
   }
   return (
     <AntdLayout>
-      <div>AccountList</div>
+      <AccountListTable />
     </AntdLayout>
   );
 }
