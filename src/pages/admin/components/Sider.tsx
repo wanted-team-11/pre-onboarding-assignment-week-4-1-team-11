@@ -2,7 +2,7 @@ import { LineChartOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Divider, Popconfirm } from "antd";
 import { Layout, Menu } from "antd";
 import { useState } from "react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { PATH } from "../../../router/Router";
 import { StorageKey, tokenStorage } from "../../../storage";
 
