@@ -13,7 +13,7 @@ const useAuth = (inputProps: InputProps) => {
       password,
     })
       .then(() => {
-        navigate("/accounts");
+        navigate("/accounts?page=1");
       })
       .catch((error) => {
         if (error instanceof AxiosError) {

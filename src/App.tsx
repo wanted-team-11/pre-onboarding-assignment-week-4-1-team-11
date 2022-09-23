@@ -14,7 +14,7 @@ function App() {
 
   useEffect(() => {
     const token = storage.get("TOKEN");
-    if (token !== null && pathname === "/") navigate("/accounts");
+    if (token !== null && pathname === "/") navigate("/accounts?page=1");
     else if (token === null) navigate("/");
   }, [pathname]);
 

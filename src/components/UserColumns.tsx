@@ -1,39 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FilteredUser, Columns } from "../types";
+import { maskingPhoneNumber, maskingName } from "../utils/masking";
+import { convertUserInfo } from "../utils/convert";
 
-function MergedColumns(page: string) {
-  const maskingPhoneNumber = (phoneNumber: string) => {
-    if (phoneNumber)
-      return (
-        phoneNumber.substring(0, 3) +
-        "-****-" +
-        phoneNumber.substring(phoneNumber.length - 4, phoneNumber.length)
-      );
-  };
-
-  const maskingName = (name: string) => {
-    if (name === "관리자") {
-      return "관리자";
-    } else {
-      return (
-        name.substring(0, 1) +
-        "*".repeat(name.length - 2) +
-        name.substring(name.length - 1, name.length)
-      );
-    }
-  };
-
-  const checkUserInfo = (info: boolean) => {
-    if (info === undefined) {
-      return "-";
-    } else if (info) {
-      return "O";
-    } else {
-      return "X";
-    }
-  };
-
+function UserColumns(page: string) {
   const columns: Columns[] = [
     {
       title: "보유중인 계좌수",
@@ -100,7 +71,7 @@ function MergedColumns(page: string) {
       width: "10%",
       editable: true,
       render: (allowMarketingPush: boolean) => {
-        return <div>{checkUserInfo(allowMarketingPush)}</div>;
+        return <div>{convertUserInfo(allowMarketingPush)}</div>;
       },
     },
     {
@@ -109,7 +80,7 @@ function MergedColumns(page: string) {
       width: "10%",
       editable: true,
       render: (isActive: boolean) => {
-        return <div>{checkUserInfo(isActive)}</div>;
+        return <div>{convertUserInfo(isActive)}</div>;
       },
     },
     {
@@ -164,7 +135,7 @@ function MergedColumns(page: string) {
     } else return "text";
   };
 
-  const mergedColumns = columns.map((col) => {
+  const userColumns = columns.map((col) => {
     return {
       ...col,
       onCell: (record: FilteredUser) => ({
@@ -176,7 +147,7 @@ function MergedColumns(page: string) {
     };
   });
 
-  return mergedColumns;
+  return userColumns;
 }
 
-export default MergedColumns;
+export default UserColumns;

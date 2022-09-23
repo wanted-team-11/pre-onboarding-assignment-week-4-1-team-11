@@ -3,7 +3,7 @@ import { Form, Table } from "antd";
 import { useLocation } from "react-router-dom";
 import PageLayout from "../components/PageLayout";
 import { fetchUser, fetchUserByUuid } from "../services/api/userApi";
-import MergedColumns from "../components/MergedColumns";
+import UserColumns from "../components/UserColumns";
 import { User, UserByUuid, FilteredUser } from "../types";
 import { fetchAccountsByUserId } from "../services/api/accountApi";
 
@@ -17,7 +17,7 @@ function UserDetail() {
   const [userByUuid, setUserByUuid] = useState<UserByUuid[]>([]);
   const uuid = user[0]?.uuid || "undefined";
 
-  const mergedColumns = MergedColumns("detail");
+  const userColumns = UserColumns("detail");
 
   useEffect(() => {
     fetchAccountsByUserId(userId)
@@ -67,7 +67,7 @@ function UserDetail() {
         <Table
           bordered
           dataSource={user}
-          columns={mergedColumns}
+          columns={userColumns}
           rowClassName="editable-row"
           pagination={false}
         />

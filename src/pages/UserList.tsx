@@ -2,14 +2,14 @@ import React from "react";
 import { Form, Pagination, Table } from "antd";
 import { useNavigate } from "react-router-dom";
 import PageLayout from "../components/PageLayout";
-import MergedColumns from "../components/MergedColumns";
+import UserColumns from "../components/UserColumns";
 import useUser from "../hooks/useUser";
 
 const UserList = () => {
   const [form] = Form.useForm();
   const { totalCount, user } = useUser();
 
-  const mergedColumns = MergedColumns("list");
+  const userColumns = UserColumns("list");
   const navigate = useNavigate();
 
   return (
@@ -18,7 +18,7 @@ const UserList = () => {
         <Table
           bordered
           dataSource={user}
-          columns={mergedColumns}
+          columns={userColumns}
           rowClassName="editable-row"
           pagination={false}
         />

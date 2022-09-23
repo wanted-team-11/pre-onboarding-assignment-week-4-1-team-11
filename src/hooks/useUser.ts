@@ -45,17 +45,9 @@ const useUser = () => {
       for (let i = 0; i < response.data.length; i++) {
         await fetchUserByUuid(response.data[i].uuid)
           .then((res) => {
-            if (response.data[i].allow_marketing_push) {
-              response.data[i].allow_marketing_push =
-                res.data[0].allow_marketing_push;
-            } else {
-              response.data[i].allow_marketing_push = undefined;
-            }
-            if (response.data[i].is_active) {
-              response.data[i].is_active = res.data[0].is_active;
-            } else {
-              response.data[i].is_active = undefined;
-            }
+            response.data[i].allow_marketing_push =
+              res.data[0].allow_marketing_push;
+            response.data[i].is_active = res.data[0].is_active;
           })
           .catch((err) => {
             console.error(err);

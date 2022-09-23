@@ -38,7 +38,7 @@ function Sider() {
 
   const onClickMenu: MenuProps["onClick"] = (e) => {
     setSelectedKey(e.key);
-    if (e.key === "1") navigate("/accounts");
+    if (e.key === "1") navigate("/accounts?page=1");
     if (e.key === "2") navigate("/user?page=1");
     if (e.key === "3") logOut();
   };
