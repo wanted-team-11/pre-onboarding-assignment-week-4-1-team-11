@@ -1,3 +1,5 @@
+import brokers from "../static/brokers.json";
+
 const useRefine = () => {
   const refineName = (name?: string) => {
     return name
@@ -27,7 +29,11 @@ const useRefine = () => {
       : "";
   };
 
-  return { refineName, refineDate, refineTel };
+  const refineBrokerId = (id: keyof typeof brokers) => {
+    return brokers[id];
+  };
+
+  return { refineName, refineDate, refineTel, refineBrokerId };
 };
 
 export default useRefine;

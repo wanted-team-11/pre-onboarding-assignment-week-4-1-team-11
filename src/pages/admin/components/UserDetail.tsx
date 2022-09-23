@@ -1,21 +1,39 @@
-import { Avatar, Card, List, Spin } from "antd";
+import { Avatar, Card, Divider, List, Spin } from "antd";
 import { useParams } from "react-router-dom";
 import { useUserDetailQuery } from "../../../services/hooks/useUserDetailQuery";
-import { FetchUsersProps } from "../../../services/models/user";
+import { UserDetailProps } from "../../../types/user";
 
 const UserDetail = () => {
   const { id } = useParams();
   const { userDetail, isLoading } = useUserDetailQuery(id || "");
 
-  const generateData = (data?: FetchUsersProps) => {
-    if (data)
-      return Object.entries(data)
-        .filter(([key]) => key !== "id" && key !== "uuid" && key !== "photo")
-        .map(([key, value]) => ({
-          title: key,
-          content: value,
-        }));
-  };
+  const generateUserData = (data?: UserDetailProps["user"]) =>
+    data &&
+    Object.entries(data)
+      .filter(([key]) => key !== "id" && key !== "uuid" && key !== "photo")
+      .map(([key, value]) => ({
+        title: key,
+        content: value,
+      }));
+
+  const generateAccountData = (data?: UserDetailProps["accounts"]) =>
+    data &&
+    data.map(
+      ({
+        broker_id,
+        status,
+        number,
+        name,
+        assets,
+        payments,
+        is_active,
+        created_at,
+        updated_at,
+      }) => ({
+        title: name,
+        content: broker_id,
+      })
+    );
 
   return (
     <>
@@ -23,7 +41,7 @@ const UserDetail = () => {
         <Spin />
       ) : (
         <div style={{ padding: "50px" }}>
-          <Avatar size={150} src={userDetail?.photo || ""} />
+          <Avatar size={150} src={userDetail?.user?.photo || ""} />
           <List
             grid={{
               gutter: 16,
@@ -34,7 +52,26 @@ const UserDetail = () => {
               xl: 6,
               xxl: 3,
             }}
-            dataSource={generateData(userDetail)}
+            dataSource={generateUserData(userDetail?.user)}
+            renderItem={(item) => (
+              <List.Item>
+                <h3>{item.title}</h3>
+                <span>{item.content}</span>
+              </List.Item>
+            )}
+          />
+          <Divider />
+          <List
+            grid={{
+              gutter: 16,
+              xs: 1,
+              sm: 2,
+              md: 4,
+              lg: 4,
+              xl: 6,
+              xxl: 3,
+            }}
+            dataSource={generateAccountData(userDetail?.accounts)}
             renderItem={(item) => (
               <List.Item>
                 <h3>{item.title}</h3>
@@ -43,7 +80,7 @@ const UserDetail = () => {
             )}
           />
         </div>
-      )}{" "}
+      )}
     </>
   );
 };

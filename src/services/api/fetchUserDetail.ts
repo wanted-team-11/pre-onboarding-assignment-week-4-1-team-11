@@ -1,9 +1,10 @@
 import axios from "axios";
 import { tokenStorage, StorageKey } from "../../storage";
-import { FetchUsersProps } from "../models/user";
+import { FetchAccountProps, FetchUsersProps } from "../models/user";
 
 const FETCH_URL = {
   USERS: (userId: string) => `/users/${userId}`,
+  ACCOUNTS: (userId: string) => `/accounts?user_id=${userId}`,
 };
 
 const fetchUserDetail = async (userId: string) => {
@@ -19,7 +20,11 @@ const fetchUserDetail = async (userId: string) => {
     FETCH_URL.USERS(userId)
   );
 
-  return user;
+  const { data: accounts } = await instance.get<FetchAccountProps[]>(
+    FETCH_URL.ACCOUNTS(userId)
+  );
+
+  return { user, accounts };
 };
 
 export { fetchUserDetail };

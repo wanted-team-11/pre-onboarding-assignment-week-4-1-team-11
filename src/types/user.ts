@@ -1,23 +1,33 @@
-import {
-  FetchUserSettingProps,
-  FetchUsersProps,
-} from "../services/models/user";
+import { FetchUsersProps } from "../services/models/user";
 
-export type UserListProps = Pick<
-  FetchUsersProps,
-  | "id"
-  | "name"
-  | "email"
-  | "gender_origin"
-  | "birth_date"
-  | "phone_number"
-  | "last_login"
-  | "created_at"
-> &
-  Pick<
-    FetchUserSettingProps,
-    "allow_marketing_push" | "is_active" | "is_staff"
-  > & { account_count: number };
+export type UserListProps = {
+  id: number;
+  name: string;
+  email: string;
+  gender_origin: number;
+  birth_date: string;
+  phone_number: string;
+  last_login: string;
+  created_at: string;
+  allow_marketing_push: boolean;
+  is_active: boolean;
+  is_staff: boolean;
+  account_count: number;
+};
 
-export type UserDetailProps = UserListProps &
-  Pick<FetchUsersProps, "photo" | "age" | "address" | "detail_address">;
+export type UserDetailProps = { user: FetchUsersProps } & {
+  accounts: {
+    id: number;
+    user_id: number;
+    uuid: string;
+    broker_id: string;
+    status: number;
+    number: string;
+    name: string;
+    assets: string;
+    payments: string;
+    is_active: boolean;
+    created_at: string;
+    updated_at: string;
+  }[];
+};

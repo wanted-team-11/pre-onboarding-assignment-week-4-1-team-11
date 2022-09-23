@@ -1,24 +1,30 @@
 import { useQuery } from "@tanstack/react-query";
 import { Modal } from "antd";
+import { UserDetailProps } from "../../types/user";
 import { fetchUserDetail } from "../api/fetchUserDetail";
-import { FetchUsersProps } from "../models/user";
 import useRefine from "./useRefine";
 
 const useUserDetailQuery = (userId: string) => {
-  const { refineName, refineDate, refineTel } = useRefine();
+  const { refineName, refineDate, refineTel, refineBrokerId } = useRefine();
 
   const { data: userDetail, ...queryResult } = useQuery(
     ["getUserDetail", userId],
     () => fetchUserDetail(userId),
     {
-      select: (userDetail): FetchUsersProps => {
+      select: ({ user, accounts }): UserDetailProps => {
         return {
-          ...userDetail,
-          name: refineName(userDetail.name),
-          birth_date: refineDate(userDetail.birth_date),
-          phone_number: refineTel(userDetail.phone_number),
-          last_login: refineDate(userDetail.last_login),
-          created_at: refineDate(userDetail.created_at),
+          user: {
+            ...user,
+            name: refineName(user.name),
+            birth_date: refineDate(user.birth_date),
+            phone_number: refineTel(user.phone_number),
+            last_login: refineDate(user.last_login),
+            created_at: refineDate(user.created_at),
+          },
+          accounts: accounts.map((account) => ({
+            ...account,
+            broker_id: refineBrokerId(account.broker_id),
+          })),
         };
       },
       onError: (err) => {
