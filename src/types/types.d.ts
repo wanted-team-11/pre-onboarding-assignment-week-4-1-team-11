@@ -66,3 +66,14 @@ export interface UserList {
   is_active: boolean | undefined;
   created_at: string | undefined;
 }
+export interface AccountList {
+  user_name: string | undefined;
+  broker_name: string;
+  number: string;
+  status: number;
+  name: string;
+  assets: string;
+  payments: string;
+  is_active: boolean;
+  created_at: string;
+}

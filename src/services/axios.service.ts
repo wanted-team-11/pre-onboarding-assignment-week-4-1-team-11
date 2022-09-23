@@ -76,3 +76,35 @@ export const getUserList = async () => {
   });
   return userList;
 };
+export interface AccountList {
+  user_name: string | undefined;
+  broker_name: string;
+  number: string;
+  status: number;
+  name: string;
+  assets: string;
+  payments: string;
+  is_active: boolean;
+  created_at: string;
+}
+export const getAccountList = async () => {
+  const { data: users } = await AuthAxios.get<User[]>("/users");
+  // const { data: userSettings } = await AuthAxios.get<UserSetting[]>(
+  //   "/userSetting"
+  // );
+  const { data: accounts } = await AuthAxios.get<Accounts[]>("/accounts");
+  const accountList = accounts.map<AccountList>((account) => {
+    return {
+      user_name: users.find((user) => user.id === account.user_id)?.name,
+      broker_name: account.broker_id,
+      number: account.number,
+      status: account.status,
+      name: account.name,
+      assets: account.assets,
+      payments: account.payments,
+      is_active: account.is_active,
+      created_at: account.created_at,
+    };
+  });
+  return accountList;
+};
