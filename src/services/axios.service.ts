@@ -1,5 +1,7 @@
+import { message } from "antd";
 import axios from "axios";
 import {
+  AccountList,
   Accounts,
   LoginInfo,
   ResponseLogin,
@@ -29,9 +31,8 @@ export const loginAxios = async (loginInfo: LoginInfo) => {
     storage.set({ key: "TOKEN", value: response.data.accessToken });
     storage.set({ key: "USER", value: response.data.user.email });
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      alert(error.message);
-    } else alert("other error");
+    if (axios.isAxiosError(error)) message.warn(error.message);
+    else message.error("404 Error");
   }
 };
 
@@ -56,11 +57,16 @@ export const getUserList = async () => {
   const { data: accounts } = await AuthAxios.get<Accounts[]>("/accounts");
   const userList = users.map<UserList>((user) => {
     return {
+      key: user.uuid,
+      id: user.id,
       name: user.name,
       email: user.email,
+      gender_origin: user.gender_origin,
       birth_date: user.birth_date,
       phone_number: user.phone_number,
       last_login: user.last_login,
+      address: user.address,
+      detail_address: user.detail_address,
       created_at: user.created_at,
       account_count: accounts.reduce((acc, curr) => {
         if (curr.user_id === user.id) acc += 1;
@@ -76,17 +82,7 @@ export const getUserList = async () => {
   });
   return userList;
 };
-export interface AccountList {
-  user_name: string | undefined;
-  broker_name: string;
-  number: string;
-  status: number;
-  name: string;
-  assets: string;
-  payments: string;
-  is_active: boolean;
-  created_at: string;
-}
+
 export const getAccountList = async () => {
   const { data: users } = await AuthAxios.get<User[]>("/users");
   // const { data: userSettings } = await AuthAxios.get<UserSetting[]>(
@@ -95,8 +91,10 @@ export const getAccountList = async () => {
   const { data: accounts } = await AuthAxios.get<Accounts[]>("/accounts");
   const accountList = accounts.map<AccountList>((account) => {
     return {
+      key: account.uuid,
+      user_id: account.user_id,
       user_name: users.find((user) => user.id === account.user_id)?.name,
-      broker_name: account.broker_id,
+      broker_id: account.broker_id,
       number: account.number,
       status: account.status,
       name: account.name,
@@ -107,4 +105,20 @@ export const getAccountList = async () => {
     };
   });
   return accountList;
+};
+
+export const getUserDetail = async (params: string) => {
+  const { data: user } = await AuthAxios.get<User>(`/users?id=${params}`);
+  const { data: userSetting } = await AuthAxios.get<UserSetting>(
+    `/userSetting?uuid=${user.uuid}`
+  );
+  const { data: accounts } = await AuthAxios.get<Accounts[]>(
+    `/accounts?user_id=${params}`
+  );
+  const userDetail = {
+    ...user,
+    ...userSetting,
+    accounts: [...accounts],
+  };
+  return userDetail;
 };
