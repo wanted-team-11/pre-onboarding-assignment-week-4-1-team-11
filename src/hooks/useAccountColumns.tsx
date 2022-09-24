@@ -2,13 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FilteredAccounts, AccountsColumns } from "../types";
 import { convertStatus, convertBroker } from "../utils/convert";
+import { maskingAccountNumber } from "../utils/masking";
 
 const useAccountColumns = () => {
-  // dataIndex: "operation",
-  //     render: (_: any, record: FilteredUser) => {
-  //       const name = record.name || "관리자";
-  //       return <Link to={`/user/${record!.id}`}>{maskingName(name)}</Link>;
-  //     },
   const columns: AccountsColumns[] = [
     {
       title: "고객명",
@@ -35,6 +31,9 @@ const useAccountColumns = () => {
       dataIndex: "number",
       width: "10%",
       editable: true,
+      render: (accountNumber: string) => {
+        return <>{maskingAccountNumber(accountNumber)}</>;
+      },
     },
     {
       title: "계좌상태",

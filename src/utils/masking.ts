@@ -19,4 +19,12 @@ const maskingPhoneNumber = (phoneNumber: string) => {
     );
 };
 
-export { maskingName, maskingPhoneNumber };
+const maskingAccountNumber = (acccountNumber: string) => {
+  return (
+    acccountNumber.substring(0, 2) +
+    "*".repeat(acccountNumber.length - 4) +
+    acccountNumber.substring(acccountNumber.length - 2, acccountNumber.length)
+  );
+};
+
+export { maskingName, maskingPhoneNumber, maskingAccountNumber };
