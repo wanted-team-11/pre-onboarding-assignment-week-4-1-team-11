@@ -1,10 +1,12 @@
-import { Popconfirm, Table } from "antd";
+import { Drawer, Popconfirm, Table, Input, Button, Modal } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { Link } from "react-router-dom";
 import { PATH } from "../../../router/Router";
 import { UserProps } from "../../../types/user";
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useDeleteQuery } from "../../../services/hooks/useDeleteUser";
+import { SetStateAction, useState } from "react";
+import { useChangeUserName } from "../../../services/hooks/useChangeUserName";
 
 const UserListTable = ({
   userList,
@@ -14,6 +16,37 @@ const UserListTable = ({
   isLoading: boolean;
 }) => {
   const { deleteUserQuery } = useDeleteQuery();
+  const [open, setOpen] = useState(false);
+  const [currentRecordId, setCurrentReccordId] = useState(-1);
+
+  const openDrawer = (recordId: number) => {
+    setCurrentReccordId(recordId);
+    setOpen(true);
+  };
+
+  const closeDrawer = () => {
+    setOpen(false);
+  };
+
+  const { reviseUserQuery } = useChangeUserName(closeDrawer);
+
+  const [newName, setNewName] = useState<string>();
+
+  const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.currentTarget;
+    setNewName(value);
+  };
+
+  const onClickConfirm = () => {
+    if (!newName) {
+      Modal.error({ content: "새 이름을 입력해주세요." });
+      return;
+    }
+    const newNamePayload = {
+      name: newName,
+    };
+    reviseUserQuery({ id: currentRecordId, newNamePayload });
+  };
 
   const columns: ColumnsType<UserProps> = [
     {
@@ -117,16 +150,43 @@ const UserListTable = ({
         </Popconfirm>
       ),
     },
+    {
+      title: "고객명 수정",
+      dataIndex: "amend",
+      key: "amend",
+      render: (_, record) => (
+        <>
+          <EditOutlined
+            onClick={() => {
+              openDrawer(record.id);
+            }}
+          />
+        </>
+      ),
+    },
   ];
 
   return (
-    <Table
-      columns={columns}
-      dataSource={userList}
-      loading={isLoading}
-      rowKey={(row) => row.id}
-      pagination={false}
-    />
+    <>
+      <Table
+        columns={columns}
+        dataSource={userList}
+        loading={isLoading}
+        rowKey={(row) => row.id}
+        pagination={false}
+      />
+      <Drawer
+        title="계좌명 변경"
+        placement="right"
+        onClose={closeDrawer}
+        open={open}
+      >
+        <Input type="text" value={newName} onChange={onInputValueChange} />
+        <Button type="primary" onClick={onClickConfirm}>
+          확인
+        </Button>
+      </Drawer>
+    </>
   );
 };
 
