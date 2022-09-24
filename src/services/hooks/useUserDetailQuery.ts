@@ -2,10 +2,18 @@ import { useQuery } from "@tanstack/react-query";
 import { Modal } from "antd";
 import { UserDetailProps } from "../../types/user";
 import { fetchUserDetail } from "../api/fetchUserDetail";
+import { BrokerFormatType } from "../models/statics";
 import useRefine from "./useRefine";
 
 const useUserDetailQuery = (userId: string) => {
-  const { refineName, refineDate, refineTel, refineBrokerId } = useRefine();
+  const {
+    refineName,
+    refineDate,
+    refineTel,
+    refineBrokerId,
+    refineAccountNumberFormat,
+    refineAccountNumberMask,
+  } = useRefine();
 
   const { data: userDetail, ...queryResult } = useQuery(
     ["getUserDetail", userId],
@@ -29,6 +37,10 @@ const useUserDetailQuery = (userId: string) => {
           },
           accounts: accounts.map((account) => ({
             name: account.name,
+            number: refineAccountNumberFormat(
+              refineAccountNumberMask(account.number),
+              account.broker_id as BrokerFormatType
+            ),
             broker_name: refineBrokerId(account.broker_id),
           })),
         };

@@ -1,4 +1,4 @@
-import { Popconfirm, Table } from "antd";
+import { Popconfirm, Table, Tag } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { Link } from "react-router-dom";
 import { PATH } from "../../../router/Router";
@@ -38,6 +38,14 @@ const UserListTable = ({
       title: "성별코드",
       dataIndex: "gender_origin",
       key: "gender_origin",
+      render: (gender_origin) =>
+        gender_origin === undefined ? (
+          <Tag>--</Tag>
+        ) : gender_origin % 2 === 0 ? (
+          <Tag>여성🙋‍♀️</Tag>
+        ) : (
+          <Tag>남성🙋‍♂️</Tag>
+        ),
     },
     {
       title: "생년월일",
@@ -58,20 +66,34 @@ const UserListTable = ({
       title: "혜택 수신 동의 여부",
       dataIndex: "allow_marketing_push",
       key: "allow_marketing_push",
-      render: (bool) => (bool ? "예" : "아니오"),
+      render: (allow_marketing_push) =>
+        allow_marketing_push === undefined ? (
+          <Tag>--</Tag>
+        ) : allow_marketing_push ? (
+          <Tag color="success">동의</Tag>
+        ) : (
+          <Tag color="error">거부</Tag>
+        ),
     },
     {
       title: "활성화 여부",
       dataIndex: "is_active",
       key: "is_active",
-      render: (bool) => (bool ? "예" : "아니오"),
+      render: (is_active) =>
+        is_active === undefined ? (
+          <Tag>--</Tag>
+        ) : is_active ? (
+          <Tag color="success">활성화</Tag>
+        ) : (
+          <Tag color="error">비활성화</Tag>
+        ),
       filters: [
         {
-          text: "true",
+          text: <Tag color="success">활성화</Tag>,
           value: true,
         },
         {
-          text: "false",
+          text: <Tag color="error">비활성화</Tag>,
           value: false,
         },
       ],
@@ -86,14 +108,15 @@ const UserListTable = ({
       title: "임직원 계좌 여부",
       dataIndex: "is_staff",
       key: "is_staff",
-      render: (bool) => (bool ? "예" : "아니오"),
+      render: (bool) =>
+        bool ? <Tag color="lime">임직원</Tag> : <Tag color="default">고객</Tag>,
       filters: [
         {
-          text: "true",
+          text: <Tag color="lime">임직원</Tag>,
           value: true,
         },
         {
-          text: "false",
+          text: <Tag color="default">고객</Tag>,
           value: false,
         },
       ],

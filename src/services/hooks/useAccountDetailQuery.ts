@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Modal } from "antd";
 import { PartialAccountProps } from "../../types/user";
 import { fetchAccountDetail } from "../api/fetchAccountDetail";
+import { BrokerFormatType } from "../models/statics";
 import useRefine from "./useRefine";
 
 const useAccountDetailQuery = (accountNumber: string) => {
@@ -12,6 +13,8 @@ const useAccountDetailQuery = (accountNumber: string) => {
     refineAccountStatus,
     refineMoney,
     refineIsActive,
+    refineAccountNumberFormat,
+    refineAccountNumberMask,
   } = useRefine();
 
   const { data: accountDetail, ...queryResult } = useQuery(
@@ -22,9 +25,14 @@ const useAccountDetailQuery = (accountNumber: string) => {
         return {
           user_name: refineName(account.user_name),
           broker_name: refineBrokerId(account.broker_id),
-          number: refineName(account.number),
+
           name: account.name,
           is_active: refineIsActive(account.is_active),
+
+          number: refineAccountNumberFormat(
+            refineAccountNumberMask(account.number),
+            account.broker_id as BrokerFormatType
+          ),
           status: refineAccountStatus(account.status),
           assets: refineMoney(account.assets),
           payments: refineMoney(account.payments),

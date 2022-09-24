@@ -1,10 +1,12 @@
-import { Table } from "antd";
+import { Table, Tag } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { Link } from "react-router-dom";
 import { AccountProps } from "../../../types/user";
 import brokers from "../../../services/static/brokers.json";
+import statusColor from "../../../services/static/statusColor.json";
 import { PATH } from "../../../router/Router";
 import styled from "styled-components";
+import { StatusColorKeyType } from "../../../services/models/statics";
 
 const columns: ColumnsType<AccountProps> = [
   {
@@ -34,6 +36,12 @@ const columns: ColumnsType<AccountProps> = [
     title: "계좌상태",
     dataIndex: "status",
     key: "status",
+    render: (status: StatusColorKeyType) =>
+      status === undefined ? (
+        <Tag>--</Tag>
+      ) : (
+        <Tag color={statusColor[status]}>{status}</Tag>
+      ),
   },
   {
     title: "계좌명",
@@ -63,7 +71,14 @@ const columns: ColumnsType<AccountProps> = [
     title: "계좌활성화여부",
     dataIndex: "is_active",
     key: "is_active",
-    render: (bool) => (bool ? "예" : "아니오"),
+    render: (is_active) =>
+      is_active === undefined ? (
+        <Tag>--</Tag>
+      ) : is_active ? (
+        <Tag color="success">활성화</Tag>
+      ) : (
+        <Tag color="error">비활성화</Tag>
+      ),
   },
   {
     title: "계좌개설일",

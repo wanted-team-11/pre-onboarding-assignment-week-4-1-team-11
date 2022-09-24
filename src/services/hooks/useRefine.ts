@@ -1,6 +1,11 @@
 import brokers from "../static/brokers.json";
+import brokerFormat from "../static/brokerFormat.json";
 import accountStatus from "../static/accountStatus.json";
-import { AccountStatusKeyType, BrokerKeyType } from "../models/statics";
+import {
+  AccountStatusKeyType,
+  BrokerFormatType,
+  BrokerKeyType,
+} from "../models/statics";
 
 const useRefine = () => {
   const refineName = (name?: string) => {
@@ -20,6 +25,34 @@ const useRefine = () => {
     const mm = (dateObj.getMonth() + 1).toString().padStart(2, "0");
     const dd = dateObj.getDate().toString().padStart(2, "0");
     return date ? `${yyyy}-${mm}-${dd}` : "";
+  };
+
+  const refineAccountNumberFormat = (
+    accountNumber: string | undefined,
+    id: BrokerFormatType
+  ) => {
+    if (accountNumber === undefined) return "--";
+    const accountFormat = brokerFormat[id];
+    const splitAccountFormat = accountFormat.split("");
+    const splitAccountNumber = accountNumber.split("");
+
+    for (let i = 0; i < splitAccountFormat.length; i++) {
+      if (splitAccountNumber.length === 0) break;
+      if (splitAccountFormat[i] !== "-") {
+        splitAccountFormat[i] = splitAccountNumber.shift() ?? "";
+      }
+    }
+    const result = splitAccountFormat.join("");
+    return result;
+  };
+
+  const refineAccountNumberMask = (accountNumber?: string) => {
+    if (accountNumber === undefined) return undefined;
+    return (
+      accountNumber.slice(0, 2) +
+      "*".repeat(accountNumber.length - 4) +
+      accountNumber.slice(-2)
+    );
   };
 
   const refineTel = (tel?: string) => {
@@ -49,6 +82,8 @@ const useRefine = () => {
 
   return {
     refineName,
+    refineAccountNumberFormat,
+    refineAccountNumberMask,
     refineDate,
     refineTel,
     refineBrokerId,
