@@ -106,6 +106,8 @@ const useAccountColumns = (page: string) => {
     },
   ];
 
+  if (page === "userDetail") columns.shift();
+
   const checkDataType = (col: AccountsColumns) => {
     if (
       col.dataIndex ===

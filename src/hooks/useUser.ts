@@ -37,8 +37,8 @@ const useUser = () => {
         await fetchUserByUuid(response.data[i].uuid)
           .then((res) => {
             response.data[i].allow_marketing_push =
-              res.data[0].allow_marketing_push;
-            response.data[i].is_active = res.data[0].is_active;
+              res.data[0]?.allow_marketing_push;
+            response.data[i].is_active = res.data[0]?.is_active;
           })
           .catch((err) => {
             console.error(err);

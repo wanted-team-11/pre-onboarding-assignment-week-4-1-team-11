@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Form, Table } from "antd";
+import { Form, Table, PageHeader } from "antd";
 import { useLocation } from "react-router-dom";
 import PageLayout from "../components/PageLayout";
 import { fetchUser, fetchUserByUuid } from "../services/api/userApi";
 import useUserColumns from "../hooks/useUserColumns";
-import { User, UserByUuid, FilteredUser } from "../types";
+import useAccountColumns from "../hooks/useAccountColumns";
+import { User, UserByUuid, FilteredUser, FilteredAccounts } from "../types";
 import { fetchAccountsByUserId } from "../services/api/accountApi";
 
 function UserDetail() {
@@ -13,16 +14,17 @@ function UserDetail() {
   const userId = Number(pathname.split("/")[2]);
   const [user, setUser] = useState<FilteredUser[]>([]);
   const [form] = Form.useForm();
-  const [accountNum, setAccountNum] = useState(0);
+  const [accounts, setAccounts] = useState<FilteredAccounts[]>([]);
   const [userByUuid, setUserByUuid] = useState<UserByUuid[]>([]);
   const uuid = user[0]?.uuid || "undefined";
 
   const userColumns = useUserColumns("detail");
+  const accountColumns = useAccountColumns("userDetail");
 
   useEffect(() => {
     fetchAccountsByUserId(userId)
       .then((res) => {
-        setAccountNum(res.data.length);
+        setAccounts(res.data);
       })
       .catch((err) => {
         console.error(err);
@@ -40,7 +42,7 @@ function UserDetail() {
         setUser([
           {
             ...filteredData[0],
-            account_count: accountNum,
+            account_count: accounts.length,
             allow_marketing_push: allowMarketingPush,
             is_active: isActive,
           },
@@ -49,7 +51,7 @@ function UserDetail() {
       .catch((err) => {
         console.error(err);
       });
-  }, [accountNum, userByUuid, userId]);
+  }, [accounts.length, userByUuid, userId]);
 
   useEffect(() => {
     fetchUserByUuid(uuid)
@@ -70,6 +72,15 @@ function UserDetail() {
           columns={userColumns}
           rowClassName="editable-row"
           pagination={false}
+        />
+        <Table
+          bordered
+          dataSource={accounts}
+          title={() => <div style={{ fontSize: "25px" }}>계좌목록</div>}
+          columns={accountColumns}
+          rowClassName="editable-row"
+          pagination={false}
+          style={{ margin: "50px 0" }}
         />
       </Form>
     </PageLayout>

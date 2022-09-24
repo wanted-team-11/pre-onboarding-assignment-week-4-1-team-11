@@ -119,8 +119,16 @@ const useUserColumns = (page: string) => {
       ...userName,
       dataIndex: "operation",
       render: (_: any, record: FilteredUser) => {
-        const name = record.name || "관리자";
-        return <Link to={`/user/${record!.id}`}>{maskingName(name)}</Link>;
+        const name = record.name;
+        return (
+          <>
+            {name ? (
+              <Link to={`/user/${record!.id}`}>{maskingName(name)}</Link>
+            ) : (
+              <>관리자</>
+            )}
+          </>
+        );
       },
     });
   } else {
