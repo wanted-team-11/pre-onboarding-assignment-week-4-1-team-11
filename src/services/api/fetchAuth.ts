@@ -8,10 +8,12 @@ const fetchLogin = async (props: LoginProps) => {
     const {
       data: { accessToken },
     } = await axios.post("login", props);
+    const { email } = props;
 
     if (!accessToken) throw Error("no Token");
 
     tokenStorage.set(StorageKey.ACCESS_TOKEN, accessToken);
+    tokenStorage.set(StorageKey.EMAIL, email);
 
     return true;
   } catch (err) {
