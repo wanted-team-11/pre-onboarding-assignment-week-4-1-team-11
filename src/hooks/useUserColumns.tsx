@@ -3,25 +3,23 @@ import { Link } from "react-router-dom";
 import { FilteredUser, Columns } from "../types";
 import { maskingPhoneNumber, maskingName } from "../utils/masking";
 import { convertUserInfo } from "../utils/convert";
+import { Image } from "antd";
 
 const useUserColumns = (page: string) => {
   const columns: Columns[] = [
     {
       title: "보유중인 계좌수",
       dataIndex: "account_count",
-      width: "10%",
       editable: true,
     },
     {
       title: "이메일 주소",
       dataIndex: "email",
-      width: "10%",
       editable: true,
     },
     {
       title: "성별코드",
       dataIndex: "gender_origin",
-      width: "10%",
       editable: true,
       render: (genderCode: number) => {
         return <>{genderCode ? genderCode : "-"}</>;
@@ -30,7 +28,6 @@ const useUserColumns = (page: string) => {
     {
       title: "생년월일",
       dataIndex: "birth_date",
-      width: "10%",
       editable: true,
       render: (birthDate: string) => {
         return <>{birthDate ? birthDate?.split("T")[0] : "-"}</>;
@@ -39,7 +36,6 @@ const useUserColumns = (page: string) => {
     {
       title: "휴대폰 번호",
       dataIndex: "phone_number",
-      width: "10%",
       editable: true,
       render: (phoneNumber: string) => {
         return <>{phoneNumber ? maskingPhoneNumber(phoneNumber) : "-"}</>;
@@ -48,7 +44,6 @@ const useUserColumns = (page: string) => {
     {
       title: "최근 로그인",
       dataIndex: "last_login",
-      width: "10%",
       editable: true,
       render: (lastLogin: string) => {
         return (
@@ -68,16 +63,14 @@ const useUserColumns = (page: string) => {
     {
       title: "혜택 수신 동의 여부",
       dataIndex: "allow_marketing_push",
-      width: "10%",
       editable: true,
       render: (allowMarketingPush: boolean) => {
-        return <div>{convertUserInfo(allowMarketingPush)}</div>;
+        return <>{convertUserInfo(allowMarketingPush)}</>;
       },
     },
     {
       title: "활성화 여부",
       dataIndex: "is_active",
-      width: "10%",
       editable: true,
       render: (isActive: boolean) => {
         return <div>{convertUserInfo(isActive)}</div>;
@@ -86,32 +79,46 @@ const useUserColumns = (page: string) => {
     {
       title: "가입일",
       dataIndex: "created_at",
-      width: "10%",
       editable: true,
       render: (createdAt: string) => {
-        return (
-          <>
-            {createdAt ? (
-              <>
-                <div>{createdAt?.split("T")[0]}</div>
-                <div>{createdAt?.split("T")[1]?.split(".")[0]}</div>
-              </>
-            ) : (
-              "-"
-            )}
-          </>
-        );
+        return <>{createdAt ? <>{createdAt?.split("T")[0]}</> : "-"}</>;
       },
     },
   ];
 
+  const photo = {
+    title: "사진",
+    editable: true,
+    dataIndex: "photo",
+    width: "30px",
+    render: (photo: string) => {
+      return <Image width={100} src={photo} />;
+    },
+  };
+
   const userName = {
     title: "고객명",
-    width: "10%",
     editable: true,
-    render: (name: string) => {
-      return <>{maskingName(name)}</>;
-    },
+    width: "100px",
+  };
+
+  const address = {
+    title: "주소",
+    editable: true,
+    dataIndex: "address",
+  };
+
+  const detailAddress = {
+    title: "상세주소",
+    editable: true,
+    dataIndex: "detail_address",
+  };
+
+  const age = {
+    title: "나이",
+    editable: true,
+    dataIndex: "age",
+    width: "70px",
   };
 
   if (page === "list") {
@@ -131,6 +138,9 @@ const useUserColumns = (page: string) => {
         );
       },
     });
+  } else if (page === "detail") {
+    columns.unshift(photo, { ...userName, dataIndex: "name" }, age);
+    columns.push(address, detailAddress);
   } else {
     columns.unshift({ ...userName, dataIndex: "name" });
   }
@@ -155,7 +165,10 @@ const useUserColumns = (page: string) => {
     };
   });
 
-  return userColumns;
+  const userFirstColumns = columns.splice(0, 7);
+  const userSecondColumns = columns;
+
+  return { userColumns, userFirstColumns, userSecondColumns };
 };
 
 export default useUserColumns;

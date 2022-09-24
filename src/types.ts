@@ -36,7 +36,7 @@ export interface FilteredUser extends User {
 export interface Columns {
   title: string;
   dataIndex: string;
-  width: string;
+  width?: string;
   editable: boolean;
   render?: (_: any, record: FilteredUser) => JSX.Element;
 }
@@ -64,7 +64,7 @@ export interface FilteredAccounts extends Accounts {
 export interface AccountsColumns {
   title: string;
   dataIndex: string;
-  width: string;
+  width?: string;
   editable: boolean;
   render?: (_: any, record: FilteredAccounts) => JSX.Element;
 }

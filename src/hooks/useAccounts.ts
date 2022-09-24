@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchAccountsByPageNumber } from "../services/api/accountApi";
 import { fetchUserByUserId } from "../services/api/userApi";
 import { FilteredAccounts } from "../types";

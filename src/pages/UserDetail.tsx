@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Table, PageHeader } from "antd";
+import { Form, Table } from "antd";
 import { useLocation } from "react-router-dom";
 import PageLayout from "../components/PageLayout";
 import { fetchUser, fetchUserByUuid } from "../services/api/userApi";
@@ -18,7 +18,7 @@ function UserDetail() {
   const [userByUuid, setUserByUuid] = useState<UserByUuid[]>([]);
   const uuid = user[0]?.uuid || "undefined";
 
-  const userColumns = useUserColumns("detail");
+  const { userFirstColumns, userSecondColumns } = useUserColumns("detail");
   const accountColumns = useAccountColumns("userDetail");
 
   useEffect(() => {
@@ -69,9 +69,18 @@ function UserDetail() {
         <Table
           bordered
           dataSource={user}
-          columns={userColumns}
+          columns={userFirstColumns}
           rowClassName="editable-row"
           pagination={false}
+          style={{ margin: "40px 40px 0" }}
+        />
+        <Table
+          bordered
+          dataSource={user}
+          columns={userSecondColumns}
+          rowClassName="editable-row"
+          pagination={false}
+          style={{ margin: "0 40px" }}
         />
         <Table
           bordered
@@ -80,7 +89,7 @@ function UserDetail() {
           columns={accountColumns}
           rowClassName="editable-row"
           pagination={false}
-          style={{ margin: "50px 0" }}
+          style={{ margin: "50px 40px" }}
         />
       </Form>
     </PageLayout>

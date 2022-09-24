@@ -9,7 +9,6 @@ const useAccountColumns = (page: string) => {
     {
       title: "고객명",
       dataIndex: "operation",
-      width: "10%",
       editable: true,
       render: (_: any, record: FilteredAccounts) => {
         const userName = record.user_name;
@@ -20,7 +19,6 @@ const useAccountColumns = (page: string) => {
     {
       title: "브로커명",
       dataIndex: "broker_id",
-      width: "10%",
       editable: true,
       render: (brokerId: string) => {
         return <>{convertBroker(brokerId)}</>;
@@ -29,7 +27,6 @@ const useAccountColumns = (page: string) => {
     {
       title: "계좌번호",
       dataIndex: "operation",
-      width: "10%",
       editable: true,
       render: (_: any, record: FilteredAccounts) => {
         return (
@@ -51,7 +48,6 @@ const useAccountColumns = (page: string) => {
     {
       title: "계좌상태",
       dataIndex: "status",
-      width: "10%",
       editable: true,
       render: (status: number) => {
         return <>{convertStatus(status)}</>;
@@ -60,13 +56,11 @@ const useAccountColumns = (page: string) => {
     {
       title: "계좌명",
       dataIndex: "name",
-      width: "10%",
       editable: true,
     },
     {
       title: "평가금액",
       dataIndex: "assets",
-      width: "10%",
       editable: true,
       render: (assets: number) => {
         return <>{Math.ceil(assets).toLocaleString()}</>;
@@ -75,7 +69,6 @@ const useAccountColumns = (page: string) => {
     {
       title: "입금 금액",
       dataIndex: "payments",
-      width: "10%",
       editable: true,
       render: (payments: number) => {
         return <>{Math.ceil(payments).toLocaleString()}</>;
@@ -84,7 +77,6 @@ const useAccountColumns = (page: string) => {
     {
       title: "계좌활성화여부",
       dataIndex: "is_active",
-      width: "10%",
       editable: true,
       render: (isActive: boolean) => {
         return <>{isActive ? "O" : "X"}</>;
@@ -93,15 +85,9 @@ const useAccountColumns = (page: string) => {
     {
       title: "계좌개설일",
       dataIndex: "created_at",
-      width: "10%",
       editable: true,
       render: (createdAt: string) => {
-        return (
-          <>
-            <div>{createdAt?.split("T")[0]}</div>
-            <div>{createdAt?.split("T")[1]?.split(".")[0]}</div>
-          </>
-        );
+        return <>{createdAt?.split("T")[0]}</>;
       },
     },
   ];

@@ -9,7 +9,7 @@ const UserList = () => {
   const [form] = Form.useForm();
   const { totalCount, user } = useUser();
 
-  const userColumns = useUserColumns("list");
+  const { userColumns } = useUserColumns("list");
   const navigate = useNavigate();
 
   return (
