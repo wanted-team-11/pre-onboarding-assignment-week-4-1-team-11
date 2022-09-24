@@ -153,13 +153,35 @@
 - 사용자 추가, 이름수정, 삭제
   - POST, PUT, DELETE 시에 react-query의 cache invalidation으로 상태 최신화
 
+
+https://user-images.githubusercontent.com/16061038/192114673-94346d1a-4ca6-44af-82dc-5e369f10a5e3.mov
+
+
+https://user-images.githubusercontent.com/16061038/192114702-7c47b1af-a0f8-4978-9121-ab8134632ff4.mov
+
+
+
+https://user-images.githubusercontent.com/16061038/192114803-7ce4b149-5d35-4880-b195-ba39edab29b5.mov
+
+
+
+https://user-images.githubusercontent.com/16061038/192114823-8ca701b6-e905-4e11-88ae-092ab8743f04.mov
+
+
+
+https://user-images.githubusercontent.com/16061038/192114873-d386d142-77d5-4764-9e48-8bd13a6fbd65.mov
+
+
+
 ### 사용자 상세 페이지
 
 - 사용자의 상세정보, 계좌 목록 불러오기
+<img width="971" alt="스크린샷 2022-09-25 오전 3 59 06" src="https://user-images.githubusercontent.com/16061038/192114905-c58d810b-44ea-43fc-93fb-59550b919898.png">
 
 ### 계좌 목록 페이지
 
 - 계좌 목록 불러오기
+<img width="970" alt="스크린샷 2022-09-25 오전 3 58 46" src="https://user-images.githubusercontent.com/16061038/192114922-717542cf-8d81-4207-a900-1532a3115c1c.png">
 
 ### 계좌 상세 페이지
 
