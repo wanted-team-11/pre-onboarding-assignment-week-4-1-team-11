@@ -9,7 +9,7 @@ const AccountDetailPage = () => {
     account_number || ""
   );
 
-  const generateAccountData = (data?: AccountProps) =>
+  const generateAccountData = (data?: Partial<AccountProps>) =>
     data &&
     Object.entries(data)
       .filter(([key]) => key !== "id" && key !== "uuid")

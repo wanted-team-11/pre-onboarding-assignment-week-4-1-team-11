@@ -26,10 +26,12 @@ export type AccountProps = {
   name: string;
   assets: string;
   payments: string;
-  is_active: boolean;
+  is_active: boolean | string;
   created_at: string;
   updated_at: string;
 };
+
+export type PartialAccountProps = Partial<AccountProps>;
 
 type OmitedUsernameAccount = Omit<AccountProps, "user_name">;
 
