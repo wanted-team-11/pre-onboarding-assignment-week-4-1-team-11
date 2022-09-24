@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { AccountProps } from "../../../types/user";
 import brokers from "../../../services/static/brokers.json";
 import { PATH } from "../../../router/Router";
+import styled from "styled-components";
 
 const columns: ColumnsType<AccountProps> = [
   {
@@ -43,6 +44,15 @@ const columns: ColumnsType<AccountProps> = [
     title: "평가금액",
     dataIndex: "assets",
     key: "assets",
+    render: (assets, record) => (
+      <>
+        {assets > record.payments ? (
+          <PlusText>{assets}</PlusText>
+        ) : (
+          <MinusText>{assets}</MinusText>
+        )}
+      </>
+    ),
   },
   {
     title: "입금금액",
@@ -81,3 +91,10 @@ const AccountListTable = ({
 };
 
 export default AccountListTable;
+
+const PlusText = styled.div`
+  color: red;
+`;
+const MinusText = styled.div`
+  color: blue;
+`;

@@ -34,6 +34,7 @@ const fetchAccountList = async (pageNumber: number) => {
     };
   });
 
+  console.log(accountList);
   return { accountList, totalAccountCount: headers["x-total-count"] };
 };
 
