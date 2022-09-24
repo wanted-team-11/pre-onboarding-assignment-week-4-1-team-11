@@ -10,6 +10,7 @@ const useUserColumns = (page: string) => {
     {
       title: "보유중인 계좌수",
       dataIndex: "account_count",
+      width: "130px",
       editable: true,
     },
     {
@@ -20,6 +21,7 @@ const useUserColumns = (page: string) => {
     {
       title: "성별코드",
       dataIndex: "gender_origin",
+      width: "100px",
       editable: true,
       render: (genderCode: number) => {
         return <>{genderCode ? genderCode : "-"}</>;
@@ -28,6 +30,7 @@ const useUserColumns = (page: string) => {
     {
       title: "생년월일",
       dataIndex: "birth_date",
+      width: "110px",
       editable: true,
       render: (birthDate: string) => {
         return <>{birthDate ? birthDate?.split("T")[0] : "-"}</>;
@@ -99,7 +102,6 @@ const useUserColumns = (page: string) => {
   const userName = {
     title: "고객명",
     editable: true,
-    width: "100px",
   };
 
   const address = {
