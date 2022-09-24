@@ -94,14 +94,15 @@ const UserListTable = ({
       title: "임직원 계좌 여부",
       dataIndex: "is_staff",
       key: "is_staff",
-      render: (bool) => (bool ? "예" : "아니오"),
+      render: (bool) =>
+        bool ? <Tag color="lime">임직원</Tag> : <Tag color="default">고객</Tag>,
       filters: [
         {
-          text: "true",
+          text: <Tag color="lime">임직원</Tag>,
           value: true,
         },
         {
-          text: "false",
+          text: <Tag color="default">고객</Tag>,
           value: false,
         },
       ],
