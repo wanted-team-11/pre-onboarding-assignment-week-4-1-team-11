@@ -1,9 +1,10 @@
-import { Table, Tag, Typography } from "antd";
+import { Input, Space, Table, Tag, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
 import { getUserList } from "../services/axios.service";
-import { dayConverter, nameMask, phoneMask } from "../services/regfunc";
+import { dayConverter, nameMask, phoneMask } from "../utils/regfunc";
 import { UserList } from "../types/types";
+import { Link } from "react-router-dom";
 
 const { Text } = Typography;
 const columns: ColumnsType<UserList> = [
@@ -12,8 +13,26 @@ const columns: ColumnsType<UserList> = [
     dataIndex: "name",
     key: "name",
     width: 100,
-    render: (name) =>
-      name === undefined ? <Text>--</Text> : <Text>{nameMask(name)}</Text>,
+    render: (name, record) =>
+      name === undefined ? (
+        <Text>--</Text>
+      ) : (
+        <Link to={`/user/users/${record.id}`}>{nameMask(name)}</Link>
+      ),
+  },
+  {
+    title: "성 별",
+    dataIndex: "gender_origin",
+    key: "gender_origin",
+    width: 100,
+    render: (gender_origin) =>
+      gender_origin === undefined ? (
+        <Text>--</Text>
+      ) : gender_origin % 2 === 0 ? (
+        <Tag>여성🙋‍♀️</Tag>
+      ) : (
+        <Tag>남성🙋‍♂️</Tag>
+      ),
   },
   {
     title: "보유 계좌수",
@@ -118,13 +137,20 @@ const UsersTablePage = () => {
     getTableData();
   }, []);
 
+  const onSearchEmailFilter = (value: string) => {
+    console.log(value);
+  };
   return (
     <div style={{ height: "100vh" }}>
+      <Space>
+        <Input.Search onSearch={onSearchEmailFilter} />
+      </Space>
       <Table
         columns={columns}
         loading={isLoading}
         dataSource={userInfoList}
         scroll={{ y: 600 }}
+        pagination={{ position: ["bottomCenter"] }}
       />
     </div>
   );
