@@ -1,4 +1,17 @@
 /**
+ * @param account "298365426221"
+ * @returns "29********21"
+ */
+export const maskAccount = (account: string) => {
+  const firstTwo = [account[0], account[1]];
+  const lastTwo = [account[account.length - 2], account[account.length - 1]];
+  const stars = new Array(account.length - 4).fill("*");
+  const splitted = [...firstTwo, ...stars, ...lastTwo];
+  const result = splitted.join("");
+  return result;
+};
+
+/**
  *
  * @param format "00-000000000-0"
  * @param account "298365426221"
@@ -35,5 +48,16 @@ export const userNameFormatter = (name: string) => {
     if (splittedName.length - i <= 2) break;
   }
   const result = splittedName.join("");
+  return result;
+};
+
+/**
+ * @param phoneNumber "010-1111-2222"
+ * @returns "010-****-2222"
+ */
+export const phoneNumberFormatter = (phoneNumber: string) => {
+  const splitted = phoneNumber.split("");
+  splitted.splice(4, 4, "****");
+  const result = splitted.join("");
   return result;
 };

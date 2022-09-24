@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { tokenStorage } from "../utils/storages";
 import styled from "styled-components";
 import Sidebar from "./Sidebar";
@@ -11,6 +11,7 @@ const { Content } = AntLayout;
 
 const GlobalLayout = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const token = tokenStorage.get();
@@ -18,6 +19,11 @@ const GlobalLayout = () => {
       navigate("/login");
     }
   }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
   return (
     <AntLayout>
       <Sidebar />

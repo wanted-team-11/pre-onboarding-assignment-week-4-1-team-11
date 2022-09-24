@@ -4,11 +4,16 @@ import { Button, Input, Space, Table, Tag } from "antd";
 import type { ColumnsType, ColumnType } from "antd/es/table";
 import type { FilterConfirmProps } from "antd/es/table/interface";
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import Highlighter from "react-highlight-words";
 import { RefinedAccountInfo, AccountStatus } from "../types";
 import brokerFormat from "../utils/brokerFormat";
 import accountStatus from "../utils/accountStatus";
-import { accountFormatter } from "../utils/formatter";
+import {
+  accountFormatter,
+  maskAccount,
+  userNameFormatter,
+} from "../utils/formatter";
 
 type DataIndex = keyof RefinedAccountInfo;
 
@@ -125,6 +130,9 @@ const AccountsTable = ({ data, isLoading }: AccountsTableProps) => {
       key: "user_name",
       width: "10%",
       ...getColumnSearchProps("user_name"),
+      render: (value: string, record) => (
+        <Link to={`/user-detail/${record.id}`}>{userNameFormatter(value)}</Link>
+      ),
     },
     {
       title: "브로커",
@@ -139,8 +147,14 @@ const AccountsTable = ({ data, isLoading }: AccountsTableProps) => {
       key: "number",
       width: "15%",
       ...getColumnSearchProps("number"),
-      render: (value: string, record) =>
-        accountFormatter(brokerFormat[record.broker_id], value),
+      render: (value: string, record) => {
+        const masked = maskAccount(value);
+        const formatted = accountFormatter(
+          brokerFormat[record.broker_id],
+          masked
+        );
+        return <Link to={`/account-detail/${record.uuid}`}>{formatted}</Link>;
+      },
     },
     {
       title: "계좌상태",

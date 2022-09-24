@@ -7,7 +7,7 @@ import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Highlighter from "react-highlight-words";
 import { RefinedUserInfo } from "../types";
-import { userNameFormatter } from "../utils/formatter";
+import { userNameFormatter, phoneNumberFormatter } from "../utils/formatter";
 
 type DataIndex = keyof RefinedUserInfo;
 
@@ -174,6 +174,7 @@ const UsersTable = ({ data, isLoading }: UsersTableProps) => {
       width: "12%",
       key: "phone_number",
       ...getColumnSearchProps("phone_number"),
+      render: (value: string) => phoneNumberFormatter(value),
     },
     {
       title: "마지막 로그인",
