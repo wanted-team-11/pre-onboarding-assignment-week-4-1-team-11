@@ -1,13 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { Modal } from "antd";
 import { fetchUserList } from "../api/fetchUserList";
+import { QUERY_KEY } from "../models/queryKeys";
 import useRefine from "./useRefine";
 
 const useUserListQuery = (pageNumber: string) => {
   const { refineName, refineDate, refineTel } = useRefine();
 
   const { data, ...queryResult } = useQuery(
-    ["getUserList", pageNumber],
+    [QUERY_KEY.GET_USER_LIST, pageNumber],
     () => fetchUserList(pageNumber),
     {
       select: ({ userList, totalUserCount }) => {
