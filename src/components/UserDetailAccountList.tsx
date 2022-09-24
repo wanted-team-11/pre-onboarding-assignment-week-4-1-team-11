@@ -29,7 +29,7 @@ const UserDetailAccountList = ({ userDetail }: UserDetailAccountListProps) => {
           renderItem={(account) => (
             <List.Item>
               <List.Item.Meta
-                title={<h3>{account.name}</h3>}
+                title={account.name}
                 description={getDescription(account)}
               />
             </List.Item>

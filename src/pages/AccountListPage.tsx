@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../store";
 import { getRefinedAccountsInfoThunk } from "../store/account-list.reducer";
 
@@ -8,6 +9,8 @@ import SearchInput from "../components/SearchInput";
 
 const AccountListPage = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { page } = useParams();
 
   const { accountList, accountCount, isError, isLoading } = useAppSelector(
     (state) => state.accountList
@@ -19,20 +22,28 @@ const AccountListPage = () => {
   }));
 
   useEffect(() => {
-    dispatch(getRefinedAccountsInfoThunk({ pageNumber: 1 }));
+    const pageNumber = page ? parseInt(page) : 1;
+    dispatch(getRefinedAccountsInfoThunk({ pageNumber }));
   }, []);
 
-  // const onSearch = (searchWord: string) => {
-  //   console.log(searchWord);
-  // };
+  useEffect(() => {
+    if (page) {
+      dispatch(getRefinedAccountsInfoThunk({ pageNumber: parseInt(page) }));
+    }
+  }, [page]);
 
   const onPageClick = async (pageNumber: number) => {
-    dispatch(getRefinedAccountsInfoThunk({ pageNumber }));
+    navigate(`/account-list/${pageNumber}`);
   };
+
+  if (isError) {
+    return (
+      <div>Oops, something went wrong... probably access token's expired</div>
+    );
+  }
 
   return (
     <>
-      {/* <SearchInput onSearch={onSearch} /> */}
       <AccountsTable data={accounts} isLoading={isLoading} />
       <PaginationComponent total={accountCount} onPageClick={onPageClick} />
     </>

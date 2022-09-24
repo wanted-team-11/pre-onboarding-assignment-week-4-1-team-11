@@ -11,9 +11,17 @@ function App() {
     <Routes>
       <Route path="/" element={<GlobalLayout />}>
         <Route index element={<Navigate replace to="account-list" />} />
-        <Route path="account-list" element={<AccountListPage />} />
-        <Route path="account-detail/:id" element={<AccountDetailPage />} />
-        <Route path="user-list" element={<UserListPage />} />
+        <Route
+          path="account-list"
+          element={<Navigate replace to="/account-list/1" />}
+        />
+        <Route path="account-list/:page" element={<AccountListPage />} />
+        <Route path="account-detail/:uuid" element={<AccountDetailPage />} />
+        <Route
+          path="user-list"
+          element={<Navigate replace to="/user-list/1" />}
+        />
+        <Route path="user-list/:page" element={<UserListPage />} />
         <Route path="user-detail/:id" element={<UserDetailPage />} />
       </Route>
       <Route path="/login" element={<LoginPage />} />

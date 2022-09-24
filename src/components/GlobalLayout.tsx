@@ -7,7 +7,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { Layout as AntLayout } from "antd";
 
-const { Content: _Content } = AntLayout;
+const { Content } = AntLayout;
 
 const GlobalLayout = () => {
   const navigate = useNavigate();
@@ -34,8 +34,8 @@ const GlobalLayout = () => {
 
 export default GlobalLayout;
 
-const AntContent = styled(_Content)`
-  background-color: #f0f2f5;
+const AntContent = styled(Content)`
+  background-color: hsl(216, 20%, 95%);
   min-height: 100vh;
   padding: 20px;
 `;

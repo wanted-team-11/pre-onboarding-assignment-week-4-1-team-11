@@ -1,17 +1,23 @@
 import { Pagination } from "antd";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
+
+interface PaginationComponentProps {
+  onPageClick: (pageNum: number) => Promise<void>;
+  total: number;
+}
 
 const PaginationComponent = ({
   onPageClick,
   total,
-}: {
-  onPageClick: (pageNum: number) => Promise<void>;
-  total: number;
-}) => {
+}: PaginationComponentProps) => {
+  const { page } = useParams();
+  const numId = page ? parseInt(page) : undefined;
+
   return (
     <Container>
       <Padding />
-      <Pagination total={total} onChange={onPageClick} />
+      <Pagination total={total} onChange={onPageClick} current={numId} />
     </Container>
   );
 };
