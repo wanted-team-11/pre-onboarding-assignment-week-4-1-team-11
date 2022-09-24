@@ -2,8 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FilteredUser, Columns } from "../types";
 import { maskingPhoneNumber, maskingName } from "../utils/masking";
-import { convertUserInfo } from "../utils/convert";
-import { Image } from "antd";
+import { Image, Tag } from "antd";
 
 const useUserColumns = (page: string) => {
   const columns: Columns[] = [
@@ -69,17 +68,27 @@ const useUserColumns = (page: string) => {
       title: "혜택 수신 동의 여부",
       dataIndex: "allow_marketing_push",
       editable: true,
-      render: (allowMarketingPush: boolean) => {
-        return <>{convertUserInfo(allowMarketingPush)}</>;
-      },
+      render: (allow_marketing_push) =>
+        allow_marketing_push === undefined ? (
+          <Tag>--</Tag>
+        ) : allow_marketing_push ? (
+          <Tag color="success">동의</Tag>
+        ) : (
+          <Tag color="error">미동의</Tag>
+        ),
     },
     {
       title: "활성화 여부",
       dataIndex: "is_active",
       editable: true,
-      render: (isActive: boolean) => {
-        return <div>{convertUserInfo(isActive)}</div>;
-      },
+      render: (is_active) =>
+        is_active === undefined ? (
+          <Tag>--</Tag>
+        ) : is_active ? (
+          <Tag color="success">활성화</Tag>
+        ) : (
+          <Tag color="error">비활성화</Tag>
+        ),
     },
     {
       title: "가입일",
@@ -169,8 +178,29 @@ const useUserColumns = (page: string) => {
     };
   });
 
-  const userFirstColumns = columns.splice(0, 7);
-  const userSecondColumns = columns;
+  const userFirstColumns = columns.splice(0, 7).map((col) => {
+    return {
+      ...col,
+      onCell: (record: FilteredUser) => ({
+        record,
+        inputType: checkDataType(col),
+        dataIndex: col.dataIndex,
+        title: col.title,
+      }),
+    };
+  });
+
+  const userSecondColumns = columns.map((col) => {
+    return {
+      ...col,
+      onCell: (record: FilteredUser) => ({
+        record,
+        inputType: checkDataType(col),
+        dataIndex: col.dataIndex,
+        title: col.title,
+      }),
+    };
+  });
 
   return { userColumns, userFirstColumns, userSecondColumns };
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Pagination, Table, Button, Switch } from "antd";
+import { Form, Pagination, Table, Switch } from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
 import PageLayout from "../components/PageLayout";
 import useUserColumns from "../hooks/useUserColumns";

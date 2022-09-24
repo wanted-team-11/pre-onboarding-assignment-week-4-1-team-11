@@ -66,14 +66,4 @@ const convertStatus = (status: number) => {
   }
 };
 
-const convertUserInfo = (info: boolean) => {
-  if (info === undefined) {
-    return "-";
-  } else if (info) {
-    return "O";
-  } else {
-    return "X";
-  }
-};
-
-export { convertBroker, convertStatus, convertUserInfo };
+export { convertBroker, convertStatus };
