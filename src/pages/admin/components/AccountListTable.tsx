@@ -1,9 +1,19 @@
-import { Table } from "antd";
+import { Table, Tag } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { Link } from "react-router-dom";
 import { AccountProps } from "../../../types/user";
 import brokers from "../../../services/static/brokers.json";
+import statusColor from "../../../services/static/statusColor.json";
 import { PATH } from "../../../router/Router";
+import { StatusColorKeyType } from "../../../services/models/statics";
+
+type StatusColor = {
+  관리자확인필요: "warning";
+  입금대기: "processing";
+  운용중: "lime";
+  투자중지: "error";
+  해지: "default";
+};
 
 const columns: ColumnsType<AccountProps> = [
   {
@@ -33,6 +43,12 @@ const columns: ColumnsType<AccountProps> = [
     title: "계좌상태",
     dataIndex: "status",
     key: "status",
+    render: (status: StatusColorKeyType) =>
+      status === undefined ? (
+        <Tag>--</Tag>
+      ) : (
+        <Tag color={statusColor[status]}>{status}</Tag>
+      ),
   },
   {
     title: "계좌명",

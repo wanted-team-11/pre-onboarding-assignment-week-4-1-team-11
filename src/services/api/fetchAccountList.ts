@@ -28,7 +28,7 @@ const fetchAccountList = async (pageNumber: number) => {
   const accountList = accounts.map<AccountProps>((account) => {
     return {
       ...account,
-      status: account + "",
+      status: account.status + "",
       broker_name: account.broker_id + "",
       user_name: users.find((user) => account.user_id === user.id)?.name || "",
     };
