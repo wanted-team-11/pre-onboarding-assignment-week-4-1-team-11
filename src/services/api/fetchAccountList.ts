@@ -1,6 +1,6 @@
 import axios from "axios";
 import { tokenStorage, StorageKey } from "../../storage";
-import { AccountListProps } from "../../types/user";
+import { AccountProps } from "../../types/user";
 import { FetchAccountProps, FetchUsersProps } from "../models/user";
 
 const FETCH_URL = {
@@ -25,7 +25,7 @@ const fetchAccountList = async (pageNumber: number) => {
     FETCH_URL.USERS
   );
 
-  const accountList = accounts.map<AccountListProps>((account) => {
+  const accountList = accounts.map<AccountProps>((account) => {
     return {
       ...account,
       broker_name: account.broker_id + "",

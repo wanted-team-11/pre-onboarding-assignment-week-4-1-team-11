@@ -1,6 +1,6 @@
 import axios from "axios";
 import { tokenStorage, StorageKey } from "../../storage";
-import { UserListProps } from "../../types/user";
+import { UserProps } from "../../types/user";
 import {
   FetchAccountProps,
   FetchUserSettingProps,
@@ -33,7 +33,7 @@ const fetchUserList = async (pageNumber: string) => {
     FETCH_URL.ACCOUNTS
   );
 
-  const userList = users.map<UserListProps>((user) => {
+  const userList = users.map<UserProps>((user) => {
     return {
       ...(userSettings.find((setting) => setting.uuid === user.uuid) || {
         allow_marketing_push: false,

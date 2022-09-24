@@ -1,6 +1,6 @@
 import { FetchUsersProps } from "../services/models/user";
 
-export type UserListProps = {
+export type UserProps = {
   id: number;
   name: string;
   email: string;
@@ -32,7 +32,7 @@ export type UserDetailProps = { user: FetchUsersProps } & {
   }[];
 };
 
-export type AccountListProps = {
+export type AccountProps = {
   id: number;
   uuid: string;
   user_id: number;
@@ -44,4 +44,5 @@ export type AccountListProps = {
   payments: string;
   is_active: boolean;
   created_at: string;
+  updated_at: string;
 };

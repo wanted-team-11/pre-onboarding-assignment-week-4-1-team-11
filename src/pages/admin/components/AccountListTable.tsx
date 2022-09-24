@@ -1,11 +1,11 @@
 import { Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { Link } from "react-router-dom";
-import { AccountListProps } from "../../../types/user";
+import { AccountProps } from "../../../types/user";
 import brokers from "../../../services/static/brokers.json";
 import { PATH } from "../../../router/Router";
 
-const columns: ColumnsType<AccountListProps> = [
+const columns: ColumnsType<AccountProps> = [
   {
     title: "고객명",
     dataIndex: "user_name",
@@ -25,6 +25,11 @@ const columns: ColumnsType<AccountListProps> = [
     title: "계좌번호",
     dataIndex: "number",
     key: "number",
+    render: (account_number) => (
+      <Link to={`${PATH.ACCOUNT_DETAIL(account_number)}`}>
+        {account_number}
+      </Link>
+    ),
   },
   {
     title: "계좌상태",
@@ -63,7 +68,7 @@ const AccountListTable = ({
   accountList,
   isLoading,
 }: {
-  accountList: AccountListProps[] | undefined;
+  accountList: AccountProps[] | undefined;
   isLoading: boolean;
 }) => {
   return (

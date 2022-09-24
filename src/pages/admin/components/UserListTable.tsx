@@ -2,9 +2,9 @@ import { Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { Link } from "react-router-dom";
 import { PATH } from "../../../router/Router";
-import { UserListProps } from "../../../types/user";
+import { UserProps } from "../../../types/user";
 
-const columns: ColumnsType<UserListProps> = [
+const columns: ColumnsType<UserProps> = [
   {
     title: "고객명",
     dataIndex: "name",
@@ -94,7 +94,7 @@ const UserListTable = ({
   userList,
   isLoading,
 }: {
-  userList: UserListProps[] | undefined;
+  userList: UserProps[] | undefined;
   isLoading: boolean;
 }) => {
   return (

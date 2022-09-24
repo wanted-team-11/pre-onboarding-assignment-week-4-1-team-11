@@ -8,6 +8,7 @@ import UserDetail from "../pages/admin/components/UserDetail";
 import UserListPage from "../pages/admin/UserListPage";
 import SearchUserListPage from "../pages/admin/SearchUserListPage";
 import AccountListPage from "../pages/admin/AccountListPage";
+import AccountDetailPage from "../pages/admin/AccountDetailPage";
 
 export const PATH = {
   ROOT: "/",
@@ -16,6 +17,8 @@ export const PATH = {
   USER_LIST: (page?: string) => `/admin/user-list/${page || "1"}`,
   USER_DETAIL: (id: string) => `/admin/user-list/detail/${id}`,
   ACCOUNT_LIST: (page?: string) => `/admin/account-list/${page || "1"}`,
+  ACCOUNT_DETAIL: (accountNumber: string) =>
+    `/admin/account-list/detail/${accountNumber}`,
   USER_LIST_SEARCH: (page?: string) => `/admin/user-list/search/${page || "1"}`,
 };
 
@@ -45,6 +48,10 @@ const Router = () => {
             <Route
               path={PATH.ACCOUNT_LIST(":page")}
               element={<AccountListPage />}
+            />
+            <Route
+              path={PATH.ACCOUNT_DETAIL(":account_number")}
+              element={<AccountDetailPage />}
             />
             <Route
               path={PATH.USER_LIST_SEARCH(":page")}
