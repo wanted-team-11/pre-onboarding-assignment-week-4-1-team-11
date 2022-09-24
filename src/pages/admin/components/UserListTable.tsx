@@ -10,7 +10,7 @@ const UserListTable = ({
   userList,
   isLoading,
 }: {
-  userList: UserProps[] | undefined;
+  userList?: UserProps[];
   isLoading: boolean;
 }) => {
   const { deleteUserQuery } = useDeleteQuery();

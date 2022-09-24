@@ -18,22 +18,10 @@ const UserDetail = () => {
 
   const generateAccountData = (data?: UserDetailProps["accounts"]) =>
     data &&
-    data.map(
-      ({
-        status,
-        number,
-        name,
-        assets,
-        payments,
-        is_active,
-        created_at,
-        updated_at,
-        broker_name,
-      }) => ({
-        title: name,
-        content: broker_name,
-      })
-    );
+    data.map(({ name, broker_name }) => ({
+      title: name,
+      content: broker_name,
+    }));
 
   return (
     <>
@@ -52,7 +40,7 @@ const UserDetail = () => {
               xxl: 3,
             }}
             dataSource={generateUserData(userDetail?.user)}
-            renderItem={(item, i) => (
+            renderItem={(item) => (
               <List.Item>
                 <h3>{item.title}</h3>
                 <span>{item.content}</span>
@@ -60,6 +48,7 @@ const UserDetail = () => {
             )}
           />
           <Divider />
+          <h2>보유계좌수: {userDetail?.accounts.length}</h2>
           <List
             loading={isLoading}
             grid={{
@@ -72,7 +61,7 @@ const UserDetail = () => {
               xxl: 3,
             }}
             dataSource={generateAccountData(userDetail?.accounts)}
-            renderItem={(item, i) => (
+            renderItem={(item) => (
               <List.Item>
                 <h3>{item.title}</h3>
                 <span>{item.content}</span>

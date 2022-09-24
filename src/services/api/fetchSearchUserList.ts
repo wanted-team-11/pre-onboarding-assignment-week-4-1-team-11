@@ -39,7 +39,7 @@ const fetchSearchUserList = async ({ query, pageNumber }: Props) => {
     FETCH_URL.ACCOUNTS
   );
 
-  const userList = users.map<UserProps>((user) => {
+  const userList = users.map((user) => {
     return {
       ...(userSettings.find((setting) => setting.uuid === user.uuid) || {
         allow_marketing_push: false,
