@@ -7,14 +7,6 @@ import statusColor from "../../../services/static/statusColor.json";
 import { PATH } from "../../../router/Router";
 import { StatusColorKeyType } from "../../../services/models/statics";
 
-type StatusColor = {
-  관리자확인필요: "warning";
-  입금대기: "processing";
-  운용중: "lime";
-  투자중지: "error";
-  해지: "default";
-};
-
 const columns: ColumnsType<AccountProps> = [
   {
     title: "고객명",
