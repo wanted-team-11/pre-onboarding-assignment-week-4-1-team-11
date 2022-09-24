@@ -1,14 +1,14 @@
-import { useQuery } from '@tanstack/react-query';
-import { Modal } from 'antd';
-import { UserDetailProps } from '../../types/user';
-import { fetchUserDetail } from '../api/fetchUserDetail';
-import useRefine from './useRefine';
+import { useQuery } from "@tanstack/react-query";
+import { Modal } from "antd";
+import { UserDetailProps } from "../../types/user";
+import { fetchUserDetail } from "../api/fetchUserDetail";
+import useRefine from "./useRefine";
 
 const useUserDetailQuery = (userId: string) => {
   const { refineName, refineDate, refineTel, refineBrokerId } = useRefine();
 
   const { data: userDetail, ...queryResult } = useQuery(
-    ['getUserDetail', userId],
+    ["getUserDetail", userId],
     () => fetchUserDetail(userId),
     {
       select: ({ user, accounts }): UserDetailProps => {
@@ -35,11 +35,11 @@ const useUserDetailQuery = (userId: string) => {
       },
       onError: (err) => {
         Modal.error({
-          title: 'error',
+          title: "error",
           content: `${err}`,
         });
       },
-    },
+    }
   );
   return {
     ...queryResult,

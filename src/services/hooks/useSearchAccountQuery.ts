@@ -1,9 +1,9 @@
-import { useQuery } from '@tanstack/react-query';
-import { Modal } from 'antd';
-import { fetchSearchAccountList } from '../api/fetchSearchAccountList';
-import { fetchSearchUserList } from '../api/fetchSearchUserList';
-import { AccountStatusKeyType, BrokerKeyType } from '../models/statics';
-import useRefine from './useRefine';
+import { useQuery } from "@tanstack/react-query";
+import { Modal } from "antd";
+import { fetchSearchAccountList } from "../api/fetchSearchAccountList";
+import { fetchSearchUserList } from "../api/fetchSearchUserList";
+import { AccountStatusKeyType, BrokerKeyType } from "../models/statics";
+import useRefine from "./useRefine";
 
 type Props = {
   query: string;
@@ -15,7 +15,7 @@ const useSearchAccountListQuery = ({ query, pageNumber }: Props) => {
     useRefine();
 
   const { data, ...queryResult } = useQuery(
-    ['getUserList', pageNumber, query],
+    ["getUserList", pageNumber, query],
     () => fetchSearchAccountList({ query, pageNumber }),
     {
       select: ({ accountList, totalAccountCount }) => {
@@ -33,11 +33,11 @@ const useSearchAccountListQuery = ({ query, pageNumber }: Props) => {
       },
       onError: (err) => {
         Modal.error({
-          title: 'error',
+          title: "error",
           content: `${err}`,
         });
       },
-    },
+    }
   );
   return {
     ...queryResult,

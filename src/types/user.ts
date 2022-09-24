@@ -1,4 +1,4 @@
-import { FetchUsersProps } from '../services/models/user';
+import { FetchUsersProps } from "../services/models/user";
 
 export type UserProps = {
   id: number;
@@ -31,7 +31,7 @@ export type AccountProps = {
   updated_at: string;
 };
 
-type OmitedUsernameAccount = Omit<AccountProps, 'user_name'>;
+type OmitedUsernameAccount = Omit<AccountProps, "user_name">;
 
 export type UserDetailProps = { user: Partial<FetchUsersProps> } & {
   accounts: Partial<OmitedUsernameAccount>[];

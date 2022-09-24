@@ -1,22 +1,22 @@
-import { Avatar, Divider, List } from 'antd';
-import { useParams } from 'react-router-dom';
-import { useUserDetailQuery } from '../../../services/hooks/useUserDetailQuery';
-import { UserDetailProps } from '../../../types/user';
+import { Avatar, Divider, List } from "antd";
+import { useParams } from "react-router-dom";
+import { useUserDetailQuery } from "../../../services/hooks/useUserDetailQuery";
+import { UserDetailProps } from "../../../types/user";
 
 const UserDetail = () => {
   const { id } = useParams();
-  const { userDetail, isLoading } = useUserDetailQuery(id || '');
+  const { userDetail, isLoading } = useUserDetailQuery(id || "");
 
-  const generateUserData = (data?: UserDetailProps['user']) =>
+  const generateUserData = (data?: UserDetailProps["user"]) =>
     data &&
     Object.entries(data)
-      .filter(([key]) => key !== 'id' && key !== 'uuid' && key !== 'photo')
+      .filter(([key]) => key !== "id" && key !== "uuid" && key !== "photo")
       .map(([key, value]) => ({
         title: key,
         content: value,
       }));
 
-  const generateAccountData = (data?: UserDetailProps['accounts']) =>
+  const generateAccountData = (data?: UserDetailProps["accounts"]) =>
     data &&
     data.map(({ name, broker_name }) => ({
       title: name,
@@ -26,8 +26,8 @@ const UserDetail = () => {
   return (
     <>
       {
-        <div style={{ padding: '50px' }}>
-          <Avatar size={150} src={userDetail?.user?.photo || ''} />
+        <div style={{ padding: "50px" }}>
+          <Avatar size={150} src={userDetail?.user?.photo || ""} />
           <List
             loading={isLoading}
             grid={{

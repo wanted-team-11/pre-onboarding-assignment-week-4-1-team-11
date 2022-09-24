@@ -1,8 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
-import { Modal } from 'antd';
-import { AccountProps, UserDetailProps } from '../../types/user';
-import { fetchAccountDetail } from '../api/fetchAccountDetail';
-import useRefine from './useRefine';
+import { useQuery } from "@tanstack/react-query";
+import { Modal } from "antd";
+import { AccountProps, UserDetailProps } from "../../types/user";
+import { fetchAccountDetail } from "../api/fetchAccountDetail";
+import useRefine from "./useRefine";
 
 const useAccountDetailQuery = (accountNumber: string) => {
   const {
@@ -14,7 +14,7 @@ const useAccountDetailQuery = (accountNumber: string) => {
   } = useRefine();
 
   const { data: accountDetail, ...queryResult } = useQuery(
-    ['getAccountDetail', accountNumber],
+    ["getAccountDetail", accountNumber],
     () => fetchAccountDetail(accountNumber),
     {
       select: (account): AccountProps => {
@@ -32,11 +32,11 @@ const useAccountDetailQuery = (accountNumber: string) => {
       },
       onError: (err) => {
         Modal.error({
-          title: 'error',
+          title: "error",
           content: `${err}`,
         });
       },
-    },
+    }
   );
   return {
     ...queryResult,

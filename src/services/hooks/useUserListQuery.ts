@@ -1,8 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
-import { Modal } from 'antd';
-import { fetchUserList } from '../api/fetchUserList';
-import { QUERY_KEY } from '../models/queryKeys';
-import useRefine from './useRefine';
+import { useQuery } from "@tanstack/react-query";
+import { Modal } from "antd";
+import { fetchUserList } from "../api/fetchUserList";
+import { QUERY_KEY } from "../models/queryKeys";
+import useRefine from "./useRefine";
 
 const useUserListQuery = (pageNumber: string) => {
   const { refineName, refineDate, refineTel } = useRefine();
@@ -28,11 +28,11 @@ const useUserListQuery = (pageNumber: string) => {
       },
       onError: (err) => {
         Modal.error({
-          title: 'error',
+          title: "error",
           content: `${err}`,
         });
       },
-    },
+    }
   );
   return {
     ...queryResult,

@@ -1,5 +1,5 @@
-import { Navigate, Outlet } from 'react-router-dom';
-import { StorageKey, tokenStorage } from '../storage';
+import { Navigate, Outlet } from "react-router-dom";
+import { StorageKey, tokenStorage } from "../storage";
 
 type Props = {
   nonAuthRedirectPath: string;

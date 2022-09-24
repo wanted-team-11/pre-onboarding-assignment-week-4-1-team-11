@@ -1,4 +1,4 @@
-import { AccountStatusKeyType, BrokerKeyType } from './statics';
+import { AccountStatusKeyType, BrokerKeyType } from "./statics";
 
 export type FetchUsersProps = {
   id: number;

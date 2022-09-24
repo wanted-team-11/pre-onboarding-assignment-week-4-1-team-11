@@ -1,7 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
-import { Modal } from 'antd';
-import { fetchSearchUserList } from '../api/fetchSearchUserList';
-import useRefine from './useRefine';
+import { useQuery } from "@tanstack/react-query";
+import { Modal } from "antd";
+import { fetchSearchUserList } from "../api/fetchSearchUserList";
+import useRefine from "./useRefine";
 
 type Props = {
   query: string;
@@ -12,7 +12,7 @@ const useSearchUserListQuery = ({ query, pageNumber }: Props) => {
   const { refineName, refineDate, refineTel } = useRefine();
 
   const { data, ...queryResult } = useQuery(
-    ['getUserList', pageNumber, query],
+    ["getUserList", pageNumber, query],
     () => fetchSearchUserList({ query, pageNumber }),
     {
       select: ({ userList, totalCount }) => {
@@ -32,11 +32,11 @@ const useSearchUserListQuery = ({ query, pageNumber }: Props) => {
       },
       onError: (err) => {
         Modal.error({
-          title: 'error',
+          title: "error",
           content: `${err}`,
         });
       },
-    },
+    }
   );
   return {
     ...queryResult,

@@ -1,20 +1,20 @@
-import { Input, Pagination } from 'antd';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { PATH } from '../../router/Router';
-import { useSearchAccountListQuery } from '../../services/hooks/useSearchAccountQuery';
-import AccountListTable from './components/AccountListTable';
+import { Input, Pagination } from "antd";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { PATH } from "../../router/Router";
+import { useSearchAccountListQuery } from "../../services/hooks/useSearchAccountQuery";
+import AccountListTable from "./components/AccountListTable";
 
 const { Search } = Input;
 
 const SearchAccountListPage = () => {
   const navigate = useNavigate();
-  const { page = '1' } = useParams();
+  const { page = "1" } = useParams();
   const [searchParams] = useSearchParams();
-  const query = searchParams.get('query') || '';
+  const query = searchParams.get("query") || "";
 
   const {
     accountList,
-    totalAccountCount = '0',
+    totalAccountCount = "0",
     isLoading,
   } = useSearchAccountListQuery({
     query,
@@ -35,7 +35,7 @@ const SearchAccountListPage = () => {
           pageSize={20}
           current={parseInt(page)}
           onChange={(page) => {
-            navigate(`${PATH.SEARCH_ACCOUNT_LIST(page + '')}?query=${query}`);
+            navigate(`${PATH.SEARCH_ACCOUNT_LIST(page + "")}?query=${query}`);
           }}
         />
       )}
