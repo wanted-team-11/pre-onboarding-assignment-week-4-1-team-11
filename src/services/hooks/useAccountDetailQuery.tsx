@@ -11,6 +11,7 @@ const useAccountDetailQuery = (accountNumber: string) => {
     refineBrokerId,
     refineAccountStatus,
     refineMoney,
+    refineIsActive,
   } = useRefine();
 
   const { data: accountDetail, ...queryResult } = useQuery(
@@ -22,6 +23,8 @@ const useAccountDetailQuery = (accountNumber: string) => {
           user_name: refineName(account.user_name),
           broker_name: refineBrokerId(account.broker_id),
           number: refineName(account.number),
+          name: account.name,
+          is_active: refineIsActive(account.is_active),
           status: refineAccountStatus(account.status),
           assets: refineMoney(account.assets),
           payments: refineMoney(account.payments),

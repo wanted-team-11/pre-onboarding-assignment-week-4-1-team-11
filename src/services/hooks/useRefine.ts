@@ -43,6 +43,10 @@ const useRefine = () => {
     return parseInt(money).toLocaleString();
   };
 
+  const refineIsActive = (is_active: boolean) => {
+    return is_active ? "O" : "X";
+  };
+
   return {
     refineName,
     refineDate,
@@ -50,6 +54,7 @@ const useRefine = () => {
     refineBrokerId,
     refineAccountStatus,
     refineMoney,
+    refineIsActive,
   };
 };
 
