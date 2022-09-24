@@ -53,8 +53,10 @@ const useUserColumns = (page: string) => {
           <>
             {lastLogin ? (
               <>
-                <div>{lastLogin?.split("T")[0]}</div>
-                <div>{lastLogin?.split("T")[1]?.split(".")[0]}</div>
+                <div>{`${lastLogin?.slice(0, 10)} ${lastLogin?.slice(
+                  11,
+                  16
+                )}`}</div>
               </>
             ) : (
               "-"
