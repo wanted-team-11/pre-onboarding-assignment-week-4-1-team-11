@@ -8,10 +8,12 @@ function useAccounts() {
   const [totalCount, setTotalCount] = useState(0);
   const location = useLocation();
   const { search } = location;
-  const [page, setPage] = useState(Number(search.split("=")[1]));
+  const [page, setPage] = useState(
+    Number(new URLSearchParams(search).get("page"))
+  );
 
   useEffect(() => {
-    const pageNum = Number(search.split("=")[1]);
+    const pageNum = Number(new URLSearchParams(search).get("page"));
     setPage(pageNum);
   }, [search]);
 

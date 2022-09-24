@@ -31,6 +31,7 @@ export interface FilteredUser extends User {
   account_count: number;
   allow_marketing_push: boolean;
   is_active: boolean;
+  is_staff: boolean;
 }
 
 export interface Columns {
