@@ -1,12 +1,13 @@
 import React, { useRef, useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
-import { Button, Input, Space, Table } from "antd";
+import { Button, Input, Space, Table, Pagination } from "antd";
 import { enactUserList } from "../api/callApi";
 import Highlighter from "react-highlight-words";
 import { useQuery } from "react-query";
 import styled from "styled-components";
+import { Link, useNavigate } from "react-router-dom";
 
-const App = () => {
+const UserListTable = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<any>(null);
@@ -180,8 +181,16 @@ const App = () => {
       key: "name",
       width: "7%",
       ...getColumnSearchProps("name"),
-      render: (name: string) => {
-        return <>{name !== undefined ? maskingName(name) : null}</>;
+      render: (name: string, record: string) => {
+        return (
+          <>
+            {name !== undefined ? (
+              <Link to={`/user_detail:${enactUserList_query.data[0].uuid}`}>
+                {maskingName(name)}
+              </Link>
+            ) : null}
+          </>
+        );
       },
     },
     {
@@ -307,24 +316,38 @@ const App = () => {
       title: "주소",
       dataIndex: "address",
       key: "address",
-      ...getColumnSearchProps("address"),
       width: "7%",
     },
   ] as any;
 
   return (
     <UserListTableContainer>
-      <Table
-        columns={columns}
-        dataSource={enactUserList_query.data}
-        loading={isLoading}
-      />
+      {enactUserList_query.data && (
+        <>
+          <Table
+            columns={columns}
+            dataSource={enactUserList_query.data}
+            loading={isLoading}
+            rowKey={(key) => key.uuid}
+          />
+          {/* <AntdPagination
+            defaultCurrent={1}
+            total={enactUserList_query.data.length}
+            onChange={(pageClick) => navigate(`/user?page=${pageClick}`)}
+          /> */}
+        </>
+      )}
     </UserListTableContainer>
   );
 };
 
-export default App;
+export default UserListTable;
 
 const UserListTableContainer = styled.div`
   padding: 20px;
+`;
+
+const AntdPagination = styled(Pagination)`
+  text-align: center;
+  margin-top: 20px;
 `;

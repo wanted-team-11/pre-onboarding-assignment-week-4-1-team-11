@@ -59,3 +59,18 @@ export interface Columns {
   editable?: boolean;
   render?: (_: any, record: FilteredUser) => JSX.Element;
 }
+
+export type AccountProps = {
+  id: number;
+  uuid: string;
+  user_id: number;
+  user_name: string;
+  broker_name: string;
+  number: string;
+  name: string;
+  assets: string;
+  payments: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+};

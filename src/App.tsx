@@ -12,9 +12,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/user_list" element={<UserList />} />
-        <Route path="/user_detail" element={<UserDetail />} />
+        <Route path="/user_detail:id" element={<UserDetail />} />
         <Route path="/account_list" element={<AccountList />} />
-        <Route path="/account_detail" element={<AccountDetail />} />
+        <Route path="/account_detail:id" element={<AccountDetail />} />
       </Routes>
     </BrowserRouter>
   );

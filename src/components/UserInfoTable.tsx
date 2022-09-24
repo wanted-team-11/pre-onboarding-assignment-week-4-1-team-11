@@ -17,7 +17,7 @@ export default function UserInfoTable({
   //     unknown
   //   >;
 }) {
-  const userId = Number(localStorage.getItem("userId"));
+  
 
   const maskingName = function (strName: string) {
     if (strName.length > 2) {
