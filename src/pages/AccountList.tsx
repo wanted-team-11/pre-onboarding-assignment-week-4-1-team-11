@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Form, Pagination, Table } from "antd";
 import PageLayout from "../components/PageLayout";
-import {
-  fetchAccounts,
-  fetchAccountsByPageNumber,
-} from "../services/api/accountApi";
+import { fetchAccountsByPageNumber } from "../services/api/accountApi";
 import { FilteredAccounts } from "../types";
 import useAccountColumns from "../hooks/useAccountColumns";
 import { useNavigate, useLocation } from "react-router-dom";

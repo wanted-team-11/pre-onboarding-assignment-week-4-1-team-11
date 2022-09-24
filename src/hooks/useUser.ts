@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import {
   fetchUserByPageNumber,
   fetchUserByUuid,
-  fetchUser,
 } from "../services/api/userApi";
 import { fetchAccountsByUserId } from "../services/api/accountApi";
 import { FilteredUser } from "../types";
