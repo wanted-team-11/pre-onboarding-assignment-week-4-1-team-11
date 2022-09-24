@@ -1,23 +1,30 @@
 import styled from "styled-components";
 import { MdOutlineAccountBalance } from "react-icons/md";
 import { GoDashboard } from "react-icons/go";
-import { HiChevronDown } from "react-icons/hi";
 import { BiUser, BiLogOutCircle } from "react-icons/bi";
-import { IconBase } from "react-icons/lib";
+import { useNavigate } from "react-router-dom";
 
 const Sider = () => {
+  const navigate = useNavigate();
+
+  const ClickToLink =(keyword : string) =>{
+    navigate(`${keyword}`);
+  }
+
   return (
     <SiderContainer>
       <SiderTitle>PREFACE</SiderTitle>
       <SiderListBox>
-        {SIDER_LIST.sider.map(({ name, icon, id }) => {
+        {SIDER_LIST.sider.map(({ name, icon, id ,keyword }) => {
           return (
-            <>
-              <ListItem key={id}>
+            
+              <ListItem key={id} onClick={()=>{
+                ClickToLink(keyword);
+              }}>
                 {icon} &nbsp;
                 {name}
               </ListItem>
-            </>
+            
           );
         })}
       </SiderListBox>
@@ -51,9 +58,10 @@ const ListItem = styled.div`
   font-size: 25px;
   color: gray;
   padding: 20px;
-  &: hover {
+   &:hover {
     background-color: #458ff7;
     color: white;
+    cursor : pointer;
   }
 `;
 
@@ -63,10 +71,10 @@ const SIDER_LIST = {
     {
       id: 2,
       name: "계좌 목록",
-      keyword: "accounts",
+      keyword: "accountlist",
       icon: <MdOutlineAccountBalance />,
     },
-    { id: 3, name: "사용자 목록", keyword: "users", icon: <BiUser /> },
+    { id: 3, name: "사용자 목록", keyword: "user", icon: <BiUser /> },
     { id: 9999, name: "로그아웃", keyword: "logout", icon: <BiLogOutCircle /> },
   ],
 };

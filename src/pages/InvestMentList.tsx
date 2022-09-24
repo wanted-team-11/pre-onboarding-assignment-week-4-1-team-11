@@ -1,60 +1,56 @@
 import styled from "styled-components";
+import { useEffect, useState } from "react";
+import { tokenStorage } from "../storage/tokenStorage";
 
 const InvestmentList = () => {
+  const [accountData, setAccountData] = useState([]);
+  useEffect(() => {
+    fetch("/accounts", {
+      headers: {
+        Authorization: `Bearer ${tokenStorage.get("acessToken")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setAccountData(data));
+  }, []);
+
+  console.log(accountData);
   return (
     <InvestmentListContainer>
       <InvestmentTable>
         <TableHead>
-          <TableColumn>
-            <TableRow>증권사</TableRow>
-            <TableRow>계좌번호</TableRow>
-            <TableRow>고객명</TableRow>
-            <TableRow>운용상태</TableRow>
-            <TableRow>계약원금</TableRow>
-            <TableRow>예수금</TableRow>
-            <TableRow>총자산</TableRow>
-            <TableRow>평가손익</TableRow>
-            <TableRow>수익률</TableRow>
-            <TableRow>상품명</TableRow>
-          </TableColumn>
+          <TableRow>
+            <TableTitle>증권사</TableTitle>
+            <TableTitle>계좌번호</TableTitle>
+            <TableTitle>고객명</TableTitle>
+            <TableTitle>운용상태</TableTitle>
+            <TableTitle>계약원금</TableTitle>
+            <TableTitle>예수금</TableTitle>
+            <TableTitle>총자산</TableTitle>
+            <TableTitle>평가손익</TableTitle>
+            <TableTitle>수익률</TableTitle>
+            <TableTitle>상품명</TableTitle>
+          </TableRow>
         </TableHead>
         <TableBody>
-          <TableColumn>
-            <TableRow>증권사</TableRow>
-            <TableRow>계좌번호</TableRow>
-            <TableRow>고객명</TableRow>
-            <TableRow>운용상태</TableRow>
-            <TableRow>계약원금</TableRow>
-            <TableRow>예수금</TableRow>
-            <TableRow>총자산</TableRow>
-            <TableRow>평가손익</TableRow>
-            <TableRow>수익률</TableRow>
-            <TableRow>상품명</TableRow>
-          </TableColumn>{" "}
-          <TableColumn>
-            <TableRow>증권사</TableRow>
-            <TableRow>계좌번호</TableRow>
-            <TableRow>고객명</TableRow>
-            <TableRow>운용상태</TableRow>
-            <TableRow>계약원금</TableRow>
-            <TableRow>예수금</TableRow>
-            <TableRow>총자산</TableRow>
-            <TableRow>평가손익</TableRow>
-            <TableRow>수익률</TableRow>
-            <TableRow>상품명</TableRow>
-          </TableColumn>{" "}
-          <TableColumn>
-            <TableRow>증권사</TableRow>
-            <TableRow>계좌번호</TableRow>
-            <TableRow>고객명</TableRow>
-            <TableRow>운용상태</TableRow>
-            <TableRow>계약원금</TableRow>
-            <TableRow>예수금</TableRow>
-            <TableRow>총자산</TableRow>
-            <TableRow>평가손익</TableRow>
-            <TableRow>수익률</TableRow>
-            <TableRow>상품명</TableRow>
-          </TableColumn>
+          {accountData.map((el: any) => {
+            return (
+              <>
+                <TableRow>
+                  <TableColumn>{el.status}</TableColumn>
+                  <TableColumn>계좌번호</TableColumn>
+                  <TableColumn>고객명</TableColumn>
+                  <TableColumn>운용상태</TableColumn>
+                  <TableColumn>계약원금</TableColumn>
+                  <TableColumn>예수금</TableColumn>
+                  <TableColumn>총자산</TableColumn>
+                  <TableColumn>평가손익</TableColumn>
+                  <TableColumn>수익률</TableColumn>
+                  <TableColumn>상품명</TableColumn>
+                </TableRow>
+              </>
+            );
+          })}
         </TableBody>
       </InvestmentTable>
     </InvestmentListContainer>
@@ -68,8 +64,6 @@ const InvestmentListContainer = styled.div`
   background-color: #f0f2f5;
 `;
 
-const InvestmentListBox = styled.div``;
-
 const InvestmentTable = styled.table`
   width: 100%;
   border: 1px solid gray;
@@ -77,15 +71,20 @@ const InvestmentTable = styled.table`
 
 const TableHead = styled.thead``;
 
-const TableColumn = styled.tr``;
+const TableTitle = styled.th`
+  padding: 20px 25px;
+  background-color: white;
+  border: 1px solid black;
+`;
 
-const TableRow = styled.td`
-  background-color: #fafafa;
-  text-align: center;
-  font-weight: bold;
-  border-bottom: 1px solid gray;
-  border-left: 1px solid gray;
+const TableRow = styled.tr`
+  padding: 20px;
+  background-color: white;
+`;
+const TableColumn = styled.td`
+  border: 1px solid black;
   padding: 10px;
+  text-align: center;
 `;
 
 const TableBody = styled.tbody``;

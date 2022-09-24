@@ -1,12 +1,45 @@
 import React from "react";
 import styled from "styled-components";
+import { useState } from "react";
 import { BiUser, BiLock, BiLogIn, BiCopyright } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import { tokenStorage } from "../storage/tokenStorage";
 
 const Login = () => {
+  const [userInfo, setUserInfo] = useState({
+    email: "",
+    password: "",
+  });
+
+  const onChangeInfo = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+    setUserInfo({ ...userInfo, [name]: value });
+  };
+
   const navigate = useNavigate();
-  const LoginClick = () => {
-    navigate("/content");
+
+  const LoginClick = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const onLogin = async (email: string, password: string) => {
+      const res = await fetch("/login", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+      const data = await res.json();
+      return data.accessToken;
+    };
+
+    try {
+      const token = await onLogin(userInfo.email, userInfo.password);
+      tokenStorage.set("acessToken", token);
+      navigate("/content");
+    } catch (err) {
+      alert(err);
+    }
   };
   return (
     <LoginContainer>
@@ -17,17 +50,27 @@ const Login = () => {
         <LoginBanner>
           <BiUser /> 로그인
         </LoginBanner>
-        <InputBox>
+        <InputBox onSubmit={LoginClick}>
           <ImageBox>
-            <LoginInput type="text" placeholder="이메일 로그인 부탁" />
+            <LoginInput
+              onChange={onChangeInfo}
+              type="text"
+              name="email"
+              placeholder="이메일 로그인 부탁"
+            />
             <UserImage />
           </ImageBox>
           <ImageBox>
-            <PasswordInput type="password" placeholder="패스워드" />
+            <PasswordInput
+              onChange={onChangeInfo}
+              type="password"
+              name="password"
+              placeholder="패스워드"
+            />
             <LockImage />
           </ImageBox>
 
-          <LoginButton onClick={LoginClick}>
+          <LoginButton>
             <LoginImage /> 로그인
           </LoginButton>
         </InputBox>
@@ -76,7 +119,7 @@ const LoginBanner = styled.div`
   padding: 20px;
 `;
 
-const InputBox = styled.div`
+const InputBox = styled.form`
   display: flex;
   justify-content: center;
   align-items: center;

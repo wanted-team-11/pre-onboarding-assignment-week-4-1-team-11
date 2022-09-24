@@ -6,8 +6,19 @@ import User from "../pages/User";
 import AccountList from "./InvestMentList";
 import DashBoard from "./DashBoard";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { tokenStorage } from "../storage/tokenStorage";
+import {useEffect} from "react";
+
 
 const Content = () => {
+  const navigate = useNavigate();
+  const token = tokenStorage.get('accessToken');
+
+  useEffect(() => {
+    !token && navigate('/');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token])
   return (
     <>
       <ContentContainer>
@@ -29,4 +40,5 @@ export default Content;
 const ContentContainer = styled.div`
   position: relative;
   padding-left: 300px;
+  
 `;
