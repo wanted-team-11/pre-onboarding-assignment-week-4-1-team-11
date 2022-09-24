@@ -26,7 +26,10 @@ const Sider = () => {
     },
   ];
 
-  const selectedMenu = menuItems.find(({ key }) => pathname.includes(key))?.key;
+  const selectedMenu = () => {
+    if (pathname.includes("detail")) return "0";
+    else return menuItems.find(({ key }) => pathname.includes(key))!.key;
+  };
 
   return (
     <SiderAndt
@@ -47,7 +50,7 @@ const Sider = () => {
       />
       <Menu
         theme="dark"
-        defaultSelectedKeys={[selectedMenu || "user-list"]}
+        selectedKeys={[selectedMenu()]}
         mode="inline"
         items={menuItems}
       />
