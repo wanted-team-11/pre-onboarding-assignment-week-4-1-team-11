@@ -1,4 +1,4 @@
-import { Popconfirm, Table } from "antd";
+import { Popconfirm, Table, Tag } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { Link } from "react-router-dom";
 import { PATH } from "../../../router/Router";
@@ -38,6 +38,14 @@ const UserListTable = ({
       title: "성별코드",
       dataIndex: "gender_origin",
       key: "gender_origin",
+      render: (gender_origin) =>
+        gender_origin === undefined ? (
+          <Tag>--</Tag>
+        ) : gender_origin % 2 === 0 ? (
+          <Tag>여성🙋‍♀️</Tag>
+        ) : (
+          <Tag>남성🙋‍♂️</Tag>
+        ),
     },
     {
       title: "생년월일",
