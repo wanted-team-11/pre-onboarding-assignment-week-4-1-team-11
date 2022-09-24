@@ -4,14 +4,21 @@ import { FilteredAccounts, AccountsColumns } from "../types";
 import { convertStatus, convertBroker } from "../utils/convert";
 
 const useAccountColumns = () => {
+  // dataIndex: "operation",
+  //     render: (_: any, record: FilteredUser) => {
+  //       const name = record.name || "관리자";
+  //       return <Link to={`/user/${record!.id}`}>{maskingName(name)}</Link>;
+  //     },
   const columns: AccountsColumns[] = [
     {
       title: "고객명",
-      dataIndex: "user_id",
+      dataIndex: "operation",
       width: "10%",
       editable: true,
-      render: (userId: number) => {
-        return <Link to={`/user/${userId}`}>{userId}</Link>;
+      render: (_: any, record: FilteredAccounts) => {
+        const userName = record.user_name;
+        const userId = record.user_id;
+        return <Link to={`/user/${userId}`}>{userName}</Link>;
       },
     },
     {

@@ -12,4 +12,8 @@ const fetchUserByUuid = async (uuid: string) => {
   return baseInstance.get(`/userSetting?uuid=${uuid}`);
 };
 
-export { fetchUser, fetchUserByPageNumber, fetchUserByUuid };
+const fetchUserByUserId = async (userId: number) => {
+  return baseInstance.get(`/users?id=${userId}`);
+};
+
+export { fetchUser, fetchUserByPageNumber, fetchUserByUuid, fetchUserByUserId };

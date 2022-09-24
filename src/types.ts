@@ -58,6 +58,7 @@ export interface Accounts {
 
 export interface FilteredAccounts extends Accounts {
   key: string;
+  user_name: string;
 }
 
 export interface AccountsColumns {

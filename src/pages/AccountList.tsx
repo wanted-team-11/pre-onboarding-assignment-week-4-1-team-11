@@ -1,39 +1,15 @@
-import React, { useEffect, useState } from "react";
 import { Form, Pagination, Table } from "antd";
 import PageLayout from "../components/PageLayout";
-import { fetchAccountsByPageNumber } from "../services/api/accountApi";
-import { FilteredAccounts } from "../types";
 import useAccountColumns from "../hooks/useAccountColumns";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import useAccounts from "../hooks/useAccounts";
 
 function AccountList() {
   const [form] = Form.useForm();
-  const [totalCount, setTotalCount] = useState(0);
-  const location = useLocation();
-  const { search } = location;
-  const [page, setPage] = useState(Number(search.split("=")[1]));
-
-  useEffect(() => {
-    const pageNum = Number(search.split("=")[1]);
-    setPage(pageNum);
-  }, [search]);
+  const { accounts, totalCount } = useAccounts();
 
   const accountColumns = useAccountColumns();
   const navigate = useNavigate();
-
-  const [accounts, setAccounts] = useState<FilteredAccounts[]>([]);
-
-  useEffect(() => {
-    fetchAccountsByPageNumber(page)
-      .then((res) => {
-        const xTotalCount = Number(res.headers["x-total-count"]);
-        setTotalCount(xTotalCount);
-        setAccounts(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [page]);
 
   return (
     <PageLayout>
