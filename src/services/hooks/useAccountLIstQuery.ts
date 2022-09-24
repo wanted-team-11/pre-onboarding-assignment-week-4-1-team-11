@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { Modal } from "antd";
 import { fetchAccountList } from "../api/fetchAccountList";
-import { brokerKeyType } from "../models/statics";
+import { AccountStatusKeyType, BrokerKeyType } from "../models/statics";
 import useRefine from "./useRefine";
 
-const useAccountsQuery = (pageNumber: number) => {
-  const { refineName, refineDate, refineBrokerId } = useRefine();
+const useAccountListQuery = (pageNumber: number) => {
+  const { refineName, refineDate, refineBrokerId, refineAccountStatus } =
+    useRefine();
 
   const { data, ...queryResult } = useQuery(
     ["getAccounts", pageNumber],
@@ -15,9 +16,11 @@ const useAccountsQuery = (pageNumber: number) => {
         return {
           accountList: accountList.map((account) => ({
             ...account,
+            status: refineAccountStatus(account.status as AccountStatusKeyType),
+            number: refineName(account.number),
             created_at: refineDate(account.created_at),
             user_name: refineName(account.user_name),
-            broker_name: refineBrokerId(account.broker_name as brokerKeyType),
+            broker_name: refineBrokerId(account.broker_name as BrokerKeyType),
           })),
           totalAccountCount,
         };
@@ -37,4 +40,4 @@ const useAccountsQuery = (pageNumber: number) => {
   };
 };
 
-export { useAccountsQuery };
+export { useAccountListQuery };

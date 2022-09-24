@@ -5,7 +5,13 @@ import { fetchAccountDetail } from "../api/fetchAccountDetail";
 import useRefine from "./useRefine";
 
 const useAccountDetailQuery = (accountNumber: string) => {
-  const { refineDate, refineName, refineBrokerId } = useRefine();
+  const {
+    refineDate,
+    refineName,
+    refineBrokerId,
+    refineAccountStatus,
+    refineMoney,
+  } = useRefine();
 
   const { data: accountDetail, ...queryResult } = useQuery(
     ["getAccountDetail", accountNumber],
@@ -14,6 +20,10 @@ const useAccountDetailQuery = (accountNumber: string) => {
       select: (account): AccountProps => {
         return {
           ...account,
+          assets: refineMoney(account.assets),
+          payments: refineMoney(account.payments),
+          number: refineName(account.number),
+          status: refineAccountStatus(account.status),
           broker_name: refineBrokerId(account.broker_id),
           user_name: refineName(account.user_name),
           updated_at: refineDate(account.updated_at),

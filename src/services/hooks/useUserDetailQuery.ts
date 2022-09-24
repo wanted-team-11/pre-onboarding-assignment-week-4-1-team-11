@@ -23,7 +23,7 @@ const useUserDetailQuery = (userId: string) => {
           },
           accounts: accounts.map((account) => ({
             ...account,
-            broker_id: refineBrokerId(account.broker_id),
+            broker_name: refineBrokerId(account.broker_id),
           })),
         };
       },

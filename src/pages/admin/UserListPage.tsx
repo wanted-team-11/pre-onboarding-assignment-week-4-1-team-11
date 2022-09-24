@@ -12,7 +12,7 @@ const UserListPage = () => {
   const navigate = useNavigate();
 
   const onSearch = (value: string) => {
-    navigate(`${PATH.USER_LIST_SEARCH()}?query=${value}`);
+    navigate(`${PATH.SEARCH_USER_LIST()}?query=${value}`);
   };
 
   return (

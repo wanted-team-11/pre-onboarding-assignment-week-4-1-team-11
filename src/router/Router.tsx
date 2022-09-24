@@ -9,6 +9,7 @@ import UserListPage from "../pages/admin/UserListPage";
 import SearchUserListPage from "../pages/admin/SearchUserListPage";
 import AccountListPage from "../pages/admin/AccountListPage";
 import AccountDetailPage from "../pages/admin/AccountDetailPage";
+import SearchAccountListPage from "../pages/admin/SearchAccountListPage";
 
 export const PATH = {
   ROOT: "/",
@@ -19,7 +20,9 @@ export const PATH = {
   ACCOUNT_LIST: (page?: string) => `/admin/account-list/${page || "1"}`,
   ACCOUNT_DETAIL: (accountNumber: string) =>
     `/admin/account-list/detail/${accountNumber}`,
-  USER_LIST_SEARCH: (page?: string) => `/admin/user-list/search/${page || "1"}`,
+  SEARCH_USER_LIST: (page?: string) => `/admin/user-list/search/${page || "1"}`,
+  SEARCH_ACCOUNT_LIST: (page?: string) =>
+    `/admin/account-list/search/${page || "1"}`,
 };
 
 const Router = () => {
@@ -54,8 +57,12 @@ const Router = () => {
               element={<AccountDetailPage />}
             />
             <Route
-              path={PATH.USER_LIST_SEARCH(":page")}
+              path={PATH.SEARCH_USER_LIST(":page")}
               element={<SearchUserListPage />}
+            />
+            <Route
+              path={PATH.SEARCH_ACCOUNT_LIST(":page")}
+              element={<SearchAccountListPage />}
             />
           </Route>
         </Route>

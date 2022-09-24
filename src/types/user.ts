@@ -15,23 +15,6 @@ export type UserProps = {
   account_count: number;
 };
 
-export type UserDetailProps = { user: FetchUsersProps } & {
-  accounts: {
-    id: number;
-    user_id: number;
-    uuid: string;
-    broker_id: string;
-    status: number;
-    number: string;
-    name: string;
-    assets: string;
-    payments: string;
-    is_active: boolean;
-    created_at: string;
-    updated_at: string;
-  }[];
-};
-
 export type AccountProps = {
   id: number;
   uuid: string;
@@ -39,10 +22,17 @@ export type AccountProps = {
   user_name: string;
   broker_name: string;
   number: string;
+  status: string;
   name: string;
   assets: string;
   payments: string;
   is_active: boolean;
   created_at: string;
   updated_at: string;
+};
+
+type OmitedUsernameAccount = Omit<AccountProps, "user_name">;
+
+export type UserDetailProps = { user: FetchUsersProps } & {
+  accounts: OmitedUsernameAccount[];
 };

@@ -1,8 +1,10 @@
-import { Pagination } from "antd";
+import { Input, Pagination } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAccountsQuery } from "../../services/hooks/useAccountsQuery";
+import { useAccountListQuery } from "../../services/hooks/useAccountLIstQuery";
 import { PATH } from "../../router/Router";
 import AccountListTable from "./components/AccountListTable";
+
+const { Search } = Input;
 
 const AccountListPage = () => {
   const { page = "1" } = useParams();
@@ -10,12 +12,17 @@ const AccountListPage = () => {
     accountList,
     totalAccountCount = "0",
     isLoading,
-  } = useAccountsQuery(parseInt(page || "1"));
+  } = useAccountListQuery(parseInt(page || "1"));
 
   const navigate = useNavigate();
 
+  const onSearch = (value: string) => {
+    navigate(`${PATH.SEARCH_ACCOUNT_LIST()}?query=${value}`);
+  };
+
   return (
     <>
+      <Search placeholder="input search text" onSearch={onSearch} />
       <AccountListTable accountList={accountList} isLoading={isLoading} />
       {!isLoading && (
         <Pagination

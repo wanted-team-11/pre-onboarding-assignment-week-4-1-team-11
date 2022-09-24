@@ -1,4 +1,4 @@
-import brokers from "../static/brokers.json";
+import { AccountStatusKeyType, BrokerKeyType } from "./statics";
 
 export type FetchUsersProps = {
   id: number;
@@ -32,8 +32,8 @@ export type FetchAccountProps = {
   id: number;
   user_id: number;
   uuid: string;
-  broker_id: keyof typeof brokers;
-  status: number;
+  broker_id: BrokerKeyType;
+  status: AccountStatusKeyType;
   number: string;
   name: string;
   assets: string;

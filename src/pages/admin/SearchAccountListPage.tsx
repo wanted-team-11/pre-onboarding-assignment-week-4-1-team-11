@@ -1,41 +1,43 @@
 import { Input, Pagination } from "antd";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { PATH } from "../../router/Router";
+import { useSearchAccountListQuery } from "../../services/hooks/useSearchAccountQuery";
 import { useSearchUserListQuery } from "../../services/hooks/useSearchUserListQuery";
+import AccountListTable from "./components/AccountListTable";
 import UserListTable from "./components/UserListTable";
 
 const { Search } = Input;
 
-const SearchUserListPage = () => {
+const SearchAccountListPage = () => {
   const navigate = useNavigate();
   const { page = "1" } = useParams();
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query") || "";
 
   const {
-    userList,
-    totalCount = "0",
+    accountList,
+    totalAccountCount = "0",
     isLoading,
-  } = useSearchUserListQuery({
+  } = useSearchAccountListQuery({
     query,
     pageNumber: page,
   });
 
   const onSearch = (value: string) => {
-    navigate(`${PATH.SEARCH_USER_LIST()}?query=${value}`);
+    navigate(`${PATH.SEARCH_ACCOUNT_LIST()}?query=${value}`);
   };
 
   return (
     <>
       <Search placeholder="input search text" onSearch={onSearch} />
-      <UserListTable userList={userList} isLoading={isLoading} />
+      <AccountListTable accountList={accountList} isLoading={isLoading} />
       {!isLoading && (
         <Pagination
-          total={parseInt(totalCount)}
+          total={parseInt(totalAccountCount)}
           pageSize={20}
           current={parseInt(page)}
           onChange={(page) => {
-            navigate(`${PATH.SEARCH_USER_LIST(page + "")}?query=${query}`);
+            navigate(`${PATH.SEARCH_ACCOUNT_LIST(page + "")}?query=${query}`);
           }}
         />
       )}
@@ -43,4 +45,4 @@ const SearchUserListPage = () => {
   );
 };
 
-export default SearchUserListPage;
+export default SearchAccountListPage;

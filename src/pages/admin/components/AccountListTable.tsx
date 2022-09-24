@@ -25,10 +25,8 @@ const columns: ColumnsType<AccountProps> = [
     title: "계좌번호",
     dataIndex: "number",
     key: "number",
-    render: (account_number) => (
-      <Link to={`${PATH.ACCOUNT_DETAIL(account_number)}`}>
-        {account_number}
-      </Link>
+    render: (account_number, record) => (
+      <Link to={`${PATH.ACCOUNT_DETAIL(record.uuid)}`}>{account_number}</Link>
     ),
   },
   {
