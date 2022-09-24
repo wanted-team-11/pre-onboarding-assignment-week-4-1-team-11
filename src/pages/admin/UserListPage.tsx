@@ -2,6 +2,7 @@ import { Input, Pagination } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { PATH } from "../../router/Router";
 import { useUserListQuery } from "../../services/hooks/useUserListQuery";
+import Filter from "./components/Filter";
 import UserListTable from "./components/UserListTable";
 
 const { Search } = Input;
@@ -17,6 +18,7 @@ const UserListPage = () => {
 
   return (
     <>
+      <Filter />
       <Search placeholder="input search text" onSearch={onSearch} />
       <UserListTable isLoading={isLoading} userList={userList} />
       {!isLoading && (

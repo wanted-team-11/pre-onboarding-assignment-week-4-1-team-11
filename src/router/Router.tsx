@@ -10,6 +10,7 @@ import SearchUserListPage from "../pages/admin/SearchUserListPage";
 import AccountListPage from "../pages/admin/AccountListPage";
 import AccountDetailPage from "../pages/admin/AccountDetailPage";
 import SearchAccountListPage from "../pages/admin/SearchAccountListPage";
+import FilterUserListPage from "../pages/admin/FilterUserListPage";
 
 export const PATH = {
   ROOT: "/",
@@ -23,6 +24,7 @@ export const PATH = {
   SEARCH_USER_LIST: (page?: string) => `/admin/user-list/search/${page || "1"}`,
   SEARCH_ACCOUNT_LIST: (page?: string) =>
     `/admin/account-list/search/${page || "1"}`,
+  FILTER_USER_LIST: (page?: string) => `/admin/user-list/filter/${page || "1"}`,
 };
 
 const Router = () => {
@@ -63,6 +65,10 @@ const Router = () => {
             <Route
               path={PATH.SEARCH_ACCOUNT_LIST(":page")}
               element={<SearchAccountListPage />}
+            />
+            <Route
+              path={PATH.FILTER_USER_LIST(":page")}
+              element={<FilterUserListPage />}
             />
           </Route>
         </Route>

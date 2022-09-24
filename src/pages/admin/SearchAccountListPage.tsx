@@ -2,9 +2,8 @@ import { Input, Pagination } from "antd";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { PATH } from "../../router/Router";
 import { useSearchAccountListQuery } from "../../services/hooks/useSearchAccountQuery";
-import { useSearchUserListQuery } from "../../services/hooks/useSearchUserListQuery";
 import AccountListTable from "./components/AccountListTable";
-import UserListTable from "./components/UserListTable";
+import Filter from "./components/Filter";
 
 const { Search } = Input;
 
