@@ -14,6 +14,7 @@ function Header() {
     if (pathname === "/accounts") setPageName("계좌 목록");
     if (pathname === "/user") setPageName("사용자 목록");
     if (pathname.includes("/user/")) setPageName("사용자 상세 정보");
+    if (pathname.includes("/account/")) setPageName("계좌 상세 정보");
   }, [pathname]);
 
   return (

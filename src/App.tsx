@@ -6,6 +6,7 @@ import UserList from "./pages/UserList";
 import { useNavigate, useLocation } from "react-router-dom";
 import storage from "./storage/storage";
 import UserDetail from "./pages/UserDetail";
+import AccountDetail from "./pages/AccountDetail";
 
 function App() {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ function App() {
       <Route path="/user" element={<UserList />} />
       <Route path="/user/:id" element={<UserDetail />} />
       <Route path="/accounts" element={<AccountList />} />
+      <Route path="/account/:id" element={<AccountDetail />} />
     </Routes>
   );
 }

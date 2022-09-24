@@ -8,7 +8,7 @@ function AccountList() {
   const [form] = Form.useForm();
   const { accounts, totalCount } = useAccounts();
 
-  const accountColumns = useAccountColumns();
+  const accountColumns = useAccountColumns("list");
   const navigate = useNavigate();
 
   return (

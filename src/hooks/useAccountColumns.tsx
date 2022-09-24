@@ -4,7 +4,7 @@ import { FilteredAccounts, AccountsColumns } from "../types";
 import { convertStatus, convertBroker } from "../utils/convert";
 import { maskingAccountNumber } from "../utils/masking";
 
-const useAccountColumns = () => {
+const useAccountColumns = (page: string) => {
   const columns: AccountsColumns[] = [
     {
       title: "고객명",
@@ -28,11 +28,24 @@ const useAccountColumns = () => {
     },
     {
       title: "계좌번호",
-      dataIndex: "number",
+      dataIndex: "operation",
       width: "10%",
       editable: true,
-      render: (accountNumber: string) => {
-        return <>{maskingAccountNumber(accountNumber)}</>;
+      render: (_: any, record: FilteredAccounts) => {
+        return (
+          <>
+            {page === "list" ? (
+              <Link
+                to={`/account/${record.number}`}
+                state={{ account: record }}
+              >
+                {maskingAccountNumber(record.number)}
+              </Link>
+            ) : (
+              <>{maskingAccountNumber(record.number)}</>
+            )}
+          </>
+        );
       },
     },
     {
