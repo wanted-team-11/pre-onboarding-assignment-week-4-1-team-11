@@ -31,6 +31,8 @@ export type AccountProps = {
   updated_at: string;
 };
 
+export type PartialAccountProps = Partial<AccountProps>;
+
 type OmitedUsernameAccount = Omit<AccountProps, "user_name">;
 
 export type UserDetailProps = { user: FetchUsersProps } & {

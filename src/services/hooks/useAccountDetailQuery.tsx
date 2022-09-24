@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Modal } from "antd";
-import { AccountProps, UserDetailProps } from "../../types/user";
+import { PartialAccountProps } from "../../types/user";
 import { fetchAccountDetail } from "../api/fetchAccountDetail";
 import useRefine from "./useRefine";
 
@@ -17,17 +17,16 @@ const useAccountDetailQuery = (accountNumber: string) => {
     ["getAccountDetail", accountNumber],
     () => fetchAccountDetail(accountNumber),
     {
-      select: (account): AccountProps => {
+      select: (account): PartialAccountProps => {
         return {
-          ...account,
-          assets: refineMoney(account.assets),
-          payments: refineMoney(account.payments),
+          user_name: refineName(account.user_name),
+          broker_name: refineBrokerId(account.broker_id),
           number: refineName(account.number),
           status: refineAccountStatus(account.status),
-          broker_name: refineBrokerId(account.broker_id),
-          user_name: refineName(account.user_name),
-          updated_at: refineDate(account.updated_at),
+          assets: refineMoney(account.assets),
+          payments: refineMoney(account.payments),
           created_at: refineDate(account.created_at),
+          updated_at: refineDate(account.updated_at),
         };
       },
       onError: (err) => {
