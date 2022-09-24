@@ -1,9 +1,12 @@
-import { Input, Pagination } from "antd";
+import { Input, Pagination, Button as _Button } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { PATH } from "../../router/Router";
 import { useUserListQuery } from "../../services/hooks/useUserListQuery";
 import Filter from "./components/Filter";
 import UserListTable from "./components/UserListTable";
+import NewUserDrawer from "./components/NewUserDrawer";
+import styled from "styled-components";
+import { useState } from "react";
 
 const { Search } = Input;
 
@@ -16,9 +19,22 @@ const UserListPage = () => {
     navigate(`${PATH.SEARCH_USER_LIST()}?query=${value}`);
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openDrawer = () => {
+    setIsOpen(true);
+  };
+
+  const closeDrawer = () => {
+    setIsOpen(false);
+  };
+
   return (
     <>
       <Filter />
+      <Button type="primary" onClick={openDrawer}>
+        신규 사용자
+      </Button>
       <Search placeholder="input search text" onSearch={onSearch} />
       <UserListTable isLoading={isLoading} userList={userList} />
       {!isLoading && (
@@ -31,8 +47,13 @@ const UserListPage = () => {
           }}
         />
       )}
+      <NewUserDrawer closeDrawer={closeDrawer} open={isOpen} />
     </>
   );
 };
 
 export default UserListPage;
+
+const Button = styled(_Button)`
+  margin-bottom: 10px;
+`;
