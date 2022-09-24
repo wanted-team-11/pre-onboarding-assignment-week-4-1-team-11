@@ -57,6 +57,7 @@ const Sider = () => {
         title={"로그아웃 하시겠습니까?"}
         onConfirm={() => {
           tokenStorage.remove(StorageKey.ACCESS_TOKEN);
+          tokenStorage.remove(StorageKey.EMAIL);
           navigate("/");
         }}
         okText="Yes"
