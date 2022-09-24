@@ -16,7 +16,10 @@ function App() {
           element={<Navigate replace to="/account-list/1" />}
         />
         <Route path="account-list/:page" element={<AccountListPage />} />
-        <Route path="account-detail/:uuid" element={<AccountDetailPage />} />
+        <Route
+          path="account-detail/:userId/:id"
+          element={<AccountDetailPage />}
+        />
         <Route
           path="user-list"
           element={<Navigate replace to="/user-list/1" />}

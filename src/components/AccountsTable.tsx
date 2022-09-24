@@ -153,7 +153,11 @@ const AccountsTable = ({ data, isLoading }: AccountsTableProps) => {
           brokerFormat[record.broker_id],
           masked
         );
-        return <Link to={`/account-detail/${record.uuid}`}>{formatted}</Link>;
+        return (
+          <Link to={`/account-detail/${record.user_id}/${record.id}`}>
+            {formatted}
+          </Link>
+        );
       },
     },
     {

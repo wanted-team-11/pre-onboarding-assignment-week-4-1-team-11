@@ -132,7 +132,7 @@ const UsersTable = ({ data, isLoading }: UsersTableProps) => {
       title: "계좌 수",
       dataIndex: "account_count",
       key: "account_count",
-      width: "10%",
+      width: "9%",
       ...getColumnSearchProps("account_count"),
     },
     {
@@ -146,7 +146,7 @@ const UsersTable = ({ data, isLoading }: UsersTableProps) => {
       title: "성별",
       dataIndex: "gender_origin",
       key: "gender_origin",
-      width: "7%",
+      width: "9%",
       ...getColumnSearchProps("gender_origin"),
       render: (value: number) => {
         const gender = value % 2 === 0 ? "남성" : "여성";
@@ -177,14 +177,17 @@ const UsersTable = ({ data, isLoading }: UsersTableProps) => {
       render: (value: string) => phoneNumberFormatter(value),
     },
     {
-      title: "마지막 로그인",
+      title: "최근 로그인",
       dataIndex: "last_login",
       key: "last_login",
       width: "12%",
       ...getColumnSearchProps("last_login"),
       render: (value: string) => {
         const date = new Date(value);
-        return new Intl.DateTimeFormat().format(date);
+        return new Intl.DateTimeFormat("ko-KR", {
+          dateStyle: "short",
+          timeStyle: "short",
+        }).format(date);
       },
     },
     {
@@ -206,7 +209,7 @@ const UsersTable = ({ data, isLoading }: UsersTableProps) => {
       title: "활성여부",
       dataIndex: "is_active",
       key: "is_active",
-      width: "10%",
+      width: "9%",
       ...getColumnSearchProps("is_active"),
       render: (value?: boolean) => {
         const [text, color] =

@@ -1,7 +1,58 @@
 import { Account, User, RefinedAccountInfo } from "../types";
 import { tokenStorage } from "../utils/storages";
 import brokers from "../utils/brokers";
-import accountStatus from "../utils/accountStatus";
+
+export const changeAccountName = async ({
+  userId,
+  id,
+  newAccount,
+}: {
+  userId: number;
+  id: number;
+  newAccount: Account;
+}) => {
+  try {
+    const response = await fetch(`/accounts?user_id=${userId}&id=${id}`, {
+      method: "PUT",
+      headers: {
+        Authorization: "Bearer " + tokenStorage.get(),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newAccount),
+    });
+    if (!response.ok) {
+      throw response;
+    }
+    console.log({ response });
+    console.log({ data: await response.json() });
+    return true;
+  } catch (error) {
+    console.error("error from changeAccountName", error);
+    return false;
+  }
+};
+
+export const getRefinedAccountInfo = async (userId: number, id: number) => {
+  const { account, error: accountError } = await getAccount(userId, id);
+
+  if (accountError || account === null) {
+    return { refinedAccountInfo: null, error: accountError };
+  }
+
+  const { name, error: nameError } = await getUserNameOfAccount(account);
+
+  if (nameError || name === null) {
+    return { refinedAccountInfo: null, error: nameError };
+  }
+
+  const refinedAccountInfo: RefinedAccountInfo = {
+    ...account,
+    user_name: name,
+    broker_name: brokers[account.broker_id],
+  };
+
+  return { refinedAccountInfo, error: null };
+};
 
 export const getRefinedAccountsInfo = async (page = 1) => {
   const { accounts, error, totalCount } = await getAccounts({ page });
@@ -63,5 +114,25 @@ export const getAccounts = async ({
   } catch (error) {
     console.error("error from getAccounts", error);
     return { accounts: null, error, totalCount: null };
+  }
+};
+
+export const getAccount = async (userId: number, id: number) => {
+  try {
+    const response = await fetch(`/accounts?user_id=${userId}&id=${id}`, {
+      headers: {
+        Authorization: "Bearer " + tokenStorage.get(),
+      },
+    });
+
+    if (!response.ok) {
+      throw response;
+    }
+
+    const [account] = (await response.json()) as Account[];
+    return { account, error: null };
+  } catch (error) {
+    console.error("error from getAccount", error);
+    return { account: null, error };
   }
 };
