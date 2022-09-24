@@ -1,7 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Modal } from "antd";
-import { fetchDeleteUser } from "../api/fetchDeleteUser";
-import { QUERY_KEY } from "../models/queryKeys";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Modal } from 'antd';
+import { fetchDeleteUser } from '../api/fetchDeleteUser';
+import { QUERY_KEY } from '../models/queryKeys';
 
 const useDeleteQuery = () => {
   const queryClient = useQueryClient();
@@ -12,7 +12,7 @@ const useDeleteQuery = () => {
     },
     onError: (err) => {
       Modal.error({
-        title: "error",
+        title: 'error',
         content: `${err}`,
       });
     },

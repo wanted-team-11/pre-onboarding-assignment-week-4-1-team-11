@@ -1,15 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
-import { Modal } from "antd";
-import { fetchAccountList } from "../api/fetchAccountList";
-import { AccountStatusKeyType, BrokerKeyType } from "../models/statics";
-import useRefine from "./useRefine";
+import { useQuery } from '@tanstack/react-query';
+import { Modal } from 'antd';
+import { fetchAccountList } from '../api/fetchAccountList';
+import { AccountStatusKeyType, BrokerKeyType } from '../models/statics';
+import useRefine from './useRefine';
 
 const useAccountListQuery = (pageNumber: number) => {
   const { refineName, refineDate, refineBrokerId, refineAccountStatus } =
     useRefine();
 
   const { data, ...queryResult } = useQuery(
-    ["getAccounts", pageNumber],
+    ['getAccounts', pageNumber],
     () => fetchAccountList(pageNumber),
     {
       select: ({ accountList, totalAccountCount }) => {
@@ -27,11 +27,11 @@ const useAccountListQuery = (pageNumber: number) => {
       },
       onError: (err) => {
         Modal.error({
-          title: "error",
+          title: 'error',
           content: `${err}`,
         });
       },
-    }
+    },
   );
   return {
     ...queryResult,

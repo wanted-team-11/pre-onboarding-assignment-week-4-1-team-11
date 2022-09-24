@@ -1,18 +1,18 @@
-import { List } from "antd";
-import { useParams } from "react-router-dom";
-import { useAccountDetailQuery } from "../../services/hooks/useAccountDetailQuery";
-import { AccountProps } from "../../types/user";
+import { List } from 'antd';
+import { useParams } from 'react-router-dom';
+import { useAccountDetailQuery } from '../../services/hooks/useAccountDetailQuery';
+import { AccountProps } from '../../types/user';
 
 const AccountDetailPage = () => {
   const { account_number } = useParams();
   const { accountDetail, isLoading } = useAccountDetailQuery(
-    account_number || ""
+    account_number || '',
   );
 
   const generateAccountData = (data?: AccountProps) =>
     data &&
     Object.entries(data)
-      .filter(([key]) => key !== "id" && key !== "uuid")
+      .filter(([key]) => key !== 'id' && key !== 'uuid')
       .map(([key, value]) => ({
         title: key,
         content: value,
@@ -21,7 +21,7 @@ const AccountDetailPage = () => {
   return (
     <>
       {
-        <div style={{ padding: "50px" }}>
+        <div style={{ padding: '50px' }}>
           <List
             loading={isLoading}
             grid={{

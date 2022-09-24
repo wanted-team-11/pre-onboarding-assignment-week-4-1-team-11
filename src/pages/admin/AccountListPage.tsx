@@ -1,18 +1,18 @@
-import { Input, Pagination } from "antd";
-import { useNavigate, useParams } from "react-router-dom";
-import { useAccountListQuery } from "../../services/hooks/useAccountLIstQuery";
-import { PATH } from "../../router/Router";
-import AccountListTable from "./components/AccountListTable";
+import { Input, Pagination } from 'antd';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAccountListQuery } from '../../services/hooks/useAccountLIstQuery';
+import { PATH } from '../../router/Router';
+import AccountListTable from './components/AccountListTable';
 
 const { Search } = Input;
 
 const AccountListPage = () => {
-  const { page = "1" } = useParams();
+  const { page = '1' } = useParams();
   const {
     accountList,
-    totalAccountCount = "0",
+    totalAccountCount = '0',
     isLoading,
-  } = useAccountListQuery(parseInt(page || "1"));
+  } = useAccountListQuery(parseInt(page || '1'));
 
   const navigate = useNavigate();
 
@@ -30,7 +30,7 @@ const AccountListPage = () => {
           pageSize={20}
           current={parseInt(page)}
           onChange={(page) => {
-            navigate(PATH.ACCOUNT_LIST(page + ""));
+            navigate(PATH.ACCOUNT_LIST(page + ''));
           }}
         />
       )}
