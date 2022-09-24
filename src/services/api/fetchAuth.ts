@@ -1,7 +1,19 @@
 import { Modal } from "antd";
 import axios, { AxiosError } from "axios";
 import { tokenStorage, StorageKey } from "../../storage";
-import { LoginProps } from "../models/auth";
+import { LoginProps, SignupProps } from "../models/auth";
+
+const fetchSignup = async (props: SignupProps) => {
+  try {
+    const res = await axios.post("signup", props);
+    return true;
+  } catch (err) {
+    Modal.error({
+      title: "error",
+      content: err instanceof AxiosError ? err.response?.data : err,
+    });
+  }
+};
 
 const fetchLogin = async (props: LoginProps) => {
   try {
@@ -22,4 +34,4 @@ const fetchLogin = async (props: LoginProps) => {
   }
 };
 
-export { fetchLogin };
+export { fetchLogin, fetchSignup };
