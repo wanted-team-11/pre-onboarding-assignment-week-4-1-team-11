@@ -16,16 +16,6 @@ const useUser = () => {
   const [page, setPage] = useState(Number(search.split("=")[1]));
 
   useEffect(() => {
-    fetchUser()
-      .then((res) => {
-        setTotalCount(res.data.length);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [page]);
-
-  useEffect(() => {
     const pageNum = Number(search.split("=")[1]);
     setPage(pageNum);
   }, [search]);
@@ -33,6 +23,8 @@ const useUser = () => {
   const getUser = async () => {
     try {
       const response = await fetchUserByPageNumber(page);
+      const xTotalCount = Number(response.headers["x-total-count"]);
+      setTotalCount(xTotalCount);
       for (let i = 0; i < response.data.length; i++) {
         await fetchAccountsByUserId(response.data[i].id)
           .then((res) => {

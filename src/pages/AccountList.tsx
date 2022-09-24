@@ -17,16 +17,6 @@ function AccountList() {
   const [page, setPage] = useState(Number(search.split("=")[1]));
 
   useEffect(() => {
-    fetchAccounts()
-      .then((res) => {
-        setTotalCount(res.data.length);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [page]);
-
-  useEffect(() => {
     const pageNum = Number(search.split("=")[1]);
     setPage(pageNum);
   }, [search]);
@@ -39,6 +29,8 @@ function AccountList() {
   useEffect(() => {
     fetchAccountsByPageNumber(page)
       .then((res) => {
+        const xTotalCount = Number(res.headers["x-total-count"]);
+        setTotalCount(xTotalCount);
         setAccounts(res.data);
       })
       .catch((err) => {
